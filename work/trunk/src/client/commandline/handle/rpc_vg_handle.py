@@ -14,67 +14,46 @@ class CRpcVGHandle(vg_handle.CVGHandle):
     #priavate
     def gen_protobuf_to_dict(self,vg):
         ret = {}
-        ret['vg_name'] = vg.vg_name
-        if vg.HasField('vg_uuid'):
-            ret['vg_uuid'] = vg.vg_uuid
+        ret['name'] = vg.vg_name
+        if vg.HasField('vg_total_size'):
+            ret['size'] = str(vg.vg_free_size) + 'G'
         if vg.HasField('vg_free_size'):
-            ret['vg_free_size'] = str(vg.vg_free_size) + 'G'
-        if vg.HasField('vg_extent_size'):
-            ret['vg_extent_size'] = str(vg.vg_extent_size >> 10) + 'K'
-        if vg.HasField('vg_extent_count'):
-            ret['vg_extent_count'] = vg.vg_extent_count
-        if vg.HasField('vg_free_extent_count'):
-            ret['vg_free_extent_count'] = vg.vg_free_extent_count
-
+            ret['free_size'] = str(vg.vg_free_size) + 'G'
+        if vg.HasField('online'):
+            if vg.online:
+                ret['online'] = 'Yes'
+            else:
+                ret['online'] = 'No'
         flag = False
         pvs = ""
-        for pv in vg.vg_pvs:
+        for pv in vg.vg_md_pvs:
             pvs = pvs + pv.pv_name + " "
             flag = True
         if flag:
             ret['vg_pvs'] = pvs
-
-        flag = False
-        lvs = ""
-        for lv in vg.vg_lvs:
-            lvs = lvs + lv.lv_name + " "
-            flag = True
-        if flag:
-            ret['vg_lvs'] = lvs
-
         return ret
 
     #private
     def format_info_view(self,vg):
         ret = []
-        ret.append({'key':'vg_name','value':vg.vg_name})
-        if vg.HasField('vg_uuid'):
-            ret.append({'key':'vg_uuid','value':vg.vg_uuid})
+        ret.append({'key':'name','value':vg.vg_name})
+        if vg.HasField('vg_total_size'):
+            ret.append({'key':'size','value':str(vg.vg_free_size) + 'G'})
         if vg.HasField('vg_free_size'):
-            ret.append({'key':'vg_free_size','value':str(vg.vg_free_size) + 'G'})
-        if vg.HasField('vg_extent_size'):
-            ret.append({'key':'vg_extent_size','value':str(vg.vg_extent_size>>10) + 'K'})
-        if vg.HasField('vg_extent_count'):
-            ret.append({'key':'vg_extent_count','value':vg.vg_extent_count})
-        if vg.HasField('vg_free_extent_count'):
-            ret.append({'key':'vg_free_extent_count','value':vg.vg_free_extent_count})
+            ret.append({'key':'free_size','value':str(vg.vg_free_size) + 'G'})
+        if vg.HasField('online'):
+            if vg.online:
+                ret.append({'key':'online','value':'Yes'})
+            else:
+                ret.append({'key':'online','value':'No'})
         #pvs
         flag = False
         pvs = ''
-        for pv in vg.vg_pvs:
+        for pv in vg.vg_md_pvs:
             flag = True
             pvs = pvs + pv.pv_name + " "
         if flag:
             ret.append({"key":"pvs",'value':pvs})
-        #lvs
-        flag = False
-        lvs = ''
-        for lv in vg.vg_lvs:
-            flag = True
-            lvs = lvs + lv.lv_name + " "
-        if flag:
-            ret.append({"key":"lvs",'value':lvs})
-
         return ret
 
     def create(self,params = {}):
@@ -91,7 +70,7 @@ class CRpcVGHandle(vg_handle.CVGHandle):
             raise Exception("RPC call error,%s" % response.ret.msg)
     
     def list(self,params = {}):
-        keys = ['vg_name','vg_free_size','vg_extent_size','vg_uuid','vg_extent_count','vg_free_extent_count']
+        keys = ['name','size','free_size','online']
         request = puma_pb2.LvmVGScanReq()
         request.vg = True
         ##only vg_name
@@ -113,8 +92,6 @@ class CRpcVGHandle(vg_handle.CVGHandle):
     def info(self,params = {}):
         request = puma_pb2.LvmVGFindReq()
         request.vg_name = params['vg_name']
-        request.pv = True
-        request.lv = True
 
         self.stub.find_lvm_vg(None,request,None)
         response = self.client.get_response()

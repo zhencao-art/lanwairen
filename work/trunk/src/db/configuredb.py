@@ -67,6 +67,23 @@ class VgConfig:
         ret['raids'] = self.raids
         return ret
 
+class LvConfig:
+    def __init__(self,name = None,vg_name = None,size = None):
+        self.name    = name
+        self.vg_name = vg_name
+        self.size    = name
+
+    @staticmethod
+    def create(jsons):
+        return LvConfig(jsons['name'],jsons['vg_name'],jsons['size'])
+    
+    def jsons(self):
+        ret = {}
+        ret['name']    = self.name
+        ret['vg_name'] = self.vg_name
+        ret['size']    = self.name
+        return ret
+
 ###########################################
 #        db file API                      #
 ###########################################

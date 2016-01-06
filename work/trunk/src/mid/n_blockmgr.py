@@ -292,9 +292,9 @@ def block_manage_raid():
 def block_create_vg(vg_name,phy_devices):
     ###check phy_devices
     """
-        1. must be raid
-        2. must be online
-        3. must be not used
+        1. physical devices must be raid
+        2. physical devices must be online
+        3. physical devices must be not used
         4. can not exists in db
     """
     db_handle = configuredb.db_file_load()
