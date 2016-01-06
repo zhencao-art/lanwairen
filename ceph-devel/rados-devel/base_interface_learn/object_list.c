@@ -30,7 +30,8 @@ int main(int argc,const char **argv)
 	 /* Read a Ceph configuration file to configure the cluster handle. */
     err = rados_conf_read_file(cluster, "/etc/ceph/ceph.conf");
     if (err < 0) {
-            fprintf(stderr, "%s: cannot read config file: %s\n", argv[0], strerror(-err));
+            fprintf(stderr, "%s: cannot read config file: %s\n",
+					argv[0], strerror(-err));
             exit(EXIT_FAILURE);
     } else {
             printf("\nRead the config file.\n");
@@ -39,7 +40,8 @@ int main(int argc,const char **argv)
     /* Read command line arguments */
     err = rados_conf_parse_argv(cluster, argc, argv);
     if (err < 0) {
-            fprintf(stderr, "%s: cannot parse command line arguments: %s\n", argv[0], strerror(-err));
+            fprintf(stderr, "%s: cannot parse command line arguments: %s\n",
+					argv[0], strerror(-err));
             exit(EXIT_FAILURE);
     } else {
             printf("\nRead the command line arguments.\n");
@@ -48,7 +50,8 @@ int main(int argc,const char **argv)
     /* Connect to the cluster */
     err = rados_connect(cluster);
     if (err < 0) {
-            fprintf(stderr, "%s: cannot connect to cluster: %s\n", argv[0], strerror(-err));
+            fprintf(stderr, "%s: cannot connect to cluster: %s\n",
+				argv[0], strerror(-err));
             exit(EXIT_FAILURE);
     } else {
             printf("\nConnected to the cluster.\n");
@@ -56,7 +59,8 @@ int main(int argc,const char **argv)
 
 	err = rados_ioctx_create(cluster, pool_name, &io);
 	if (err < 0) {
-	        fprintf(stderr, "%s: cannot open rados pool %s: %s\n", argv[0], pool_name, strerror(-err));
+	        fprintf(stderr, "%s: cannot open rados pool %s: %s\n",
+					argv[0], pool_name, strerror(-err));
 			goto shutdown;
 	} else {
 	        printf("\nCreated I/O context.\n");
