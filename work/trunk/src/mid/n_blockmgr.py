@@ -110,14 +110,12 @@ def block_disk_list():
 """
     disk_name /dev/sda
 """
-def block_disk_init(disk_name):
-    configuredb.g_db_rw_lock.write_lock()
+def _block_disk_init(disk_name):
     db_handle = configuredb.db_file_load()
 
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.DBR,msg)
     try:
         db_disk_objs = configuredb.db_disk_list(db_handle)
@@ -130,7 +128,6 @@ def block_disk_init(disk_name):
                 if configuredb.db_disk_check(wwn,db_handle):
                     msg = '%s is inited already' % disk_name
                     logging.error(msg)
-                    configuredb.g_db_rw_lock.write_unlock()
                     return (BlockOpError.EINVAL,msg)
                 disk_config = configuredb.DiskConfig(wwn,i.size,i.slot,i.rotational,i.protocol)
                 configuredb.db_disk_add(disk_config,db_handle)
@@ -141,12 +138,15 @@ def block_disk_init(disk_name):
     except Exception as e:
         msg = 'phy disk init error,%s' % str(e)
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.EPHYDISKOP,msg)
 
-    configuredb.g_db_rw_lock.write_unlock()
     return (BlockOpError.SUCCESS,None)
 
+def block_disk_init(disk_name):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_disk_init(disk_name)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
 ###############################################
 #               RAID  API                     #
 ###############################################
@@ -154,7 +154,7 @@ def block_disk_init(disk_name):
     md_name must be such md0
     members must be such /dev/sda
 """
-def block_create_raid(res_handle,md_name,level,members,chunk = 0):
+def _block_create_raid(res_handle,md_name,level,members,chunk = 0):
     (ret,msg) = n_raidmgr.check_create_param(md_name,level,members,chunk)
     if ret != 0:
         logging.error("md_create exception: the params of creating raid is not vaild")
@@ -170,20 +170,17 @@ def block_create_raid(res_handle,md_name,level,members,chunk = 0):
             return (BlockOpError.EINVAL,msg)
     members_wwns = n_phydisk.disk_block_wwns(members)
 
-    configuredb.g_db_rw_lock.write_lock()
     db_handle = configuredb.db_file_load()
 
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.DBR,msg)
 
     ##check if md_name
     if configuredb.db_raid_check(md_name,db_handle):
         msg = "%s is exists in db_file" % md_name
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.EEXIST,msg)
 
     ##check if members_wwns is used or uninited
@@ -193,13 +190,11 @@ def block_create_raid(res_handle,md_name,level,members,chunk = 0):
         if not configuredb._db_disk_check(i,db_disk_inited):
             msg = "%s is not inited" % i
             logging.error(msg)
-            configuredb.g_db_rw_lock.write_unlock()
             return (BlockOpError.EINVAL,msg)
         db_disk_stat = configuredb._db_disk_stat_find(db_disk_stats_used,i)
         if db_disk_stat:
                 msg = "disk {0} is used by {1}".format(i,db_disk_stat[i])
                 logging.error(msg)
-                configuredb.g_db_rw_lock.write_unlock()
                 return (BlockOpError.EUSED,msg)
     logging.info('the check in db of creating %s is ok' % md_name)
     ##sys create raid
@@ -207,14 +202,12 @@ def block_create_raid(res_handle,md_name,level,members,chunk = 0):
         if n_raidmgr.check_raid_exists(md_name):
             msg = "raid %s exists in sys" % md_name
             logging.error(msg)
-            configuredb.g_db_rw_lock.write_unlock()
             return (BlockOpError.EEXIST,msg)
         n_raidmgr.raid_create(md_name,level,members,chunk)
         logging.info("sys->create_md %s" % md_name)
     except Exception,e:
         msg = "sys->create_md {0} error,{1}".format(md_name,str(e))
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.ERAIDOP,msg)
     ##create cluster raid resource
    # try:
@@ -227,35 +220,35 @@ def block_create_raid(res_handle,md_name,level,members,chunk = 0):
     configuredb.db_raid_add(configuredb.RaidConfig(md_name,sys_obj.size,sys_obj.level,sys_obj.chunk,members_wwns),db_handle)
     if ret != 0:
         logging.error("store raid {0} configure into db error {1}".format(md_name,msg))
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.EDBW,msg)
     logging.info("db->md_create {0}".format(md_name))
     ##flush db
     configuredb.db_file_store(db_handle)
 
-    configuredb.g_db_rw_lock.write_unlock()
     return (BlockOpError.SUCCESS,None)
 
-def block_remove_raid(res_handle,md_name):
+def block_create_raid(res_handle,md_name,level,members,chunk = 0):
     configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_create_raid(res_handle,md_name,level,members,chunk)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
+def _block_remove_raid(res_handle,md_name):
     db_handle = configuredb.db_file_load()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.DBR,msg)
     raid_config = configuredb.db_raid_check(md_name,db_handle)
     if not raid_config:
         msg = "Can not found raid %s config in db" % md_name
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_unlock()
         return (BlockOpError.EDBNOTFOUND,msg)
     else:
         md_name_db_stat = configuredb.db_raid_stat_find(db_handle,md_name)
         if md_name_db_stat:
             msg = '{0} is used,can not be deleted'.format(md_name,md_name_db_stat[md_name])
             logging.error(msg)
-            configuredb.g_db_rw_lock.write_unlock()
             return (BlockOpError.EUSED,msg)
         ##remove cluster res
         #try:
@@ -279,8 +272,13 @@ def block_remove_raid(res_handle,md_name):
         logging.info("db->remove_md %s" % md_name)
         ##flush db
         configuredb.db_file_store(db_handle)
-    configuredb.g_db_rw_lock.write_unlock()
     return (BlockOpError.SUCCESS,None)
+
+def block_remove_raid(res_handle,md_name):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = block_remove_raid(res_handle,md_name)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
 
 def block_list_raid():
     configuredb.g_db_rw_lock.read_lock()
@@ -334,7 +332,7 @@ def block_manage_raid():
 ###############################################
 #                  VG API                     #
 ###############################################
-def block_create_vg(vg_name,phy_devices):
+def _block_create_vg(vg_name,phy_devices):
     ###check phy_devices
     """
         1. physical devices must be raid
@@ -342,12 +340,10 @@ def block_create_vg(vg_name,phy_devices):
         3. physical devices must be not used
         4. can not exists in db
     """
-    configuredb.g_db_rw_lock.write_lock()
     db_handle = configuredb.db_file_load()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
-        configuredb.g_db_rw_lock.write_lock()
         return (BlockOpError.DBR,msg)
     raid_stat_used = configuredb.db_raid_stat_used(db_handle)
     raid_name_list_cur = n_raidmgr.raid_name_list()
@@ -388,7 +384,13 @@ def block_create_vg(vg_name,phy_devices):
 
     return BlockOpError.SUCCESS,None
 
-def block_remove_vg(vg_name):
+def block_create_vg(vg_name,phy_devices):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_create_vg(vg_name,phy_devices)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
+def _block_remove_vg(vg_name):
     """
         1. must be exist in db
         2. there is not lv in vg
@@ -422,8 +424,16 @@ def block_remove_vg(vg_name):
 
     return BlockOpError.SUCCESS,None
 
+def block_remove_vg(vg_name):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_remove_vg(vg_name)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
 def block_list_vg():
+    configuredb.g_db_rw_lock.read_lock()
     db_handle = configuredb.db_file_load()
+    configuredb.g_db_rw_lock.read_unlock()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
@@ -455,7 +465,10 @@ def block_list_vg():
     return (BlockOpError.SUCCESS,ret_obj)
 
 def block_info_vg(vg_name):
+    configuredb.g_db_rw_lock.read_lock()
     db_handle = configuredb.db_file_load()
+    configuredb.g_db_rw_lock.read_unlock()
+
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
@@ -482,7 +495,7 @@ def block_info_vg(vg_name):
             vg_obj.info = vg_sys
         return (BlockOpError.SUCCESS,vg_obj)
 
-def block_extend_vg(vg_name,phy_devices):
+def _block_extend_vg(vg_name,phy_devices):
     """
         1. must be exists in db and sys
         2. phy_devices must be raid devices and exists in sys
@@ -543,7 +556,13 @@ def block_extend_vg(vg_name,phy_devices):
 
     return (BlockOpError.SUCCESS,None)
 
-def block_reduce_vg(vg_name,phy_devices):
+def block_extend_vg(vg_name,phy_devices):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_extend_vg(vg_name,phy_devices)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
+def _block_reduce_vg(vg_name,phy_devices):
     db_handle = configuredb.db_file_load()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
@@ -594,10 +613,16 @@ def block_reduce_vg(vg_name,phy_devices):
 
     return (BlockOpError.SUCCESS,None)
 
+def block_reduce_vg(vg_name,phy_devices):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_reduce_vg(vg_name,phy_devices)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
 ###############################################
 #                  LV API                     #
 ###############################################
-def block_create_lv(res_handle,vg_name,lv_name,lv_size,lv_size_unit):
+def _block_create_lv(res_handle,vg_name,lv_name,lv_size,lv_size_unit):
     # check> step 1: if db has vg/lv
     db_handle = configuredb.db_file_load()
     if None == db_handle:
@@ -634,7 +659,13 @@ def block_create_lv(res_handle,vg_name,lv_name,lv_size,lv_size_unit):
 
     return (BlockOpError.SUCCESS,None)
 
-def block_remove_lv(res_handle,vg_name,lv_name):
+def block_create_lv(res_handle,vg_name,lv_name,lv_size,lv_size_unit):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_create_lv(res_handle,vg_name,lv_name,lv_size,lv_size_unit)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
+def _block_remove_lv(res_handle,vg_name,lv_name):
     db_handle = configuredb.db_file_load()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
@@ -663,8 +694,16 @@ def block_remove_lv(res_handle,vg_name,lv_name):
 
     return  BlockOpError.SUCCESS,None
 
+def block_remove_lv(res_handle,vg_name,lv_name):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_remove_lv(res_handle,vg_name,lv_name)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
 def block_list_lv():
+    configuredb.g_db_rw_lock.read_lock()
     db_handle = configuredb.db_file_load()
+    configuredb.g_db_rw_lock.read_unlock()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
         logging.error(msg)
@@ -701,23 +740,8 @@ def block_list_lv():
 def block_info_lv():
     pass
 
-def _block_check_lv_exists(vg_name,lv_name):
-    db_handle = configuredb.db_file_load()
-    if None == db_handle:
-        msg = "load db_file %s error" % configuredb.database_file
-        return (BlockOpError.EDBR,msg)
 
-    if not configuredb.db_lv_check(vg_name,lv_name,db_handle):
-        msg = 'input lv {0}/{1} is not found in db'.format(vg_name,lv_name)
-        return (BlockOpError.EINVAL,msg)
-
-    if not n_lvmmgr.check_lv_exists(lv_name,vg_name):
-        msg = 'input lv {0}/{1} is not found in sys'.format(vg_name,lv_name)
-        return (BlockOpError.EINVAL,msg)
-
-    return  (BlockOpError.SUCCESS,None)
-
-def block_extend_lv(vg_name,lv_name,size,size_unit):
+def _block_extend_lv(vg_name,lv_name,size,size_unit):
     db_handle = configuredb.db_file_load()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
@@ -753,7 +777,13 @@ def block_extend_lv(vg_name,lv_name,size,size_unit):
     configuredb.db_file_store(db_handle)
     return  (BlockOpError.SUCCESS,None)
 
-def block_reduce_lv(vg_name,lv_name,size,size_unit):
+def block_extend_lv(vg_name,lv_name,size,size_unit):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_extend_lv(vg_name,lv_name,size,size_unit)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)
+
+def _block_reduce_lv(vg_name,lv_name,size,size_unit):
     db_handle = configuredb.db_file_load()
     if None == db_handle:
         msg = "load db_file %s error" % configuredb.database_file
@@ -789,3 +819,9 @@ def block_reduce_lv(vg_name,lv_name,size,size_unit):
         return (BlockOpError.UNKONW,msg)
     configuredb.db_file_store(db_handle)
     return  (BlockOpError.SUCCESS,None)
+
+def block_reduce_lv(vg_name,lv_name,size,size_unit):
+    configuredb.g_db_rw_lock.write_lock()
+    (ret,msg) = _block_reduce_lv(vg_name,lv_name,size,size_unit)
+    configuredb.g_db_rw_lock.write_unlock()
+    return (ret,msg)

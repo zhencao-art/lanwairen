@@ -24,7 +24,10 @@ import json
 
 def db_sync_request(content):
     json_obj = json.loads(content)
+    configuredb.g_db_rw_lock.write_lock()
+    ###backup the config file
     configuredb.db_file_store(json_obj,True)
+    configuredb.g_db_rw_lock.write_unlock()
     logging.info('Save the updates of the db file')
 
 ##private
@@ -67,7 +70,10 @@ def do_loop():
         else:
             logging.info('Sync thread sync to remote success')
             configuredb.g_db_rw_lock.write_lock()
-            configuredb.db_file_set_sync()
+            ret = configuredb.db_file_set_sync()
+            if ret != 0:
+                sync_stop()
+                logging.error("Set local db file sync flag failed,will stop")
             configuredb.g_db_rw_lock.write_unlock()
 
 def sync_thread_main():
