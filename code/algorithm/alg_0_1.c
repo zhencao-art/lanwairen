@@ -28,8 +28,6 @@ int result_0_1_recur(int *weight,int *value,int max_index,int volume) {
 	return MAX(no_choice,choiced);
 }
 
-static int r_p[5][11] = {0};
-
 /**
  *
  * dp(i,j) = Max(dp(i-1,j),dp(i-1,j-w[i])+v[i]) if i>=0
@@ -37,32 +35,26 @@ static int r_p[5][11] = {0};
  */
 int result_0_1_v1(int *weight,int *value,int count,int volume) {
 	int i,j,result;
-	int vol;
-//	int *r_p = NULL;
-//	
-//	r_p = (int*)calloc(sizeof(int),(count+1)*(volume+1));
-//	if (!r_p) {
-//		return -ENOMEM;
-//	}
-//
-	vol = volume + 1;	
+	int *r_p = NULL;
+	
+	r_p = (int*)calloc(sizeof(int),(count+1)*(volume+1));
+	if (!r_p) {
+		return -ENOMEM;
+	}
 
 	for (i = 1;i <= count;++i) {
-		//for (j = weight[i-1];j <= volume;++j) {
 		for (j = 1;j <= volume;++j) {
-		//	r_p[i*vol + j] = MAX(r_p[(i-1)*vol + j],(r_p[(i-1)*vol + j - weight[i-1]] + value[i-1]));
 			if (j >= weight[i-1]) {
-				r_p[i][j] = MAX(r_p[i-1][j],r_p[i-1][j-weight[i-1]] + value[i-1]);
+				r_p[i*volume + j] = MAX(r_p[(i-1)*volume + j],\
+						r_p[(i-1)*volume + j-weight[i-1]] + value[i-1]);
 			} else {
-				r_p[i][j] = r_p[i-1][j];
+				r_p[i*volume + j] = r_p[(i-1)*volume + j];
 			}
-			printf("(%d,%d) = %d\n",i,j,r_p[i][j]);
 		}	
 	}
 
-	//result = r_p[count*volume + volume];
-	result = r_p[count][volume];
-	//free((void*)r_p);
+	result = r_p[count*volume + volume];
+	free((void*)r_p);
 
 	return result;
 }

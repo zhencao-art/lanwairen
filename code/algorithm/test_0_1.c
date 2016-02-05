@@ -40,8 +40,8 @@ void test_0_1() {
 
 void run_all_test() {
 	//test_0_1();
-	//test_0_1_v1();
-	test_0_1_v2();
+	test_0_1_v1();
+	//test_0_1_v2();
 }
 
 int main(int argc,char **argv) 
