@@ -8,8 +8,13 @@ static void test_quick() {
 	quick_sort(array,count);
 }
 
+static void test_merge() {
+	merge_sort(array,count);
+}
+
 static void run_all_test() {
-	test_quick();
+	//test_quick();
+	test_merge();
 }
 
 int main(int argc,char **argv)

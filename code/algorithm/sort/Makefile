@@ -4,7 +4,9 @@ CFLAGS = -g
 .PHONY:all
 all:test
 
-test:test.o quick.o
+OBJS = test.o quick.o merge.o
+
+test:$(OBJS)
 	$(CC) $^ -o $@
 
 %.o:%.c
