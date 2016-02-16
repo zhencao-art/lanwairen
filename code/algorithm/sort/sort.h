@@ -8,4 +8,5 @@
 extern void quick_sort(int *array,size_t count);
 
 extern void merge_sort(int *array,size_t count);
+
 #endif
