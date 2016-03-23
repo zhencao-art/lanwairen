@@ -1,0 +1,10 @@
+[Unit]
+Description= Puma Service WatchDog Timer
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1min
+Unit=puma-watchdog.service
+
+[Install]
+WantedBy=multi-user.target

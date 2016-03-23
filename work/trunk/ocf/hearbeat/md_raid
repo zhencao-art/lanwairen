@@ -1,0 +1,685 @@
+#!/bin/sh
+#
+#
+# License:      GNU General Public License (GPL)
+# Support:      linux-ha@lists.linux-ha.org
+# 
+# Raid1
+#      Description: Manages a Linux software RAID device on a shared storage medium.
+#  Original Author: Eric Z. Ayers (eric.ayers@compgen.com)
+# Original Release: 25 Oct 2000
+#     RAID patches: http://people.redhat.com/mingo/raid-patches/
+# Word to the Wise: http://lwn.net/2000/0810/a/raid-faq.php3
+#  Sympathetic Ear: mailto:linux-raid@vger.kernel.org
+#
+# usage: $0 {start|stop|status|monitor|validate-all|usage|meta-data}
+#
+#
+# EXAMPLE config file /etc/raidtab.md0
+# This file must exist on both machines!
+#
+#  raiddev		    /dev/md0
+#  raid-level		    1
+#  nr-raid-disks	    2
+#  chunk-size		    64k
+#  persistent-superblock    1
+#  #nr-spare-disks	    0
+#    device	    /dev/sda1
+#    raid-disk     0
+#    device	    /dev/sdb1
+#    raid-disk     1
+#
+# EXAMPLE config file /etc/mdadm.conf (for more info:man mdadm.conf)
+#
+#  DEVICE /dev/sdb1 /dev/sdc1 
+#  ARRAY /dev/md0 UUID=4a865b55:ba27ef8d:29cd5701:6fb42799
+#######################################################################
+# Initialization:
+: ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
+. ${OCF_FUNCTIONS_DIR}/ocf-shellfuncs
+
+#######################################################################
+
+usage() {
+	cat <<-EOT
+	usage: $0 {start|stop|status|monitor|validate-all|usage|meta-data}
+	EOT
+}
+
+meta_data() {
+	cat <<END
+<?xml version="1.0"?>
+<!DOCTYPE resource-agent SYSTEM "ra-api-1.dtd">
+<resource-agent name="Raid1">
+<version>1.0</version>
+
+<longdesc lang="en">
+This resource agent manages Linux software RAID (MD) devices on
+a shared storage medium. It uses mdadm(8) to start, stop, and
+monitor the MD devices. Raidtools are supported, but deprecated.
+See https://raid.wiki.kernel.org/index.php/Linux_Raid for more
+information.
+</longdesc>
+<shortdesc lang="en">Manages Linux software RAID (MD) devices on shared storage</shortdesc>
+
+<parameters>
+<parameter name="raidconf" unique="0" required="0">
+<longdesc lang="en">
+The RAID configuration file, e.g. /etc/mdadm.conf.
+</longdesc>
+<shortdesc lang="en">RAID config file</shortdesc>
+<content type="string" default="/etc/mdadm.conf" />
+</parameter>
+
+<parameter name="wwns" unique="0" required="1">
+<longdesc lang="en">
+The list of WWNs separated with a comma.
+</longdesc>
+<shortdesc lang="en">WWN list</shortdesc>
+<content type="string" default="" />
+</parameter>
+
+
+<parameter name="raiddev" unique="0" required="1">
+<longdesc lang="en">
+One or more block devices to use, space separated. Alternatively,
+set to "auto" to manage all devices specified in raidconf.
+</longdesc>
+<shortdesc lang="en">block device</shortdesc>
+<content type="string" default="" />
+</parameter>
+
+<parameter name="homehost" unique="0" required="0">
+<longdesc lang="en">
+The value for the homehost directive; this is an mdadm feature to
+protect RAIDs against being activated by accident. It is recommended to
+create RAIDs managed by the cluster with "homehost" set to a special
+value, so they are not accidentially auto-assembled by nodes not
+supposed to own them.
+</longdesc>
+<shortdesc lang="en">Homehost for mdadm</shortdesc>
+<content type="string" default="" />
+</parameter>
+
+<parameter name="force_stop" unique="0" required="0">
+<longdesc lang="en">
+If processes or kernel threads are using the array, it cannot be
+stopped. We will try to stop processes, first by sending TERM and
+then, if that doesn't help in $PROC_CLEANUP_TIME seconds, using KILL.
+The lsof(8) program is required to get the list of array users.
+Of course, the kernel threads cannot be stopped this way.
+If the processes are critical for data integrity, then set this
+parameter to false. Note that in that case the stop operation
+will fail and the node will be fenced.
+</longdesc>
+<shortdesc lang="en">force stop processes using the array</shortdesc>
+<content type="boolean" default="true" />
+</parameter>
+
+<parameter name="udev" unique="0" required="0">
+<longdesc lang="en">
+Wait until udevd creates a device in the start operation. On a
+normally loaded host this should happen quickly, but you may be
+unlucky. If you are not using udev set this to "no".
+</longdesc>
+<shortdesc lang="en">udev</shortdesc>
+<content type="boolean" default="true" />
+</parameter>
+
+<parameter name="force_clones">
+<longdesc lang="en">
+Activating the same md RAID array on multiple nodes at the same time
+will result in data corruption and thus is forbidden by default.
+
+A safe example could be an array that is only named identically across
+all nodes, but is in fact distinct.
+
+Only set this to "true" if you know what you are doing!
+</longdesc>
+<shortdesc lang="en">force ability to run as a clone</shortdesc>
+<content type="boolean" default="false" />
+</parameter>
+
+</parameters>
+
+<actions>
+<action name="start" timeout="20s" />
+<action name="stop" timeout="20s" />
+<action name="status" depth="0" timeout="10s" interval="2" />
+<action name="monitor" depth="0" timeout="10s" interval="2" />
+<action name="validate-all" timeout="5" />
+<action name="meta-data" timeout="5" />
+</actions>
+</resource-agent>
+END
+}
+
+udev_settle() {
+	if ocf_is_true $WAIT_FOR_UDEV; then
+		udevadm settle $*
+	fi
+}
+list_conf_arrays() {
+	test -f $RAIDCONF || {
+		ocf_log err "$RAIDCONF gone missing!"
+		exit $OCF_ERR_GENERIC
+	}
+	grep ^ARRAY $RAIDCONF | awk '{print $2}'
+}
+forall() {
+	local func=$1
+	local checkall=$2
+	local mddev rc=0
+	for mddev in $RAIDDEVS; do
+		$func $mddev
+		rc=$(($rc | $?))
+		[ "$checkall" = all ] && continue
+		[ $rc -ne 0 ] && return $rc
+	done
+	return $rc
+}
+are_arrays_stopped() {
+	local rc mddev
+	for mddev in $RAIDDEVS; do
+		raid_monitor_one $mddev
+		rc=$?
+		[ $rc -ne $OCF_NOT_RUNNING ] && break
+	done
+	test $rc -eq $OCF_NOT_RUNNING
+}
+
+md_assemble() {
+	local mddev=$1
+	#$MDADM --assemble $mddev --config=$RAIDCONF $MDADM_HOMEHOST
+    #echo $DEVICES
+    for dev in $DEVICES
+    do
+        name=${dev:5}
+        #echo #name 
+        echo -n 2 > "/sys/block/${name}/device/queue_depth"   2>/dev/null
+    done 
+    $MDADM --assemble --force $mddev $DEVICES $MDADM_HOMEHOST
+	udev_settle --exit-if-exists=$mddev
+}
+#
+# START: Start up the RAID device
+#
+raid_start() {
+	local rc
+    
+	raid_monitor
+	rc=$?
+	if [ $rc -eq $OCF_SUCCESS ]; then
+		# md already online, nothing to do.
+		return $OCF_SUCCESS
+	fi
+	if [ $rc -ne $OCF_NOT_RUNNING ]; then
+		# If the array is in a broken state, this agent doesn't
+		# know how to repair that.
+		ocf_log err "$RAIDDEVS in a broken state; cannot start (rc=$rc)"
+        # try to stop the RAID array 
+		$MDADM --stop $MDDEV --wait-clean -W
+        #return $OCF_ERR_GENERIC
+	fi
+    validate_devices "$WWNS"
+    if [ $? -eq $OCF_SUCCESS ]; then 
+        md_assemble $MDDEV
+    fi 
+	raid_monitor
+	if [ $? -eq $OCF_SUCCESS ]; then
+	    return $OCF_SUCCESS
+	else
+	    ocf_log err "Couldn't start RAID for $RAIDDEVS"
+	    return $OCF_ERR_GENERIC
+	fi
+}
+
+#
+# STOP: stop the RAID device
+#
+mark_readonly() {
+	local mddev=$1
+	local rc
+	ocf_log info "Attempting to mark array $mddev readonly"
+	$MDADM --readonly $mddev --config=$RAIDCONF
+	rc=$?
+	if [ $rc -ne 0 ]; then
+		ocf_log err "Failed to set $mddev readonly (rc=$rc)"
+	fi
+	return $rc
+}
+mknod_raid_stop() {
+	# first create a block device file, then try to stop the
+	# array
+	local rc n tmp_block_file
+	n=`echo $1 | sed 's/[^0-9]*//'`
+	if ! ocf_is_decimal "$n"; then
+		ocf_log warn "could not get the minor device number from $1"
+		return 1
+	fi
+	tmp_block_file="$HA_RSCTMP/${OCF_RESOURCE_INSTANCE}-`basename $1`"
+	rm -f $tmp_block_file
+	ocf_log info "block device file $1 missing, creating one in order to stop the array"
+	mknod $tmp_block_file b 9 $n
+	# $MDADM --stop $tmp_block_file --config=$RAIDCONF --wait-clean -W
+    $MDADM --stop $tmp_block_file  --wait-clean -W
+	rc=$?
+	rm -f $tmp_block_file
+	return $rc
+}
+
+raid_stop_one() {
+	ocf_log info "Stopping array $1"
+	if [ -b "$1" ]; then
+		#$MDADM --stop $1 --config=$RAIDCONF --wait-clean -W &&	return
+        $MDADM --stop  $1 --wait-clean -W  && return
+	else
+		# newer mdadm releases can stop arrays when given the
+		# basename; try that first
+		# $MDADM --stop `basename $1` --config=$RAIDCONF --wait-clean -W && return
+        $MDADM --stop `basename $1` --wait-clean -W && return
+		# otherwise create a block device file
+		mknod_raid_stop $1
+	fi
+}
+get_users_pids() {
+	local mddev=$1
+	local outp l
+	ocf_log debug "running lsof to list $mddev users..."
+	outp=`lsof $mddev | tail -n +2`
+	echo "$outp" | awk '{print $2}' | sort -u
+	echo "$outp" | while read l; do
+		ocf_log warn "$l"
+	done
+}
+stop_raid_users() {
+	local pids
+	pids=`forall get_users_pids all | sort -u`
+	if [ -z "$pids" ]; then
+		ocf_log warn "lsof reported no users holding arrays"
+		return 2
+	else
+		ocf_stop_processes TERM $PROC_CLEANUP_TIME $pids
+	fi
+}
+stop_arrays() {
+	raid_stop_one $MDDEV
+}
+showusers() {
+	local disk
+	for disk; do
+		if have_binary lsof; then
+			ocf_log info "running lsof to list $disk users..."
+			ocf_run -warn lsof $disk
+		fi
+		if [ -d /sys/block/$disk/holders ]; then
+			ocf_log info "ls -l /sys/block/$disk/holders"
+			ocf_run -warn ls -l /sys/block/$disk/holders
+		fi
+	done
+}
+raid_stop() {
+	local rc
+	# See if the MD device is already cleanly stopped:
+	if are_arrays_stopped; then
+		return $OCF_SUCCESS
+	fi
+
+	# Turn off raid
+	if ! stop_arrays; then
+		if ocf_is_true $FORCESTOP; then
+			if have_binary lsof; then
+				stop_raid_users
+				case $? in
+				2) false;;
+				*) stop_arrays;;
+				esac
+			else
+				ocf_log warn "install lsof(8) to list users holding the disk"
+				false
+			fi
+		else
+			false
+		fi
+	fi
+	rc=$?
+
+	if [ $rc -ne 0 ]; then
+		ocf_log warn "Couldn't stop RAID for $RAIDDEVS (rc=$rc)"
+ 		showusers $RAIDDEVS
+		if [ $HAVE_RAIDTOOLS != "true" ]; then
+			forall mark_readonly all
+		fi
+		return $OCF_ERR_GENERIC
+	fi
+
+	if are_arrays_stopped; then
+		return $OCF_SUCCESS
+	fi
+
+	ocf_log err "RAID $RAIDDEVS still active after stop command!"
+	return $OCF_ERR_GENERIC
+}
+#for RAID 0
+raid0_status()
+{
+    local mddev=$1
+    local rc
+    local dev 
+
+    validate_devices $WWNS; rc=$?
+    # a disk is missing, LV must be deactivated in order to stop the raid.
+    if [ $rc -eq $OCF_ERR_CONFIGURED ]; then 
+        $MDADM --stop --force $mddev >/dev/null 2>&1 
+        return $OCF_NOT_RUNNING
+    fi
+    for dev in $DEVICES
+    do
+        $MDADM --detail $mddev | grep $dev >/dev/null 2>&1; rc=$?
+        # a disk is missing
+        if [ $rc -ne $OCF_SUCCESS ]; then
+            $MDADM --stop --force $mddev >/dev/null 2>&1 ; ret=$?
+            if [ $ret -ne $OCF_SUCCESS ]; then 
+                return $OCF_NOT_RUNNING
+            else
+                return $OCF_ERR_GENERIC
+            fi
+        fi
+    done 
+    return $OCF_SUCCESS
+}
+# for RAID 5
+raid56_status()
+{
+    local mddev=$1
+    local rc
+    $MDADM --detail $mddev > /dev/null 2>&1; rc=$?
+    if [ $rc -ne $OCF_SUCCESS ]; then
+        # try to protect the RAID by stopping it.
+        $MDADM --stop --force $mddev >/dev/null 2>&1 
+        return $OCF_NOT_RUNNING
+    fi 
+    # $MDADM --detail does not find any error, i.e  the return value is 0.
+    # check the detailed state.
+    $MDADM --detail $mddev |grep "State :" |grep "Failed" > /dev/null 2>&1; rc=$?
+    if [ $rc -eq $OCF_SUCCESS ]; then
+         $MDADM --stop --force $mddev >/dev/null 2>&1 ; ret=$?
+            if [ $ret -ne $OCF_SUCCESS ]; then 
+                return $OCF_NOT_RUNNING
+            else
+                return $OCF_ERR_GENERIC
+            fi
+    fi
+    return $OCF_SUCCESS
+}
+#
+# monitor: a less noisy status
+#
+raid_monitor_one() {
+	local mddev=$1
+	local md=`echo $mddev | sed 's,/dev/,,'`
+	local rc
+	local TRY_READD=0
+	local pbsize
+	# check if the md device exists first
+	# but not if we are in the stop operation
+	# device existence is important only for the running arrays
+	if [ "$__OCF_ACTION" != "stop" -a ! -b $mddev ]; then
+		ocf_log info "$mddev is not a block device"
+		return $OCF_NOT_RUNNING
+	fi
+	if ! grep -e "^$md[ \t:]" /proc/mdstat >/dev/null ; then
+		ocf_log info "$md not found in /proc/mdstat"
+		return $OCF_NOT_RUNNING
+	fi
+	if [ $HAVE_RAIDTOOLS != "true" ]; then
+        level=$($MDADM --detail --test $mddev |grep -E "Raid Level" | awk -F ":" '{print $2}' 2>/dev/null);rc=$?
+        case $rc in
+		0)	
+            level=$(echo $level) 
+            case $level in
+            raid0)
+                #validate_devices "$WWNS"
+                raid0_status $MDDEV
+                return $?
+                ;;
+            raid5 | raid6)
+                raid56_status $MDDEV 
+                return $?
+                ;;
+            esac
+            ;;
+		1)	ocf_log warn "$mddev has at least one failed device."
+			TRY_READD=1
+			;;
+		2)	ocf_log err "$mddev has failed."
+			return $OCF_ERR_GENERIC
+			;;
+		4)	ocf_log err "mdadm failed on $mddev."
+			return $OCF_ERR_GENERIC
+			;;
+		*)	ocf_log err "mdadm returned an unknown result ($rc)."
+			return $OCF_ERR_GENERIC
+			;;
+		esac
+	fi
+	if [ "$__OCF_ACTION" = "monitor" -a "$OCF_RESKEY_CRM_meta_interval" != 0 \
+		-a $TRY_READD -eq 1 -a $OCF_CHECK_LEVEL -gt 0 ]; then
+		ocf_log info "Attempting recovery sequence to re-add devices on $mddev:"
+		$MDADM $mddev --fail detached 
+		$MDADM $mddev --remove failed 
+		$MDADM $mddev --re-add missing
+		# TODO: At this stage, there's nothing to actually do
+		# here. Either this worked or it did not.
+	fi
+
+	pbsize=`(blockdev --getpbsz $mddev || stat -c "%o" $mddev) 2>/dev/null`
+	if [ -z "$pbsize" ]; then
+		ocf_log warn "both blockdev and stat could not get the block size (will use 4k)"
+		pbsize=4096 # try with 4k
+	fi
+	if ! dd if=$mddev count=1 bs=$pbsize of=/dev/null \
+	     iflag=direct >/dev/null 2>&1 ; then
+		ocf_log err "$mddev: I/O error on read"
+		return $OCF_ERR_GENERIC
+	fi
+
+	return $OCF_SUCCESS
+}
+
+raid_monitor() {
+	forall raid_monitor_one
+}
+
+#
+# STATUS: is the raid device online or offline?
+#
+raid_status() {
+	# See if the MD device is online
+	local rc
+	raid_monitor
+	rc=$?
+	if [ $rc -ne $OCF_SUCCESS ]; then
+	    echo "stopped"
+	else
+	    echo "running"
+	fi
+	return $rc
+}
+
+raid_validate_all() {
+    return $OCF_SUCCESS
+}
+
+# devices  is supplied with a comma-separated WWN list,
+# eg. 0x5000c500720eca8b,0x5000cca0521a7fc8
+# convert WWN to device name.
+validate_devices()  ## merged ino monitor 
+{
+    local devs=$1
+    IFS_OLD=$IFS
+    IFS=","
+    for dev in $devs
+    do
+        echo $dev |grep -E '^0x[0-9a-fA-F]{15}' >/dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            ocf_log err "$dev is not a valid WWN."
+            IFS=$IFS_OLD
+            exit $OCF_ERR_CONFIGURED
+        fi
+        name=$(lsblk -o WWN,NAME |grep "$dev" |awk '{print $2}' 2>/dev/null)
+        if [ -z $name ]; then
+            ocf_log err "the device with $dev not found!"
+            IFS=$IFS_OLD
+            #return $OCF_NOT_RUNNING
+            return $OCF_ERR_CONFIGURED
+        fi 
+
+        if [ ! -b /dev/$name ]; then 
+            ocf_log err "the device isn't a block device."
+            # if a disk missing, the RAID array will be wrong. i.e this is not configuration error.
+            # we must handle such error.
+            IFS=$IFS_OLD
+            #return $OCF_NOT_RUNNING
+            return $OCF_ERR_CONFIGURED
+        fi
+        
+        # echo -n 2 > "/sys/block/${name}/device/queue_depth"   2>/dev/null #  moved to start operation.
+        # echo -n 2 > /sys/block/${name}/queue/nr_requests 2>/dev/null
+        echo -n "/dev/$name "
+    done 
+    IFS=$IFS_OLD
+}
+
+PROC_CLEANUP_TIME=3
+
+if
+  ( [ $# -ne 1 ] )
+then
+  usage
+  exit $OCF_ERR_ARGS
+fi
+
+case "$1" in
+  meta-data)
+	meta_data
+	exit $OCF_SUCCESS
+	;;
+  usage) 
+	usage
+	exit $OCF_SUCCESS
+	;;
+  *)
+	;;
+esac
+
+# check parameters. validatition is performed  
+RAIDCONF="$OCF_RESKEY_raidconf"
+WWNS="$OCF_RESKEY_wwns"
+#DEVICES="" # default to NULL.
+
+MDDEV="$OCF_RESKEY_raiddev"
+FORCESTOP="${OCF_RESKEY_force_stop:-1}"
+WAIT_FOR_UDEV="${OCF_RESKEY_udev:-1}"
+
+if [ -z "$RAIDCONF" ] ; then
+    # in /etc/mdadm.conf the content must be 
+    # DEVICES /dev/null
+    # to disable system to auto detect RAID when a block device is plugged in.
+    RAIDCONF="/etc/mdadm.conf"
+	# ocf_log info "default configuration file $RAIDCONF is used!"
+	#exit $OCF_ERR_CONFIGURED
+fi
+
+if [ ! -r "$RAIDCONF" ] ; then
+	ocf_log info "Configuration file [$RAIDCONF] does not exist, or can not be opend!"
+	#exit $OCF_ERR_INSTALLED
+fi
+
+# the raiddev name must be the one created with "$MDADM --create "
+if [ -z "$MDDEV" ] ; then
+	ocf_log err "Please set OCF_RESKEY_raiddev to the Raid device you want to control!"
+	exit $OCF_ERR_CONFIGURED
+fi
+
+if ocf_is_clone && ! ocf_is_true "$OCF_RESKEY_force_clones"; then
+	ocf_log err "md RAID arrays are NOT safe to run as a clone!"
+	ocf_log err "Please read the comment on the force_clones parameter."
+	exit $OCF_ERR_CONFIGURED
+fi
+
+if ocf_is_true $WAIT_FOR_UDEV && ! have_binary udevadm; then
+	if [ "$__OCF_ACTION" = "start" ]; then
+		ocf_log warn "either install udevadm or set udev to false"
+		ocf_log info "setting udev to false!"
+	fi
+	WAIT_FOR_UDEV=0
+fi
+
+if ! ocf_is_true $WAIT_FOR_UDEV; then
+	export MDADM_NO_UDEV=1
+fi
+
+if ocf_is_true $FORCESTOP && ! have_binary lsof; then
+	ocf_log warn "Please install lsof(8), we may need it when stopping Raid device! Now continuing anyway ..."
+fi
+
+HAVE_RAIDTOOLS=false
+if have_binary $MDADM >/dev/null 2>&1 ; then
+  if [ -n "$OCF_RESKEY_homehost" ]; then
+  	MDADM_HOMEHOST="--homehost=${OCF_RESKEY_homehost}"
+  else
+  	MDADM_HOMEHOST=""
+  fi
+else
+  check_binary $RAIDSTART
+  HAVE_RAIDTOOLS=true
+fi
+
+if [ $HAVE_RAIDTOOLS = true ]; then
+	if [ "$MDDEV" = "auto" ]; then
+		ocf_log err "autoconf supported only with mdadm!"
+		exit $OCF_ERR_INSTALLED
+	elif [ `echo $MDDEV|wc -w` -gt 1 ]; then
+		ocf_log err "multiple devices supported only with mdadm!"
+		exit $OCF_ERR_INSTALLED
+	fi
+fi
+
+if [ "$MDDEV" = "auto" ]; then
+	RAIDDEVS=`list_conf_arrays`
+else
+	RAIDDEVS="$MDDEV"
+fi
+
+DEVICES=$(validate_devices "$WWNS")
+#ocf_log info "the components are $DEVICES"
+
+# At this stage,
+# [ $HAVE_RAIDTOOLS = false ] <=> we have $MDADM,
+# otherwise we have raidtools (raidstart and raidstop)
+
+# Look for how we are called 
+case "$1" in
+  start)
+	raid_start
+	;;
+  stop)
+	raid_stop
+	;;
+  status) 
+	raid_status
+	;;
+  monitor) 
+	raid_monitor
+	;;
+  validate-all)
+	raid_validate_all
+	;;
+  *)
+	usage
+	exit $OCF_ERR_UNIMPLEMENTED 
+	;;
+esac
+
+exit $?

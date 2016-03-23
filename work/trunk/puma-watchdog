@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+systemctl status puma.service
+
+if [ ! $? -eq 0 ];then
+    systemctl start puma.service
+fi

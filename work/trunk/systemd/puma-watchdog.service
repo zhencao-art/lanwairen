@@ -1,0 +1,6 @@
+[Unit]
+Description=Puma Service WatchDog Service
+
+[Service]
+Type=simple
+ExecStart=/opt/puma/puma-watchdog

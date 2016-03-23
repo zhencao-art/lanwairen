@@ -1,0 +1,1 @@
+python /opt/puma/src/client/commandline/pumacli.py $@

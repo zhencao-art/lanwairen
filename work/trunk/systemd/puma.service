@@ -1,0 +1,12 @@
+[Unit]
+Description=Puma Storage Management System Daemon
+
+[Service]
+Type=forking
+KillMode=process
+PIDFile=/var/run/puma.pid
+ExecStart=/opt/puma/server start
+ExecStop=/opt/puma/server stop
+
+[Install]
+WantedBy=multi-user.target

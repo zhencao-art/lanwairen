@@ -1,0 +1,251 @@
+#!/bin/sh
+#
+#
+#	dnt_lv OCF RA. Does nothing but wait a few seconds, can be
+#	configured to fail occassionally.
+#
+# Copyright (c) 2015 Phegda Data Tech Ltd, Ingam Jiao
+#                    All Rights Reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of version 2 of the GNU General Public License as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it would be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# Further, this software is distributed without any warranty that it is
+# free of the rightful claim of any third person regarding infringement
+# or the like.  Any license provided herein, whether implied or
+# otherwise, applies only to this software file.  Patent licenses, if
+# any, provided herein do not apply to combinations of this program with
+# other software, or any other product whatsoever.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write the Free Software Foundation,
+# Inc., 59 Temple Place - Suite 330, Boston MA 02111-1307, USA.
+#
+
+#######################################################################
+# Initialization:
+: ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
+. ${OCF_FUNCTIONS_DIR}/ocf-shellfuncs
+
+#######################################################################
+
+meta_data() {
+	cat <<END
+<?xml version="1.0"?>
+<!DOCTYPE resource-agent SYSTEM "ra-api-1.dtd">
+<resource-agent name="dnt_lv" version="1.0">
+<version>1.0</version>
+
+<longdesc lang="en">
+This is dnt_lv Resource Agent. 
+</longdesc>
+<shortdesc lang="en">RA for dnt_lv </shortdesc>
+
+<parameters>
+<parameter name="lv_name" unique="1"  required="1">
+<longdesc lang="en">
+the name of a logical volume created with LVM2 command
+</longdesc>
+<shortdesc lang="en">volume name</shortdesc>
+<content type="string" default="" />
+</parameter>
+
+</parameters>
+
+<actions>
+<action name="start"        timeout="20s" />
+<action name="stop"         timeout="20s" />
+<action name="monitor"      timeout="10s" interval="1s" depth="0"/>
+<action name="reload"       timeout="20s" />
+<action name="migrate_to"   timeout="20s" />
+<action name="migrate_from" timeout="20s" />
+<action name="validate-all" timeout="20s" />
+<action name="meta-data"    timeout="1s" />
+</actions>
+</resource-agent>
+END
+}
+
+#######################################################################
+
+# don't exit on TERM, to test that lrmd makes sure that we do exit
+trap sigterm_handler TERM
+sigterm_handler() {
+	ocf_log info "They use TERM to bring us down. No such luck."
+	return
+}
+
+dnt_lv_usage() {
+	cat <<END
+usage: $0 {start|stop|monitor|migrate_to|migrate_from|validate-all|meta-data}
+
+Expects to have a fully populated OCF RA-compliant environment set.
+END
+}
+
+dnt_lv_start() {
+    local rc
+	
+    # check if the lv is available.
+    ocf_run lvdisplay ${OCF_RESKEY_lv_name} >/dev/null 2>&1 
+    if [ $? != $OCF_SUCCESS ]; then
+        ocf_log err " the Logical volume ${OCF_RESKEY_lv_name} not available"
+        # perhaps the low layer has something  wrong.
+        ocf_run dmsetup remove ${OCF_RESKEY_lv_name} >/dev/null  2>&1
+        return $OCF_ERR_GENERIC
+    fi
+
+    dnt_lv_monitor
+	## the resource is running, do nothing.
+	if [ $? =  $OCF_SUCCESS ]; then
+		return $OCF_SUCCESS
+	fi
+	ocf_run lvchange --addtag @$(hostname) -ay  ${OCF_RESKEY_lv_name} >/dev/null 2>&1
+    rc=$?
+    if [ $rc != $OCF_SUCCESS ]; then
+        return $OCF_ERR_GENERIC
+    fi
+    dnt_lv_monitor
+    return $?
+}
+# if the LUN is running ,then we can't stop the LV.
+dnt_lv_stop() {
+    local rc
+	local _TRY=0
+    # if the lv can't be seen,
+    # we think it is stopped.
+    ocf_run lvdisplay ${OCF_RESKEY_lv_name} 2>/dev/null
+    if [ $? != $OCF_SUCCESS ]; then
+        ocf_log err " the Logical volume ${OCF_RESKEY_lv_name} not available"
+        # maybe ,the mapping table must be cleaned.
+        dmsetup remove -f ${OCF_RESKEY_lv_name}  >/dev/null  2>&1
+        return $OCF_SUCCESS
+    fi
+    
+    dnt_lv_monitor
+	if [ $? -eq $OCF_NOT_RUNNING ]; then
+		return $OCF_SUCCESS
+	fi
+	ocf_run lvchange --deltag @$(hostname) -an  ${OCF_RESKEY_lv_name}  >/dev/null 2>&1
+    rc=$?
+    if [ $rc -ne $OCF_SUCCESS ]; then
+         ocf_log err "Could not deactivate the volume $OCF_RESKEY_lv_name"
+	    return $OCF_ERR_GENERIC
+    fi
+    
+    return $OCF_SUCCESS
+}
+
+dnt_lv_monitor() {
+    
+	# Monitor _MUST!_ differentiate correctly between running
+	# ($OCF_SUCCESS), failed ($OCF_ERR_GENERIC) or _cleanly_ stopped ($OCF_NOT_RUNNING).
+	# That is THREE states, not just yes/no.
+	
+    # maybe the operation will be moved to start function.
+    lvs --noheadings ${OCF_RESKEY_lv_name} >/dev/null 2>&1
+    if [ $? -ne $OCF_SUCCESS ]; then
+        ocf_log err " the Logical volume ${OCF_RESKEY_lv_name} not available"
+        # remove the table from the kernel. 
+        # a work round way, BAD. 
+        # force Device Mapper to close the RAID device.
+        if [ -b ${OCF_RESKEY_lv_name} ]; then
+            #dmsetup clear ${OCF_RESKEY_lv_name}  >/dev/null  2>&1
+            dmsetup remove -f ${OCF_RESKEY_lv_name}  >/dev/null  2>&1
+        fi 
+        return $OCF_ERR_GENERIC
+    fi
+    
+    stat=$(lvs --noheadings  -o lv_attr ${OCF_RESKEY_lv_name}  2>/dev/null)	# stat='  -wi-------'
+	if [ $? -ne $OCF_SUCCESS ]; then
+        return  $OCF_NOT_RUNNING
+    fi
+	stat=$(echo $stat)
+	c=${stat:4:1}
+	if [ $c = 'a' ]; then 
+		return $OCF_SUCCESS
+	else   
+        return $OCF_NOT_RUNNING
+    fi    
+}
+
+dnt_lv_status() {
+	# See if the MD device is online
+	local rc
+	dnt_lv_monitor
+	rc=$?
+	if [ $rc -ne $OCF_SUCCESS ]; then
+	    echo "stopped"
+	else
+	    echo "running"
+	fi
+	return $rc
+}
+dnt_lv_validate() {
+	local required_vars
+
+	required_vars="lv_name"
+	
+	for var in ${required_vars}; do
+		param="OCF_RESKEY_${var}"
+		if [ -z "${!param}" ]; then
+			ocf_exit_reason "Missing resource parameter \"$var\"!"
+			exit $OCF_ERR_CONFIGURED
+		fi
+	done
+    return $OCF_SUCCESS
+}
+
+
+: ${OCF_RESKEY_CRM_meta_interval=0}
+: ${OCF_RESKEY_CRM_meta_globally_unique:="true"}
+
+
+case $1 in
+  meta-data)
+	meta_data
+	exit $OCF_SUCCESS
+	;;
+  usage|help)
+	dnt_lv_usage
+	exit $OCF_SUCCESS
+	;;
+esac
+
+# Everything except usage and meta-data must pass the validate test
+dnt_lv_validate
+
+case $__OCF_ACTION in
+start)		
+    dnt_lv_start
+    ;;
+stop)
+    dnt_lv_stop
+    ;;
+monitor)
+    dnt_lv_monitor
+    ;;
+#migrate_to)	ocf_log info "Migrating ${OCF_RESOURCE_INSTANCE} to ${OCF_RESKEY_CRM_meta_migrate_target}."
+#	        dnt_lv_stop
+#		;;
+#migrate_from)	ocf_log info "Migrating ${OCF_RESOURCE_INSTANCE} to ${OCF_RESKEY_CRM_meta_migrate_source}."
+#	        dnt_lv_start
+#		;;
+reload)	
+	ocf_log info "Reloading..."
+	dnt_lv_start
+	;;
+validate-all)
+	dnt_lv_validate
+    ;;
+esac
+
+rc=$?
+# ocf_log debug "${OCF_RESOURCE_INSTANCE} $__OCF_ACTION : $rc"
+exit $rc
+

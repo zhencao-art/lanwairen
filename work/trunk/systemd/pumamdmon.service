@@ -1,0 +1,10 @@
+[Unit]
+Description=Puma Software RAID monitoring
+
+[Service]
+Type=forking
+PIDFile=/var/run/puma-mon.pid
+ExecStart=/sbin/mdadm --monitor --scan -f --pid-file=/var/run/puma-mon.pid -p /root/zhen_cao/puma/trunk/src/mon/puma_mdmon.py
+
+[Install]
+WantedBy=multi-user.target

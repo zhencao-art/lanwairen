@@ -1,0 +1,165 @@
+<cib crm_feature_set="3.0.10" validate-with="pacemaker-2.3" epoch="378" num_updates="0" admin_epoch="0" cib-last-written="Fri Dec 11 01:17:43 2015" update-origin="node1" update-client="cibadmin" update-user="root" have-quorum="1" dc-uuid="2">
+  <configuration>
+    <crm_config>
+      <cluster_property_set id="cib-bootstrap-options">
+        <nvpair id="cib-bootstrap-options-have-watchdog" name="have-watchdog" value="false"/>
+        <nvpair id="cib-bootstrap-options-dc-version" name="dc-version" value="1.1.13-a14efad"/>
+        <nvpair id="cib-bootstrap-options-cluster-infrastructure" name="cluster-infrastructure" value="corosync"/>
+        <nvpair id="cib-bootstrap-options-cluster-name" name="cluster-name" value="cluster_name"/>
+        <nvpair id="cib-bootstrap-options-no-quorum-policy" name="no-quorum-policy" value="ignore"/>
+        <nvpair id="cib-bootstrap-options-last-lrm-refresh" name="last-lrm-refresh" value="1447638617"/>
+        <nvpair id="cib-bootstrap-options-stonith-enabled" name="stonith-enabled" value="false"/>
+      </cluster_property_set>
+    </crm_config>
+    <nodes>
+      <node id="1" uname="node1">
+        <instance_attributes id="nodes-1"/>
+      </node>
+      <node id="2" uname="node2"/>
+    </nodes>
+    <resources>
+      <primitive class="ocf" id="myip2" provider="heartbeat" type="IPaddr2">
+        <instance_attributes id="myip2-instance_attributes">
+          <nvpair id="myip2-instance_attributes-ip" name="ip" value="172.16.9.111"/>
+          <nvpair id="myip2-instance_attributes-nic" name="nic" value="eth0"/>
+          <nvpair id="myip2-instance_attributes-cidr_netmask" name="cidr_netmask" value="32"/>
+        </instance_attributes>
+        <operations>
+          <op id="myip2-start-timeout-20s" interval="0s" name="start" timeout="20s"/>
+          <op id="myip2-stop-timeout-20s" interval="0s" name="stop" timeout="20s"/>
+          <op id="myip2-monitor-interval-10s" interval="10s" name="monitor" timeout="20s"/>
+        </operations>
+      </primitive>
+      <primitive class="ocf" id="target1" provider="heartbeat" type="iSCSITarget">
+        <instance_attributes id="target1-instance_attributes">
+          <nvpair id="target1-instance_attributes-implementation" name="implementation" value="lio-t"/>
+          <nvpair id="target1-instance_attributes-iqn" name="iqn" value="iqn.2015-12.localhost.com.cn"/>
+          <nvpair id="target1-instance_attributes-tid" name="tid" value="1"/>
+        </instance_attributes>
+        <operations>
+          <op id="target1-start-timeout-10" interval="0s" name="start" timeout="10"/>
+          <op id="target1-stop-timeout-10" interval="0s" name="stop" timeout="10"/>
+          <op id="target1-monitor-interval-10" interval="10" name="monitor" timeout="10"/>
+        </operations>
+      </primitive>
+      <primitive class="ocf" id="myUnit2" provider="heartbeat" type="iSCSILogicalUnit">
+        <instance_attributes id="myUnit2-instance_attributes">
+          <nvpair id="myUnit2-instance_attributes-implementation" name="implementation" value="lio-t"/>
+          <nvpair id="myUnit2-instance_attributes-lun" name="lun" value="1"/>
+          <nvpair id="myUnit2-instance_attributes-path" name="path" value="/dev/sdd2"/>
+          <nvpair id="myUnit2-instance_attributes-target_iqn" name="target_iqn" value="iqn.2015-12.localhost.com.cn"/>
+        </instance_attributes>
+        <operations>
+          <op id="myUnit2-start-timeout-10" interval="0s" name="start" timeout="10"/>
+          <op id="myUnit2-stop-timeout-10" interval="0s" name="stop" timeout="10"/>
+          <op id="myUnit2-monitor-interval-10" interval="10" name="monitor" timeout="10"/>
+        </operations>
+        <meta_attributes id="myUnit2-meta_attributes"/>
+      </primitive>
+      <primitive class="ocf" id="mylvm" provider="heartbeat" type="LVM">
+        <instance_attributes id="mylvm-instance_attributes">
+          <nvpair id="mylvm-instance_attributes-volgrpname" name="volgrpname" value="vgr0"/>
+        </instance_attributes>
+        <operations>
+          <op id="mylvm-start-timeout-30" interval="0s" name="start" timeout="30"/>
+          <op id="mylvm-stop-timeout-30" interval="0s" name="stop" timeout="30"/>
+          <op id="mylvm-monitor-interval-10" interval="10" name="monitor" timeout="30"/>
+        </operations>
+      </primitive>
+      <primitive class="ocf" id="myip1" provider="heartbeat" type="IPaddr2">
+        <instance_attributes id="myip1-instance_attributes">
+          <nvpair id="myip1-instance_attributes-ip" name="ip" value="172.16.9.110"/>
+          <nvpair id="myip1-instance_attributes-nic" name="nic" value="eth0"/>
+          <nvpair id="myip1-instance_attributes-cidr_netmask" name="cidr_netmask" value="32"/>
+        </instance_attributes>
+        <operations>
+          <op id="myip1-start-timeout-20s" interval="0s" name="start" timeout="20s"/>
+          <op id="myip1-stop-timeout-20s" interval="0s" name="stop" timeout="20s"/>
+          <op id="myip1-monitor-interval-10s" interval="10s" name="monitor" timeout="20s"/>
+        </operations>
+      </primitive>
+    </resources>
+    <constraints>
+      <rsc_location id="location-myip2-node1-80" node="node1" rsc="myip2" score="80"/>
+    </constraints>
+    <rsc_defaults>
+      <meta_attributes id="rsc_defaults-options">
+        <nvpair id="rsc_defaults-options-migration-threshold" name="migration-threshold" value="1"/>
+        <nvpair id="rsc_defaults-options-resource-stickiness" name="resource-stickiness" value="0"/>
+        <nvpair id="rsc_defaults-options-resource.stickiness" name="resource.stickiness" value="100"/>
+      </meta_attributes>
+    </rsc_defaults>
+    <op_defaults>
+      <meta_attributes id="op_defaults-options">
+        <nvpair id="op_defaults-options-timeout" name="timeout" value="240s"/>
+      </meta_attributes>
+    </op_defaults>
+  </configuration>
+  <status>
+    <node_state id="1" uname="node1" in_ccm="true" crmd="online" crm-debug-origin="do_update_resource" join="member" expected="member">
+      <transient_attributes id="1">
+        <instance_attributes id="status-1">
+          <nvpair id="status-1-shutdown" name="shutdown" value="0"/>
+          <nvpair id="status-1-last-failure-myip2" name="last-failure-myip2" value="1449744727"/>
+          <nvpair id="status-1-last-failure-myUnit2" name="last-failure-myUnit2" value="1449810974"/>
+          <nvpair id="status-1-probe_complete" name="probe_complete" value="true"/>
+          <nvpair id="status-1-fail-count-myUnit2" name="fail-count-myUnit2" value="INFINITY"/>
+          <nvpair id="status-1-fail-count-mylvm" name="fail-count-mylvm" value="INFINITY"/>
+          <nvpair id="status-1-last-failure-mylvm" name="last-failure-mylvm" value="1449814662"/>
+        </instance_attributes>
+      </transient_attributes>
+      <lrm id="1">
+        <lrm_resources>
+          <lrm_resource id="target1" type="iSCSITarget" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="target1_last_0" operation_key="target1_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="5:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:7;5:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="167" rc-code="7" op-status="0" interval="0" last-run="1449810975" last-rc-change="1449810975" exec-time="41" queue-time="0" op-digest="c774a6dc054521ee4df13144aca92d12"/>
+          </lrm_resource>
+          <lrm_resource id="myUnit2" type="iSCSILogicalUnit" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="myUnit2_last_0" operation_key="myUnit2_stop_0" operation="stop" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="1:193:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;1:193:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="174" rc-code="0" op-status="0" interval="0" last-run="1449810975" last-rc-change="1449810975" exec-time="52" queue-time="0" op-digest="9aaf27fc29dc79b4b1471db12a944010"/>
+            <lrm_rsc_op id="myUnit2_last_failure_0" operation_key="myUnit2_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="11:191:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:1;11:191:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="173" rc-code="1" op-status="0" interval="0" last-run="1449810975" last-rc-change="1449810975" exec-time="203" queue-time="0" op-digest="9aaf27fc29dc79b4b1471db12a944010"/>
+          </lrm_resource>
+          <lrm_resource id="myip2" type="IPaddr2" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="myip2_last_failure_0" operation_key="myip2_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="4:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;4:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="163" rc-code="0" op-status="0" interval="0" last-run="1449810975" last-rc-change="1449810975" exec-time="75" queue-time="0" op-digest="d809cca598667f24b594beb7b2ad56f0"/>
+            <lrm_rsc_op id="myip2_last_0" operation_key="myip2_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="4:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;4:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="163" rc-code="0" op-status="0" interval="0" last-run="1449810975" last-rc-change="1449810975" exec-time="75" queue-time="0" op-digest="d809cca598667f24b594beb7b2ad56f0"/>
+            <lrm_rsc_op id="myip2_monitor_10000" operation_key="myip2_monitor_10000" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="7:191:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;7:191:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="172" rc-code="0" op-status="0" interval="10000" last-rc-change="1449810975" exec-time="56" queue-time="1" op-digest="67cfe9c2747725c237b06c368890e5e8"/>
+          </lrm_resource>
+          <lrm_resource id="mylvm" type="LVM" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="mylvm_last_0" operation_key="mylvm_stop_0" operation="stop" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="2:202:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;2:202:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node1" call-id="180" rc-code="0" op-status="0" interval="0" last-run="1449814663" last-rc-change="1449814663" exec-time="281" queue-time="0" op-digest="aa77b00e2ba6317506598e72a5b21bf9" exit-reason="Volume group [vgr0] does not exist or contains error!   connect() failed on local socket: No such file or directory"/>
+            <lrm_rsc_op id="mylvm_last_failure_0" operation_key="mylvm_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="13:201:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:1;13:201:0:eefc12ee-1be5-412c-9414-fda159c405ae" exit-reason="Volume group [vgr0] does not exist or contains error!   connect() failed on local socket: No such file or directory" on_node="node1" call-id="179" rc-code="1" op-status="0" interval="0" last-run="1449814663" last-rc-change="1449814663" exec-time="297" queue-time="0" op-digest="aa77b00e2ba6317506598e72a5b21bf9"/>
+          </lrm_resource>
+        </lrm_resources>
+      </lrm>
+    </node_state>
+    <node_state id="2" uname="node2" in_ccm="true" crmd="online" crm-debug-origin="do_update_resource" join="member" expected="member">
+      <transient_attributes id="2">
+        <instance_attributes id="status-2">
+          <nvpair id="status-2-shutdown" name="shutdown" value="0"/>
+          <nvpair id="status-2-last-failure-myUnit2" name="last-failure-myUnit2" value="1449810974"/>
+          <nvpair id="status-2-probe_complete" name="probe_complete" value="true"/>
+          <nvpair id="status-2-fail-count-myUnit2" name="fail-count-myUnit2" value="INFINITY"/>
+          <nvpair id="status-2-fail-count-mylvm" name="fail-count-mylvm" value="INFINITY"/>
+          <nvpair id="status-2-last-failure-mylvm" name="last-failure-mylvm" value="1449814663"/>
+        </instance_attributes>
+      </transient_attributes>
+      <lrm id="2">
+        <lrm_resources>
+          <lrm_resource id="target1" type="iSCSITarget" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="target1_last_failure_0" operation_key="target1_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="9:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;9:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="148" rc-code="0" op-status="0" interval="0" last-run="1449810974" last-rc-change="1449810974" exec-time="50" queue-time="0" op-digest="c774a6dc054521ee4df13144aca92d12"/>
+            <lrm_rsc_op id="target1_last_0" operation_key="target1_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="9:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;9:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="148" rc-code="0" op-status="0" interval="0" last-run="1449810974" last-rc-change="1449810974" exec-time="50" queue-time="0" op-digest="c774a6dc054521ee4df13144aca92d12"/>
+            <lrm_rsc_op id="target1_monitor_10000" operation_key="target1_monitor_10000" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="10:191:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;10:191:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="153" rc-code="0" op-status="0" interval="10000" last-rc-change="1449810974" exec-time="44" queue-time="0" op-digest="40ec44415f258121b628be42958a3104"/>
+          </lrm_resource>
+          <lrm_resource id="myUnit2" type="iSCSILogicalUnit" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="myUnit2_last_0" operation_key="myUnit2_stop_0" operation="stop" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="3:196:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;3:196:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="155" rc-code="0" op-status="0" interval="0" last-run="1449810974" last-rc-change="1449810974" exec-time="53" queue-time="0" op-digest="9aaf27fc29dc79b4b1471db12a944010"/>
+            <lrm_rsc_op id="myUnit2_last_failure_0" operation_key="myUnit2_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="12:193:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:1;12:193:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="154" rc-code="1" op-status="0" interval="0" last-run="1449810974" last-rc-change="1449810974" exec-time="233" queue-time="0" op-digest="9aaf27fc29dc79b4b1471db12a944010"/>
+          </lrm_resource>
+          <lrm_resource id="myip2" type="IPaddr2" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="myip2_last_0" operation_key="myip2_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="8:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:7;8:189:7:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="144" rc-code="7" op-status="0" interval="0" last-run="1449810974" last-rc-change="1449810974" exec-time="71" queue-time="0" op-digest="d809cca598667f24b594beb7b2ad56f0"/>
+          </lrm_resource>
+          <lrm_resource id="mylvm" type="LVM" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="mylvm_last_0" operation_key="mylvm_stop_0" operation="stop" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="3:205:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:0;3:205:0:eefc12ee-1be5-412c-9414-fda159c405ae" on_node="node2" call-id="161" rc-code="0" op-status="0" interval="0" last-run="1449814663" last-rc-change="1449814663" exec-time="109" queue-time="0" op-digest="aa77b00e2ba6317506598e72a5b21bf9" exit-reason="Volume group [vgr0] does not exist or contains error!   Volume group &quot;vgr0&quot; not found"/>
+            <lrm_rsc_op id="mylvm_last_failure_0" operation_key="mylvm_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.0.10" transition-key="11:203:0:eefc12ee-1be5-412c-9414-fda159c405ae" transition-magic="0:1;11:203:0:eefc12ee-1be5-412c-9414-fda159c405ae" exit-reason="Volume group [vgr0] does not exist or contains error!   Volume group &quot;vgr0&quot; not found" on_node="node2" call-id="160" rc-code="1" op-status="0" interval="0" last-run="1449814663" last-rc-change="1449814663" exec-time="225" queue-time="0" op-digest="aa77b00e2ba6317506598e72a5b21bf9"/>
+          </lrm_resource>
+        </lrm_resources>
+      </lrm>
+    </node_state>
+  </status>
+</cib>

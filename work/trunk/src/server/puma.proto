@@ -1,0 +1,849 @@
+
+option py_generic_services = true;
+
+///////////////////////////////////////////////////
+//                                               //
+//            GENERICAL DATA STRUCT              //
+//                                               //
+///////////////////////////////////////////////////
+
+message BackBoardInfo {
+    optional uint32 slot_num = 1;
+}
+
+message PhyDisk {
+    optional string dev_name        = 1;
+    optional uint64 dev_size        = 2; // unit is sectors
+    optional string dev_wwn         = 3;
+    optional string dev_slot        = 4; // enclosure:slot
+    optional string protocol        = 5; //SAS SATA
+    optional uint32 rotational       = 8; //IF 0 SSD,1 HDD
+    optional bool   dev_used        = 6;
+    optional string dev_user        = 7;
+    optional bool   online          = 9;
+    optional bool   inited          = 10;
+    optional bool   backup          = 11;
+}
+
+message MdPhyDevice {
+    optional PhyDisk dev = 1;
+}
+
+message ClusterNode {
+    required string hostname        = 1;
+    required string ip              = 2;
+    required string port            = 3;
+    required string passwd          = 4;
+}
+
+message MdDevice {
+    required string dev_name  = 1;
+    optional uint64 dev_size  = 2; //unit is sectors
+    optional string dev_level = 3;
+    optional uint32 dev_chunk = 4; // chunk size,Raid4,5,6,10
+    repeated MdPhyDevice dev_phy_devices = 5;
+    optional bool   dev_used  = 6;
+    optional string dev_user  = 7; //it is not used now
+    optional string raid_stat = 8;
+    optional bool   online    = 9;
+}
+
+message ClusterProperty {
+    required string  pName          = 1;
+    required string  pValue         = 2;
+}
+
+message XmlAction {
+    required  string   action       = 1;
+    optional  string   nodename     = 2;
+    repeated  XmlAttr  attr         = 3;
+    required  string   nodepath     = 4;
+}
+
+message XmlAttr {
+    required string     key         =1;
+    required string     value       =2;
+}
+
+message LvmPV {
+    required string pv_name = 1;
+    optional string pv_uuid = 2;
+    optional double pv_size = 3;
+    optional double pv_free_size = 4;
+    optional double pv_dev_size = 5;
+    optional string pv_dev_type = 6;
+}
+
+message LvmLV {
+    required string lv_name = 1;
+    optional string vg_name = 2;
+    optional string lv_uuid = 3;
+    optional double lv_size = 4;//unit is GiB
+    optional bool   lv_used = 5;
+    optional bool   lv_cluster = 6; // is ours
+}
+
+message LvmVG {
+    required string vg_name = 1;
+    optional double vg_total_size = 3;
+    optional double vg_free_size = 4; //unit is GiB
+    optional uint32 vg_extent_size = 5; //unit is B
+    optional uint64 vg_extent_count = 6;
+    optional uint64 vg_free_extent_count = 7;
+    optional int32  vg_cur_pv_num = 8;
+    optional int32  vg_cur_lv_num = 9;
+    optional bool   online = 10;
+    repeated LvmPV vg_pvs = 11;
+    repeated LvmLV vg_lvs = 12;
+}
+
+message ClusterStatus {
+    required string clu_hb_addr = 1;
+    required string clu_status = 2;
+    optional string clu_hostname = 3;
+    optional double clu_nodeid = 4;//unit is GiB
+}
+
+message ResIpAttr {
+    required string ip = 1;
+    optional string nic = 2;
+    optional string cidr_netmask = 3;
+    optional string gate_way = 4;
+}
+
+message ResTargetAttr {
+    optional string iqn = 1;
+    optional string tid = 2;
+    optional string portals = 3;
+    optional string allowed_initiators = 4;
+    optional string incoming_username = 5;
+    optional string incoming_password = 6;
+    optional XmlAttr additional_parameters= 7;
+    optional XmlAttr acls_parameters= 8;
+}
+
+message ResUnitAttr {
+    required  string path = 3;
+    optional string target_iqn = 1;
+    optional string lun = 2;
+    repeated AcessAttr allowed_initiators = 4;
+}
+
+message AcessAttr {
+    required  string  iqn        = 1;
+    required  string  acess      = 2;
+} 
+    
+message LunAttr {
+    required string ip = 1;
+    required string device_path = 2;
+    optional string nic = 3;
+    optional bool additional_parameters= 4;    //write-protect
+    optional string iqn = 5;
+    optional string lun = 6;
+    optional string allowed_initiators = 7;
+}
+
+message HeartBeat {
+    required string hb          = 1;
+    required string host        = 2;
+    optional string nic         = 3;
+    optional string cidr_netmask = 4;
+}
+
+message Timezone {
+    required string tz  = 1;
+    optional string tz_num = 2; //no need to write
+}
+
+message Time {
+    required  int32  year = 1;
+    required  int32  mon = 2;
+    required  int32  day = 3;
+    required  int32  hour = 4;
+    required  int32  min = 5;
+    required  int32  sec = 6;
+    required  int32  wday = 7;
+}
+
+///////////////////////////////////////////////////
+//                                               //
+//            REQUEST AND RESPONSE               //
+//                                               //
+///////////////////////////////////////////////////
+
+message GenRes {
+    required int32 retcode = 1;
+    optional string msg    = 2;
+}
+
+message ListPhyDiskClusterReq {
+    optional string node_ip = 1;
+}
+
+message ListPhyDiskClusterRes {
+    required GenRes ret    = 1;
+    repeated PhyDisk disks = 2;
+}
+
+message InitPhyDiskReq {
+    required string dev_name = 1;
+}
+message InitPhyDiskRes {
+    required GenRes ret = 1;
+}
+
+message MdCreateReq {
+    required string md_name = 1;
+    required uint32 md_level = 2; // 0,1,4,5,6,10
+    optional uint32 md_chunk = 3; //kb,only vaild for raid0,2,4,5,6,10
+    repeated MdPhyDevice md_phy_devices = 4;
+}
+
+message MdCreateRes {
+    required GenRes ret = 1;
+}
+
+message MdRemoveReq {
+    required string md_name = 1;
+    required bool rm_crashing = 2 [default = true];
+}
+
+message MdRemoveRes {
+    required GenRes ret = 1;
+}
+
+message IPMIAttr {
+    required string host            = 1;
+    required string ip              = 2;
+    required string username        = 3;
+    required string passwd          = 4;
+    optional string id              = 5;
+}
+
+message MdScanReq {
+}
+
+message MdScanRes {
+    required GenRes ret = 1;
+    repeated MdDevice md_devices = 2;
+}
+
+message MdPhyDeviceScanReq {
+}
+
+message MdPhyDeviceScanRes {
+    required GenRes ret = 1;
+    repeated MdPhyDevice phy_devices = 2;
+}
+
+message MdPhyDeviceDelReq {
+    repeated MdPhyDevice phy_devices = 1;
+}
+
+message MdPhyDeviceDelRes {
+    required GenRes ret = 1;
+}
+
+message MdadmConfigSetReq {
+    required string home_host = 1;
+    optional string device  = 2 [default = "/dev/null"];
+}
+
+message MdadmConfigSetRes {
+    required GenRes ret = 1;
+}
+
+message MdMonEventReportReq {
+    required string event_target = 1;
+    required string event_msg    = 2;
+    optional string event_opt    = 3;
+}
+
+message MdRebuildStartPreReq {
+    required string md_name    = 1;
+    repeated string relate_lvs = 2;
+}
+message MdRebuildStartPreRes {
+    required GenRes ret = 1;
+}
+
+message MdRebuildFinishedReq {
+    required string md_name = 1;
+}
+message MdRebuildFinishedRes {
+    required GenRes ret = 1;
+}
+message MdMonEventReportRes {
+    required GenRes ret = 1;
+}
+
+message ClusterInitReq {
+    repeated ClusterNode cNode      = 1;
+    required string  cNodelist      = 5;
+    optional string  cPasswd        = 2;
+    required string  clusterName    = 3;
+    //required int32   flag           = 4[default = 2];
+}
+message ClusterInitRes {
+    required GenRes ret = 1;
+}
+
+message ClusterStartReq {
+    optional string node     = 1;
+}
+message ClusterStartRes {
+    required GenRes ret       = 1;
+}
+
+message CleanupReq {
+    optional string resName     = 1;
+}
+message CleanupRes {
+    required GenRes ret       = 1;
+}
+
+message GetIpReq {
+    optional string node     = 1;
+    optional bool  is_detail = 2;
+}
+message GetIpRes {
+    required GenRes ret       = 1;
+}
+
+message ClusterStopReq {
+    optional string node     = 1;
+}
+message ClusterStopRes {
+    required GenRes ret       = 1;
+}
+
+message ClusterPropertyReq {
+    optional string code            = 2;
+    repeated ClusterProperty opt    = 1;
+}
+message ClusterPropertyRes {
+    required GenRes ret       = 1;
+}
+
+message SetIpReq {
+    optional bool addFlag           = 1;
+    required ResIpAttr ipOpt         = 3;
+    optional string node            = 2;
+}
+message SetIpRes {
+    required  GenRes    ret             = 1;
+}
+
+message GetLunReq {
+}
+
+message AddLunReq {
+    required ResIpAttr    ip        = 1;
+    optional ResTargetAttr  tgt     = 2;
+    required ResUnitAttr    lu      = 3;
+}
+
+message DeleteLunReq {
+    optional string  ip         = 1;
+    optional string  device_path         = 2;
+}
+message AddCluResourceReq {
+    required string resName         = 1;
+    required string resType         = 2;
+    repeated XmlAttr resOpt         = 3;
+}
+message AddCluResourceRes {
+    required  GenRes    ret             = 1;
+}
+
+message DeleteResourceReq {
+    optional string resName         = 1;
+    repeated XmlAttr resOpt         = 3;
+}
+message DeleteResourceRes {
+    required  GenRes    ret             = 1;
+}
+
+message StopResourceReq {
+    required string resName         = 1;
+    required bool   isStop          = 2;
+}
+message StopResourceRes {
+    required  GenRes    ret             = 1;
+}
+
+message DebugStartReq {
+    required string resName         = 1;
+}
+message DebugStartRes {
+    required  GenRes    ret             = 1;
+}
+
+message SetHeartbReq {
+    required HeartBeat  hb1          = 1;
+    required HeartBeat  hb2          = 2;
+    optional string     passwd       = 3;   //if not specify, will use default passwd:hacluster
+}
+
+message UpdateResourceReq {
+    required string resName         = 1;
+    repeated XmlAttr resOpt         = 3;
+}
+message UpdateResourceRes {
+    required  GenRes    ret             = 1;
+}
+
+message GetResourceReq {
+    required string resName         = 1;
+    required bool  isType           = 2;
+}
+message GetClusterReq {
+    optional bool detail_flag       = 1;
+}
+message GetResourceRes {
+    required  GenRes    ret             = 1;
+}
+
+message ResourceMgrReq {
+    required string action          = 1;
+    required string resName         = 2;
+    optional string masterName      = 3;
+    repeated XmlAttr resOpt         = 4;
+}
+message ResourceMgrRes {
+    required  GenRes    ret             = 1;
+}
+
+message GroupReq {
+    required string grpName         = 1;
+    required string grpMember       = 2;
+    optional string action          = 3;
+}
+message GroupRes {
+    required  GenRes    ret             = 1;
+}
+
+message MoveResourceReq {
+    required string resName         = 1;
+    required string cluNode         = 2;
+}
+message MoveResourceRes {
+    required  GenRes    ret             = 1;
+}
+
+message AddConstraintReq {
+    required string consType         = 1;
+    repeated XmlAttr consOpt         = 3;
+}
+message AddConstraintRes {
+    required  GenRes    ret             = 1;
+}
+
+message DeleteConstraintReq {
+    required string resName         = 1;
+    optional bool   isId            = 2;
+}
+message DeleteConstraintRes {
+    required  GenRes    ret             = 1;
+}
+
+message GetConstraintReq {
+    required string resName         = 1; 
+    optional bool   isId            = 2;
+}
+message GetConstraintRes {
+    required  GenRes    ret             = 1;
+}
+
+message StonithIPMIReq {
+    repeated IPMIAttr attr         = 1;
+}
+message StonithIPMIRes {
+    required  GenRes    ret             = 1;
+}
+
+message AddStonithReq {
+    required string stName         = 1;
+    required string stType         = 2;
+    repeated XmlAttr stOpt         = 3;
+}
+message AddStonithRes {
+    required  GenRes    ret             = 1;
+}
+
+message DeleteStonithReq {
+    required string stName         = 1;
+}
+message DeleteStonithRes {
+    required  GenRes    ret             = 1;
+}
+
+message UpdateStonithReq {
+    required string stName         = 1;
+    repeated XmlAttr stOpt         = 3;
+}
+message UpdateStonithRes {
+    required  GenRes    ret             = 1;
+}
+
+message GetStonithReq {
+    required string stName         = 1;
+}
+message GetStonithRes {
+    required  GenRes    ret             = 1;
+}
+
+message CommitReq {
+}
+message CommitRes {
+    required  GenRes    ret             = 1;
+}
+
+message RollBackReq {
+}
+message RollBackRes {
+    required  GenRes    ret             = 1;
+}
+
+message SetClusterNameReq {
+    required string cluster_name        = 1;
+}
+
+message SetPointReq {
+}
+message SetPointRes {
+    required  GenRes    ret             = 1;
+}
+
+message XmlSynReq {
+    repeated  XmlAction  action         =1;
+    optional  string    xml             =2;
+}
+message XmlSynRes {
+    required  GenRes    ret             = 1;
+}
+
+message LvmVGCreateReq {
+    required string vg_name = 1;
+    repeated LvmPV  vg_pvs  = 2;
+}
+message LvmVGCreateRes {
+    required GenRes ret = 1;
+}
+
+message FileInfoReq {
+    required string  file_name          =1;
+    required string  file_cont          =2;
+    optional int32   file_type          =3;
+}
+
+message LvmVGRemoveReq {
+    required string vg_name = 1;
+    optional bool crashing = 2 [default = true];
+}
+message LvmVGRemoveRes {
+    required GenRes ret = 1;
+}
+
+// 1) default
+// 2) vg
+// 3) vg && lv && pv
+message LvmVGScanReq {
+    optional bool cluster = 1 [default = true]; //not used now
+    optional bool vg = 2 [default = false];//detail flag
+    optional bool lv = 3 [default = false];
+    optional bool pv = 4 [default = false];
+}
+message LvmVGScanRes {
+    required GenRes ret = 1;
+    repeated LvmVG vgs = 2;
+}
+
+message LvmVGFindReq {
+    required string vg_name = 1;
+    optional bool pv = 2 [default = false];
+    optional bool lv = 3 [default = false];
+}
+
+message LvmVGFindRes {
+    required GenRes ret = 1;
+    optional LvmVG vg = 2;
+}
+
+message LvmVGAddPVReq {
+    required string vg_name = 1;
+    repeated LvmPV vg_pvs = 2;
+}
+message LvmVGAddPVRes {
+    required GenRes ret = 1;
+}
+
+message LvmVGDelPVReq {
+    required string vg_name = 1;
+    repeated LvmPV vg_pvs = 2;
+    optional bool crashing = 3 [default = true]; //False is not used
+}
+message LvmVGDelPVRes {
+    required GenRes ret = 1;
+}
+
+message LvmVGScanPVReq {
+    required string vg_name = 1;
+}
+message LvmVGScanPVRes {
+    required GenRes ret = 1;
+    repeated LvmPV vg_pvs = 2;
+}
+
+message LvmVGCreateLVReq {
+    required string vg_name = 1;
+    required string lv_name = 2;
+    required uint64 lv_size = 3;
+    optional string size_unit = 4 [default = "G"];
+    optional string lv_type = 5 [default = "linear"];
+    optional uint32 chunk_size = 6;
+}
+message LvmVGCreateLVRes {
+    required GenRes ret = 1;
+}
+
+message LvmExtendLVReq {
+    required string vg_name = 1;
+    required string lv_name = 2;
+    required uint64 lv_size = 3;
+    optional string size_unit = 4 [default = "M"];
+}
+message LvmExtendLVRes {
+    required GenRes ret = 1;
+}
+
+message LvmReduceLVReq {
+    required string vg_name = 1;
+    required string lv_name = 2;
+    required uint64 lv_size = 3;
+    optional string size_unit = 4 [default = "M"];
+}
+message LvmReduceLVRes {
+    required GenRes ret = 1;
+}
+
+message LvmVGRemoveLVReq {
+    required string vg_name = 1;
+    optional string lv_name = 2;
+    optional bool all_flag = 3 [default = false];
+}
+message LvmVGRemoveLVRes {
+    required GenRes ret = 1;
+}
+
+message LvmVGScanLVReq {
+    required string vg_name = 1;
+}
+message LvmVGScanLVRes {
+    required GenRes ret = 1;
+    repeated LvmLV lvs = 2;
+}
+
+message LvmScanLVReq {
+}
+message LvmScanLVRes {
+    required GenRes ret = 1;
+    repeated LvmLV lvs = 2;
+}
+
+message NtpAddUrlReq {
+    required string url = 1;
+}
+message NtpAddUrlRes {
+    required GenRes ret = 1;
+}
+
+message NtpDelUrlReq {
+    required string url = 1;
+}
+message NtpDelUrlRes {
+    required GenRes ret = 1;
+}
+
+message NtpClientSetupReq {
+    required string timezone = 1;
+    required string url = 2;
+}
+message NtpClientSetupRes {
+    required GenRes ret = 1;
+}
+
+message NtpServerSetupReq {
+    required string timezone = 1;
+    required string public_url = 2;//ip or url
+}
+message NtpServerSetupRes {
+    required GenRes ret = 1;
+}
+
+message NtpSetupReq {
+    required string timezone = 1;
+    required string node_ip = 2; //node
+    required string public_url = 3;
+}
+message NtpSetupRes {
+    required GenRes ret = 1;
+}
+
+message NtpGetConfReq {
+}
+message NtpGetConfRes {
+    required GenRes ret = 1;
+    optional string host_name = 2;
+    optional bool status = 3;
+    optional string url = 4;
+}
+
+message TimezoneReq {
+}
+message TimezoneRes {
+    required GenRes ret = 1;
+    repeated Timezone tz = 2;
+}
+message TimeRes {
+    required GenRes ret = 1;
+    required Time  time = 2;
+}
+message SetTimezoneReq {
+    optional bool local  = 1;
+    required Timezone tz = 2;
+}
+message SetTimeReq {
+    optional bool local  = 1;
+    required Time  time = 2;
+}
+
+message GetNicByIpReq {
+    required string ip      = 1;
+}
+
+message GetBackBoardInfoReq {
+}
+
+message GetBackBoardInfoRes {
+    required GenRes ret                   = 1;
+    optional BackBoardInfo backboard_info = 2;
+}
+
+///////////////////////////////////////////////////
+//                                               //
+//            RPC SERVICE                        //
+//                                               //
+///////////////////////////////////////////////////
+
+service RpcService {
+    rpc get_backboard_info(GetBackBoardInfoReq) returns(GetBackBoardInfoRes);
+    ///disk manage
+    rpc init_phy_disk(InitPhyDiskReq) returns(InitPhyDiskRes);
+    rpc cluster_list_phy_disk(ListPhyDiskClusterReq) returns(ListPhyDiskClusterRes);
+    //raid manage
+    rpc create_md_device(MdCreateReq) returns(MdCreateRes);
+    rpc remove_md_device(MdRemoveReq) returns(MdRemoveRes);
+    rpc scan_md_device(MdScanReq) returns(MdScanRes);
+
+    rpc md_phy_device_scan(MdPhyDeviceScanReq) returns(MdPhyDeviceScanRes);//not used
+    rpc md_phy_device_del(MdPhyDeviceDelReq) returns(MdPhyDeviceDelRes);//not used
+
+    rpc mdadm_config_set(MdadmConfigSetReq) returns(MdadmConfigSetRes);
+    rpc mdmon_event_report(MdMonEventReportReq) returns(MdMonEventReportRes);
+    rpc md_rebuild_start_pre(MdRebuildStartPreReq) returns(MdRebuildStartPreRes);
+    rpc md_rebuild_finished(MdRebuildFinishedReq) returns(MdRebuildFinishedRes);
+    // lvm manage
+    rpc create_lvm_vg(LvmVGCreateReq) returns(LvmVGCreateRes);
+    rpc remove_lvm_vg(LvmVGRemoveReq) returns(LvmVGRemoveRes);
+    rpc scan_lvm_vg(LvmVGScanReq) returns(LvmVGScanRes);
+    rpc add_pv_lvm_vg(LvmVGAddPVReq) returns(LvmVGAddPVRes);
+    rpc del_pv_lvm_vg(LvmVGDelPVReq) returns(LvmVGDelPVRes);
+    rpc scan_pv_lvm_vg(LvmVGScanPVReq) returns(LvmVGScanPVRes);
+    rpc find_lvm_vg(LvmVGFindReq) returns(LvmVGFindRes);
+    rpc create_lv_lvm_vg(LvmVGCreateLVReq) returns(LvmVGCreateLVRes);
+    rpc extend_lv_lvm(LvmExtendLVReq) returns(LvmExtendLVRes);
+    rpc reduce_lv_lvm(LvmReduceLVReq) returns(LvmReduceLVRes);
+    rpc remove_lv_lvm_vg(LvmVGRemoveLVReq) returns(LvmVGRemoveLVRes);
+    rpc scan_lv_lvm_vg(LvmVGScanLVReq) returns(LvmVGScanLVRes);
+    rpc scan_lv_lvm(LvmScanLVReq) returns(LvmScanLVRes);
+    //cluster
+    rpc init_cluster(ClusterInitReq) returns(ClusterInitRes);
+    rpc start_cluster(ClusterStartReq) returns(ClusterStartRes);
+    rpc stop_cluster(ClusterStopReq) returns(ClusterStopRes);
+    rpc set_property_cluster(ClusterPropertyReq) returns(ClusterPropertyRes);
+    rpc set_cluster_name(SetClusterNameReq) returns(StonithIPMIRes);
+    rpc get_cluster_name(SetPointReq) returns(StonithIPMIRes);
+    rpc syn_xml(XmlSynReq) returns(XmlSynRes);
+    rpc passwd_cluster(ClusterInitReq) returns(ClusterInitRes);
+    rpc auth_cluster(ClusterInitReq) returns(ClusterInitRes);
+    rpc setup_cluster(ClusterInitReq) returns(ClusterInitRes);
+    rpc start_coro_and_pamk(ClusterInitReq) returns(ClusterInitRes);
+    rpc get_cluster_state(GetClusterReq) returns(GetResourceRes);
+    rpc set_heartbeat(SetHeartbReq) returns(StonithIPMIRes);
+    //resource
+    rpc add_cluster_resource(AddCluResourceReq) returns(AddCluResourceRes);
+    rpc delete_cluster_resource(DeleteResourceReq) returns(DeleteResourceRes);
+    rpc update_cluster_resource(UpdateResourceReq) returns(UpdateResourceRes);
+    rpc get_cluster_resource(GetResourceReq) returns(GetResourceRes);
+    rpc commit_cluster(CommitReq) returns(CommitRes);
+    rpc rollback_cluster(RollBackReq) returns(RollBackRes);
+    rpc setpoint_cluster(SetPointReq) returns(SetPointRes);
+    rpc set_clone_cluster(ResourceMgrReq) returns(ResourceMgrRes);
+    rpc set_master_cluster(ResourceMgrReq) returns(ResourceMgrRes);
+    rpc set_manage_cluster(ResourceMgrReq) returns(ResourceMgrRes);
+    rpc group_cluster(GroupReq) returns(GroupRes);
+    rpc move_cluster_resource(MoveResourceReq) returns(MoveResourceRes);
+    rpc stop_cluster_resource(StopResourceReq) returns(StopResourceRes);
+    rpc debug_start(DebugStartReq) returns(DebugStartRes);
+    rpc cleanup_cluster_resource(CleanupReq) returns(CleanupRes);
+    //constraint
+    rpc add_cluster_cons(AddConstraintReq) returns(AddConstraintRes);
+    rpc delete_cluster_cons(DeleteConstraintReq) returns(DeleteConstraintRes);
+    rpc get_cluster_cons(GetConstraintReq) returns(GetConstraintRes);
+    //stonith
+    rpc add_cluster_stonith(AddStonithReq) returns(AddStonithRes);
+    rpc delete_cluster_stonith(DeleteStonithReq) returns(DeleteStonithRes);
+    rpc update_cluster_stonith(UpdateStonithReq) returns(UpdateStonithRes);
+    rpc get_cluster_stonith(GetStonithReq) returns(GetStonithRes);
+    rpc enable_stonith_ipmi(StonithIPMIReq) returns(StonithIPMIRes);
+    rpc disable_stonith_ipmi(StonithIPMIReq) returns(StonithIPMIRes);
+    rpc get_stonith_ipmi(SetPointReq) returns(StonithIPMIRes);
+    rpc update_stonith_ipmi(StonithIPMIReq) returns(StonithIPMIRes);
+    //ip
+    rpc get_used_ip(GetIpReq) returns(GetIpRes);
+    rpc add_ip(SetIpReq) returns(SetIpRes);
+    rpc add_heartbeat_ip(SetIpReq) returns(SetIpRes);
+    rpc delete_ip(SetIpReq) returns(SetIpRes);
+    rpc get_ip(GetIpReq) returns(GetIpRes);
+    rpc get_nic(GetIpReq) returns(GetIpRes);
+    rpc get_ip_private(GetIpReq) returns(GetIpRes);
+    rpc get_nic_private(GetIpReq) returns(GetIpRes);
+    rpc get_nic_byip(GetNicByIpReq) returns(StonithIPMIRes);
+    rpc get_nic_info(GetIpReq) returns(StonithIPMIRes);
+    //lun
+    rpc add_lun(AddLunReq) returns(AddCluResourceRes);
+    rpc delete_lun(DeleteLunReq) returns(DeleteResourceRes);
+    rpc get_lun(GetLunReq) returns(AddCluResourceRes);
+    rpc update_lun(AddLunReq) returns(AddCluResourceRes);
+    rpc check_lun(DeleteLunReq) returns(AddCluResourceRes);
+    rpc syn_file(FileInfoReq) returns(StonithIPMIRes);
+    //ntp
+    rpc ntp_add_url(NtpAddUrlReq) returns(NtpAddUrlRes);
+    rpc ntp_del_url(NtpDelUrlReq) returns(NtpDelUrlRes);
+    rpc cluster_ntp_add_url(NtpAddUrlReq) returns(NtpAddUrlRes);
+    rpc cluster_ntp_del_url(NtpDelUrlReq) returns(NtpDelUrlRes);
+    rpc ntp_client_setup(NtpClientSetupReq) returns(NtpClientSetupRes);
+    rpc ntp_server_setup(NtpServerSetupReq) returns(NtpServerSetupRes);
+    rpc cluster_ntp_setup(NtpSetupReq) returns(NtpSetupRes); //server interface
+    rpc ntp_get_conf(NtpGetConfReq) returns(NtpGetConfRes);
+    rpc cluster_ntp_get_conf(NtpGetConfReq) returns(NtpGetConfRes); //server interface
+    //datetime
+    rpc list_timezone(TimezoneReq) returns(TimezoneRes); //server interface
+    rpc get_current_tz(TimezoneReq) returns(TimezoneRes); //server interface
+    rpc get_current_time(TimezoneReq) returns(TimeRes); //server interface
+    rpc set_timezone(SetTimezoneReq) returns(StonithIPMIRes); //server interface
+    rpc set_time(SetTimeReq) returns(StonithIPMIRes); //server interface
+}
+

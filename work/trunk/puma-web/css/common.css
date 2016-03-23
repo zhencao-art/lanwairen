@@ -1,0 +1,90 @@
+.maxheight-vg-table{
+    max-height: 240px;
+    overflow-y: auto;
+}
+.maxheight-vg-table table{
+    margin-bottom: 0px;
+}
+.vg-opt-tbody tr{
+    cursor: pointer;
+}
+.main-info-table{
+    margin-bottom: 0px;
+}
+.main-info-table td:first-child{
+    width: 35%;
+    font-size: 15px;
+} 
+.main-info-table tr:first-child > td{
+    border-top: 0px;
+}
+.main-info{
+    padding: 10px 0;
+}
+.cell-v-h{
+    vertical-align: middle !important;
+    text-align: center;
+}
+.hb-table > thead td:last-child{
+    text-align: center;
+}
+.stonith-table > thead td:last-child,
+.stonith-table > thead td:nth-child(5){
+    text-align: center;
+}
+.stonith-set-footer{
+    padding: 15px auto;
+}
+.child-table{
+    background-color: transparent !important;
+}
+.content-dt-panel{
+    margin-bottom: 10px;
+    position: relative;
+}
+.content-dt-panel .panel{
+    padding-bottom: 10px;
+}
+.content-dt-panel .row{
+    margin-top: 10px;
+}                    .datetimepicker{
+    color: black;
+}
+.ip-list-cell{
+    border-right: 1px solid #0E1720;
+}
+.panel-follow{
+    margin-top: 10px;
+}
+thead td{
+    font-weight: bold;
+}
+.fixed-disk-list-table{
+    table-layout: fixed;
+    margin-bottom: 0px;
+}
+.fixed-disk-list-table td{
+    overflow: hidden;
+}
+.fixed-disk-list-table td:nth-child(1){
+    width: 60%;
+}
+.fixed-table-height{
+    overflow-y: auto;
+    max-height: 180px;
+}
+.stor-menu{
+    text-align: center;
+    margin: 20px auto;
+}
+.stor-menu .glyphicon{
+    font-size: 35px;
+}
+.menu-tree-father{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 40px;
+    width: 30px;
+    cursor: pointer;
+}

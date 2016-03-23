@@ -1,0 +1,56 @@
+#!/usr/bin/sh
+
+status() {
+    if [ -f '/var/run/puma.pid' ]
+    then
+        return 1
+    fi
+    return 0
+}
+
+start() {
+    status
+
+    if [ $? -eq 1 ]
+    then
+        return 1
+    fi
+
+    /usr/bin/python /opt/puma/src/server/main.py
+    return 0
+}
+
+stop() {
+    status
+
+    if [ $? -eq 0 ]
+    then
+        return 1
+    fi
+
+    cat /var/run/puma.pid | xargs /usr/bin/kill -9 2>1&>/dev/null
+    rm -f /var/run/puma.pid
+    return 0
+}
+
+restart() {
+    stop
+    sleep 2
+    start
+}
+
+case "$1" in
+    start | stop | restart)
+        $1
+        ;;
+    status)
+        status
+        ;;
+    reload)
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|reload}"
+        exit 2
+        ;;
+esac
