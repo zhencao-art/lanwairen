@@ -623,3 +623,25 @@ class CClusterMgr(object):
         if resp.ret.retcode != 0:
             raise Exception(resp.ret.msg)
         
+
+    def MoveRaid_LvResource(self,raid_lv_list):
+        hostname = CFactoryResource.GetHostname()
+        peer_node = CFactoryResource.GetPeerNode(hosname)
+
+        def get_move_lv_res():
+            stObj = CLunStruct.CLunStruct()
+            lv_res_list = stObj.GetResByType('dnt_lv')
+            result = []
+            for lv_res in lv_res_list:
+                if lv_res.get('lv_name') in raid_lv_list and lv_res.get('node_state') not in ['NOT running','unmanaged',hostname]:
+                    result.append(lv_res)
+            return result
+
+        move_lv_res_list = get_move_lv_res()
+        for res in move_lv_res_list:
+            if res.has_key('group'):
+                self.Move(res.get('group'),peer_node)
+            else:
+                self.Move(res.get('id'),peer_node)
+        return True
+

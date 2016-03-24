@@ -11,6 +11,8 @@ import time
 
 sys.path.append(os.path.abspath(os.path.join(__file__,"../../util")))
 import globalvar
+sys.path.append(os.path.abspath(os.path.join(__file__,"../../mid")))
+import db_sync
 
 from server import *
 #golbal var
@@ -193,9 +195,8 @@ def main():
 
     logging.info("log-level {0} log_file_path {1} listen_ip {2} listen_port {3} thread_pool {4}".format(log_level,log_file_path,server_listen_ip,server_listen_port,server_thread_pool_max))
 
-    #entry main loop
-    while True:
-        time.sleep(1000)
+    ###enter sync main loop
+    db_sync.sync_thread_main()
 
 if __name__ == "__main__":
     main()

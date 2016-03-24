@@ -16,7 +16,7 @@ class CRpcVGHandle(vg_handle.CVGHandle):
         ret = {}
         ret['name'] = vg.vg_name
         if vg.HasField('vg_total_size'):
-            ret['size'] = str(vg.vg_free_size) + 'G'
+            ret['size'] = str(vg.vg_total_size) + 'G'
         if vg.HasField('vg_free_size'):
             ret['free_size'] = str(vg.vg_free_size) + 'G'
         if vg.HasField('online'):
@@ -93,13 +93,16 @@ class CRpcVGHandle(vg_handle.CVGHandle):
         request = puma_pb2.LvmVGFindReq()
         request.vg_name = params['vg_name']
 
-        self.stub.find_lvm_vg(None,request,None)
+        self.stub.scan_lvm_vg(None,request,None)
         response = self.client.get_response()
         
         if response.ret.retcode != 0:
             raise Exception("RPC call error,%s" % response.ret.msg)
 
-        return self.format_info_view(response.vg)
+        for i in response.vgs:
+            if i.vg_name == params['vg_name']:
+                return self.format_info_view(i)
+        raise Exception('not found %s' % params['vg_name'])
     
     def extend(self,params = {}):
         request = puma_pb2.LvmVGAddPVReq()

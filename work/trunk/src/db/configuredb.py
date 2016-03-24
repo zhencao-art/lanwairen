@@ -1,8 +1,10 @@
 # !/usr/bin/python
 # -*- conding: utf-8 unicode -*
 # vim: tabstop=4 shiftwidth=4 softtabstop=4
-import os
+import os,sys
 import json
+sys.path.append(os.path.abspath(os.path.join(__file__,"../../util")))
+import rwlock
 
 database_file = '/var/lib/puma/puma.json'
 
@@ -71,7 +73,7 @@ class LvConfig:
     def __init__(self,name = None,vg_name = None,size = None):
         self.name    = name
         self.vg_name = vg_name
-        self.size    = name
+        self.size    = size
 
     @staticmethod
     def create(jsons):
@@ -81,12 +83,15 @@ class LvConfig:
         ret = {}
         ret['name']    = self.name
         ret['vg_name'] = self.vg_name
-        ret['size']    = self.name
+        ret['size']    = self.size
         return ret
 
 ###########################################
 #        db file API                      #
 ###########################################
+###define the lock
+g_db_rw_lock = rwlock.RWLock('db_file_lock')
+
 def db_file_init():
     if not os.path.exists(os.path.abspath(os.path.join(__file__,database_file))):
        fp = open(database_file,'w')
@@ -99,15 +104,44 @@ def db_file_load():
     try:
         fp = open(database_file,'r')
         json_obj = json.load(fp)
-        fp.close()
     except:
         json_obj = None
+    finally:
+        fp.close()
     return json_obj
 
-def db_file_store(json_obj):
-    fp = open(database_file,'w')
-    json_obj = json.dump(json_obj,fp,indent = 4)
-    fp.close()
+def _db_file_set_sync(json_obj,value):
+    if not json_obj:
+        return
+    json_obj['sync'] = value
+
+
+def db_file_get_sync(json_obj):
+    if not json_obj or not json_obj.has_key('sync'):
+        return True
+    else:
+        return json_obj['sync']
+
+def db_file_store(json_obj,sync = False):
+    _db_file_set_sync(json_obj,sync)
+    try:
+        fp = open(database_file,'w')
+        json.dump(json_obj,fp,indent = 4)
+    finally:
+        fp.close()
+
+def db_file_set_sync():
+    ret = 0
+    try:
+        fp = open(database_file,'rw')
+        json_obj = json.load(fp)
+        _db_file_set_sync(json_obj,True)
+        json.dump(json_obj,fp,indent = 4)
+    except:
+        ret = -1
+    finally:
+        fp.close()
+    return ret
 
 ###########################################
 #        db disk API                      #
@@ -355,5 +389,79 @@ def db_vg_del_pv(vg_name,pvs,json_obj):
                 ret = 0
     return ret
 
+def db_vg_mod_size(vg,new_value,json_obj):
+    ret = -1
+    if not json_obj or not json_obj.has_key('vg_table'):
+        return -1
+    else:
+        for i in json_obj['vg_table']:
+            if i['name'] == vg:
+                i['size'] = new_value
+                ret = 0
+    return ret
+
+###########################################
+#        db lv API                        #
+###########################################
+def db_lv_list(json_obj):
+    if not json_obj or not json_obj.has_key('lv_table'):
+        return None
+    lv_objs = []
+    for i in json_obj['lv_table']:
+        lv_objs.append(LvConfig.create(i))
+    return lv_objs
+
+def _db_lv_check(vg,lv,lvs):
+    if not lvs:
+        return None
+    for i in lvs:
+        if i.name == lv and i.vg_name == vg:
+            return i
+    return None
+
+def db_lv_list_by_vg(vg,json_obj):
+    lv_objs = db_lv_list(json_obj)
+    if not lv_objs:
+        return None
+    ret = []
+    for i in lv_objs:
+        if i.vg_name == vg:
+            ret.append(i)
+    return ret
+
+def db_lv_check(vg,lv,json_obj):
+    if not json_obj:
+        return None
+    return _db_lv_check(vg,lv,db_lv_list(json_obj))
+
+def db_lv_add(lv_config,json_obj):
+    if not json_obj or not json_obj.has_key('lv_table'):
+        value = []
+        value.append(lv_config.jsons())
+        json_obj['lv_table'] = value
+    else:
+        json_obj['lv_table'].append(lv_config.jsons())
+
+def db_lv_del(vg,lv,json_obj):
+    if not json_obj or not json_obj.has_key('lv_table'):
+        return
+    else:
+        for obj in json_obj['lv_table']:
+            if obj['name'] == lv and obj['vg_name'] == vg:
+                json_obj['lv_table'].remove(obj)
+
+def db_lv_mod_size(vg,lv,new_value,json_obj):
+    if not json_obj or not json_obj.has_key('lv_table'):
+        return -1
+    else:
+        found = False
+        for i in json_obj['lv_table']:
+            if i['name'] == lv and i['vg_name'] == vg:
+                found = True
+                i['size'] = new_value
+        if not found:
+            return -1
+        else:
+            return 0
 ##init db
 db_file_init()

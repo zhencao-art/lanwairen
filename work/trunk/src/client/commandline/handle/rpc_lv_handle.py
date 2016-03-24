@@ -16,23 +16,28 @@ class CRpcLVHandle(lv_handle.CLVHandle):
         ret = {}
         ret['lv_name'] = lv.lv_name
         ret['vg_name'] = lv.vg_name
-        ret['lv_path'] = '/dev/' + lv.vg_name + '/' + lv.lv_name
+        ret['path'] = '/dev/' + lv.vg_name + '/' + lv.lv_name
 
-        if lv.HasField('lv_uuid'):
-            ret['lv_uuid'] = lv.lv_uuid
         if lv.HasField('lv_size'):
-            ret['lv_size'] = str(lv.lv_size) + "G"
+            ret['size'] = str(lv.lv_size) + "G"
         if lv.HasField('lv_used'):
             if lv.lv_used:
-                ret['lv_used'] = 'Yes'
+                ret['used'] = 'Yes'
+                ret['user'] = lv.lv_user
             else:
-                ret['lv_used'] = 'No'
+                ret['used'] = 'No'
+
+        if lv.HasField('online'):
+            if lv.online:
+                ret['online'] = 'Yes'
+            else:
+                ret['online'] = 'No'
 
         if lv.HasField('lv_cluster'):
             if lv.lv_cluster:
-                ret['lv_cluster'] = 'Yes'
+                ret['cluster'] = 'Yes'
             else:
-                ret['lv_cluster'] = 'No'
+                ret['cluster'] = 'No'
         return ret
 
     def create(self,params = {}):
@@ -48,7 +53,7 @@ class CRpcLVHandle(lv_handle.CLVHandle):
     
     def list(self,params = {}):
         ret = []
-        keys = ['lv_path','lv_name','vg_name','lv_size','lv_used','lv_cluster']
+        keys = ['path','lv_name','vg_name','size','used','user','cluster','online']
         lv_request = puma_pb2.LvmScanLVReq()
         self.stub.scan_lv_lvm(None,lv_request,None)
         lv_response = self.client.get_response()
@@ -67,8 +72,8 @@ class CRpcLVHandle(lv_handle.CLVHandle):
         req = puma_pb2.LvmExtendLVReq()
         req.vg_name = params['vg_name']
         req.lv_name = params['lv_name']
-        req.lv_size = params['lv_size']
-        self.stub.extend_lv_lvm(None,request,None)
+        req.lv_size = int(params['lv_size'])
+        self.stub.extend_lv_lvm(None,req,None)
         res = self.client.get_response()
         if res.ret.retcode != 0:
             raise Exception("RPC call error,%s" % response.ret.msg)
@@ -77,8 +82,8 @@ class CRpcLVHandle(lv_handle.CLVHandle):
         req = puma_pb2.LvmReduceLVReq()
         req.vg_name = params['vg_name']
         req.lv_name = params['lv_name']
-        req.lv_size = params['lv_size']
-        self.stub.reduce_lv_lvm(None,request,None)
+        req.lv_size = int(params['lv_size'])
+        self.stub.reduce_lv_lvm(None,req,None)
         res = self.client.get_response()
         if res.ret.retcode != 0:
             raise Exception("RPC call error,%s" % response.ret.msg)

@@ -15,19 +15,19 @@ class CRpcRaidHandle(raid_handle.CRaidHandle):
     #private
     def gen_protobuf_to_dict(self,md):
         ret = {}
-        ret['dev_name'] = md.dev_name
+        ret['name'] = md.dev_name
         if md.HasField('dev_size'):
-            ret['dev_size'] = params.sectors2txt(md.dev_size)
+            ret['size'] = params.sectors2txt(md.dev_size)
         if md.HasField('dev_level'):
-            ret['dev_level'] = md.dev_level
+            ret['level'] = md.dev_level
         if md.HasField('dev_chunk'):
-            ret['dev_chunk'] = params.bytes2txt(md.dev_chunk)
+            ret['chunk'] = params.bytes2txt(md.dev_chunk)
         if md.HasField('dev_used'):
             if md.dev_used:
-                ret['dev_used'] = "Yes"
-                ret['dev_user'] = md.dev_user
+                ret['used'] = "Yes"
+                ret['user'] = md.dev_user
             else:
-                ret['dev_used'] = "No"
+                ret['used'] = "No"
         if md.HasField('online'):
             if md.online:
                 ret['online'] = 'Yes'
@@ -65,7 +65,7 @@ class CRpcRaidHandle(raid_handle.CRaidHandle):
             raise Exception("RPC call error,%s" % response.ret.msg)
 
     def list(self,params = {}):
-        keys = ['dev_name','dev_size','dev_level','dev_chunk','dev_used','dev_user','online']
+        keys = ['name','size','level','chunk','used','user','online']
         request = puma_pb2.MdScanReq()
 
         self.stub.scan_md_device(None,request,None)
@@ -73,11 +73,9 @@ class CRpcRaidHandle(raid_handle.CRaidHandle):
         
         if response.ret.retcode != 0:
             raise Exception("RPC call error,%s",response.ret.msg)
-
         ret = []
         for md in response.md_devices:
             ret.append(self.gen_protobuf_to_dict(md))
-
         return (ret,keys)
 
     ##private
@@ -93,19 +91,19 @@ class CRpcRaidHandle(raid_handle.CRaidHandle):
             return ret
 
         ret = []
-        ret.append({'key':'dev_name','value':md.dev_name})
+        ret.append({'key':'name','value':md.dev_name})
         if md.HasField('dev_size'):
-            ret.append({'key':'dev_size','value':params.sectors2txt(md.dev_size)})
+            ret.append({'key':'size','value':params.sectors2txt(md.dev_size)})
         if md.HasField('dev_level'):
-            ret.append({'key':'dev_level','value':md.dev_level})
+            ret.append({'key':'level','value':md.dev_level})
         if md.HasField('dev_chunk'):
-            ret.append({'key':'dev_chunk','value':params.bytes2txt(md.dev_chunk)})
+            ret.append({'key':'chunk','value':params.bytes2txt(md.dev_chunk)})
         if md.HasField('dev_used'):
             if md.dev_used:
-                ret.append({'key':'dev_used','value':'Yes'})
-                ret.append({'key':'dev_user','value':md.dev_user})
+                ret.append({'key':'used','value':'Yes'})
+                ret.append({'key':'user','value':md.dev_user})
             else:
-                ret.append({'key':'dev_used','value':'No'})
+                ret.append({'key':'used','value':'No'})
         if md.HasField('online'):
             if md.online:
                 ret.append({'key':'online','value':'Yes'})
@@ -113,7 +111,7 @@ class CRpcRaidHandle(raid_handle.CRaidHandle):
                 ret.append({'key':'online','value':'No'})
 
         phy_devices = phy_devices_md(md)
-        ret.append({'key':'dev_phy_devices','value':phy_devices})
+        ret.append({'key':'phy_devices','value':phy_devices})
         
         return ret
 

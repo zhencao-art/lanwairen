@@ -712,5 +712,13 @@ def GetHeartBeatNic():
         if pci_id in out or pci_id in err:
             return nic
     raise Exception('can not find nic for heartbeat,default pci_id[%s]' % pci_id)
-#############################################
 
+def IsDcnode():
+    cmd = 'pcs cluster status |grep "Current DC:"'
+    rtn,out,err = Exec_cmd(cmd)
+    hostname = GetHostname()
+    if hostname in out:
+        return True
+    return False
+
+#############################################

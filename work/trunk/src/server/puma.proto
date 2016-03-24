@@ -74,7 +74,9 @@ message LvmLV {
     optional string vg_name = 2;
     optional double lv_size = 3;//unit is GiB
     optional bool   lv_used = 4;
-    optional bool   lv_cluster = 5; // is ours
+    optional string lv_user = 5;
+    optional bool   lv_cluster = 6; // is ours
+    optional bool   online  = 7;
 }
 
 message LvmVG {
@@ -719,6 +721,14 @@ message GetBackBoardInfoRes {
     optional BackBoardInfo backboard_info = 2;
 }
 
+message DBFileSyncReq {
+    required string content = 1;
+}
+
+message DBFileSyncRes {
+    required GenRes ret = 1;
+}
+
 ///////////////////////////////////////////////////
 //                                               //
 //            RPC SERVICE                        //
@@ -727,6 +737,8 @@ message GetBackBoardInfoRes {
 
 service RpcService {
     rpc get_backboard_info(GetBackBoardInfoReq) returns(GetBackBoardInfoRes);
+    //sync
+    rpc db_file_sync(DBFileSyncReq) returns(DBFileSyncRes);
     ///disk manage
     rpc init_phy_disk(InitPhyDiskReq) returns(InitPhyDiskRes);
     rpc cluster_list_phy_disk(ListPhyDiskClusterReq) returns(ListPhyDiskClusterRes);
@@ -746,7 +758,7 @@ service RpcService {
     rpc create_lvm_vg(LvmVGCreateReq) returns(LvmVGCreateRes);
     rpc remove_lvm_vg(LvmVGRemoveReq) returns(LvmVGRemoveRes);
     rpc scan_lvm_vg(LvmVGScanReq) returns(LvmVGScanRes);
-    rpc find_lvm_vg(LvmVGFindReq) returns(LvmVGFindRes);
+    //rpc find_lvm_vg(LvmVGFindReq) returns(LvmVGFindRes);
     rpc scan_lv_lvm_vg(LvmVGScanLVReq) returns(LvmVGScanLVRes);
    // rpc scan_pv_lvm_vg(LvmVGScanPVReq) returns(LvmVGScanPVRes);
     rpc add_pv_lvm_vg(LvmVGAddPVReq) returns(LvmVGAddPVRes);

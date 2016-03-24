@@ -124,44 +124,32 @@ cmd_option = { \
                 'lv list',
             ]},
         },
-#        'info':{
-#            'role':['puma'],
-#            'platform':['all'],
-#            'help':'Get the information of the logical volume',
-#            'opts':[
-#                {'opt':('n','name'),'platform':'all','metavar':'<logical volume name>','dest':'lv_name','help':'Specify the name of the logical volume'},
-#                {'opt':('g','group'),'platform':'all','metavar':'<volume group name>','dest':'vg_name','help':'Specify the name of the volume group'},
-#            ],
-#            'example': {'all':[
-#                'lv info -n lv00 -g grp00',
-#            ]},
-#        },
-#        'extend':{
-#            'role':['puma'],
-#            'platform':['all'],
-#            'help':'Extend the logical volume',
-#            'opts':[
-#                {'opt':('n','name'),'platform':'all','metavar':'<logical volume name>','dest':'lv_name','help':'Specify the name of the logical volume'},
-#                {'opt':('g','group'),'platform':'all','metavar':'<volume group name>','dest':'vg_name','help':'Specify the name of the volume group'},
-#                {'opt':('s','size'),'platform':'all','metavar':'<the size of the logical volume>','dest':'lv_size','help':'Specify the size of the logical volume,the unit is Mib'},
-#            ],
-#            'example': {'all':[
-#                'lv extend -n lv00 -g grp00 -s 100',
-#            ]},
-#        },
-#        'reduce':{
-#            'role':['puma'],
-#            'platform':['all'],
-#            'help':'Reduce the logical volume',
-#            'opts':[
-#                {'opt':('n','name'),'platform':'all','metavar':'<logical volume name>','dest':'lv_name','help':'Specify the name of the logical volume'},
-#                {'opt':('g','group'),'platform':'all','metavar':'<volume group name>','dest':'vg_name','help':'Specify the name of the volume group'},
-#                {'opt':('s','size'),'platform':'all','metavar':'<the size of the logical volume>','dest':'lv_size','help':'Specify the size of the logical volume,the unit is Mib'},
-#            ],
-#            'example': {'all':[
-#                'lv reduce -n lv00 -g grp00 -s 100',
-#            ]},
-#        },
+        'extend':{
+            'role':['puma'],
+            'platform':['all'],
+            'help':'Extend the logical volume',
+            'opts':[
+                {'opt':('n','name'),'platform':'all','metavar':'<logical volume name>','dest':'lv_name','help':'Specify the name of the logical volume'},
+                {'opt':('g','group'),'platform':'all','metavar':'<volume group name>','dest':'vg_name','help':'Specify the name of the volume group'},
+                {'opt':('s','size'),'platform':'all','metavar':'<the size of the logical volume>','dest':'lv_size','help':'Specify the size of the logical volume,the unit is Mib'},
+            ],
+            'example': {'all':[
+                'lv extend -n lv00 -g grp00 -s 100',
+            ]},
+        },
+        'reduce':{
+            'role':['puma'],
+            'platform':['all'],
+            'help':'Reduce the logical volume',
+            'opts':[
+                {'opt':('n','name'),'platform':'all','metavar':'<logical volume name>','dest':'lv_name','help':'Specify the name of the logical volume'},
+                {'opt':('g','group'),'platform':'all','metavar':'<volume group name>','dest':'vg_name','help':'Specify the name of the volume group'},
+                {'opt':('s','size'),'platform':'all','metavar':'<the size of the logical volume>','dest':'lv_size','help':'Specify the size of the logical volume,the unit is Mib'},
+            ],
+            'example': {'all':[
+                'lv reduce -n lv00 -g grp00 -s 100',
+            ]},
+        },
         'remove':{
             'role':['puma'],
             'platform':['all'],

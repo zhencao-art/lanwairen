@@ -487,6 +487,13 @@ def lv_local_path_list():
 
     return lv_local_paths
 
+def check_lv_local_path(lv_path,paths):
+    if not paths:
+        return False
+    for i in paths:
+        if i == lv_path:
+            return True
+    return False
 """
 """
 def check_lv_exists(lv_name,vg_name):
@@ -549,19 +556,13 @@ def lv_remove(vg_name,lv_name):
     Run_cmd(cmd)
 
 """
-    private
-    @param direct the direct of changing the lv,+,-
 """
-def lv_change(vg_name,lv_name,ex_size,unit,direct):
-    cmd = 'lvextend -f -L ' + direct + str(ex_size) + unit + ' ' + vg_name + '/' + lv_name
+def lv_extend(vg_name,lv_name,ex_size,unit = "M"):
+    cmd = 'lvextend -f -L ' + '+' + str(ex_size) + unit + ' ' + vg_name + '/' + lv_name
     Run_cmd(cmd)
 
 """
 """
-def lv_extend(vg_name,lv_name,ex_size,unit = "M"):
-    lv_change(vg_name,lv_name,ex_size,unit,'+')
-
-"""
-"""
 def lv_reduce(vg_name,lv_name,ex_size,unit = "M"):
-    lv_change(vg_name,lv_name,ex_size,unit,'-')
+    cmd = 'lvreduce -f -L ' + '-' + str(ex_size) + unit + ' ' + vg_name + '/' + lv_name
+    Run_cmd(cmd)

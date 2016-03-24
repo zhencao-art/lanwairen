@@ -16,6 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__,"../../mon")))
 import block_mgr,construct_destruct,database
 import n_blockmgr
 import md_event
+import db_sync
 sys.path.append(os.path.abspath(os.path.join(__file__,"../../db")))
 sys.path.append(os.path.abspath(os.path.join(__file__,"../../storage")))
 sys.path.append(os.path.abspath(os.path.join(__file__,"../../ip")))
@@ -93,6 +94,12 @@ class CServiceImpl(puma_pb2.RpcService):
 
     def create_db_local_handle(self):
         return CConfigMgr.CConfigMgr(None,globalvar.db_path,True)
+
+    def db_file_sync(self,controller,request,done):
+        response = puma_pb2.DBFileSyncRes()
+        db_sync.db_sync_request(request.content)
+        response.ret.retcode = 0
+        done(response)
 
     
     def init_phy_disk(self,controller,request,done):
@@ -402,59 +409,6 @@ class CServiceImpl(puma_pb2.RpcService):
         done(response)
 
     """
-        private
-    """
-    def fill_vg_info(self,m_vg,vg):
-        m_vg.vg_name = vg.name
-        m_vg.vg_uuid = vg.uuid
-        m_vg.vg_total_size = vg.total_size("GiB")
-        m_vg.vg_free_size = vg.free_size("GiB")
-        m_vg.vg_extent_size = vg.extent_size("KiB")
-        m_vg.vg_extent_count = vg.extent_count()
-        m_vg.vg_free_extent_count = vg.free_extent_count()
-        m_vg.vg_cur_pv_num = vg.cur_pv_num
-        m_vg.vg_cur_lv_num = vg.cur_lv_num
-
-    def fill_pv_info(self,m_pv,pv):
-        m_pv.pv_name = pv.name
-        m_pv.pv_uuid = pv.uuid
-        m_pv.pv_size = pv.size('GiB')
-        m_pv.pv_free_size = pv.free('GiB')
-        m_pv.pv_dev_size = pv.dev_size('GiB')
-
-    """
-        private
-    """
-    def fill_vg_pv_info(self,m_vg,pvs):
-        for pv in pvs:
-            m_pv = m_vg.vg_pvs.add()
-            self.fill_pv_info(m_pv,pv)
-
-    """
-    """
-    def fill_lv_info(self,m_lv,lv):
-        m_lv.lv_name = lv.name
-        m_lv.vg_name = lv.vg_name
-       # m_lv.lv_uuid = lv.uuid
-        m_lv.lv_size = lv.size('GiB')
-
-    """
-        private
-    """
-    def fill_vg_lv_info(self,m_vg,lvs):
-        for lv in lvs:
-            m_lv = m_vg.vg_lvs.add()
-            self.fill_lv_info(m_lv,lv)
-
-    """
-    """
-    def check_vg_is_ours(self,db_handle,vg_name):
-        if database.database_vg_in_db(db_handle,vg_name):
-            return True
-        else:
-            return False
-
-    """
         scan volume group
         if the request specify cluster,it will return the shared vgs,
         otherwise localhost vgs
@@ -476,22 +430,18 @@ class CServiceImpl(puma_pb2.RpcService):
             done(response)
             return
 
-        (ret,pv_objs) = n_blockmgr.block_pv_list()
-        (ret,lv_objs) = n_blockmgr.block_lv_list()
-
         for vg in vg_objs:
             m_vg = response.vgs.add()
 
             m_vg.online = vg.online
             m_vg.vg_name = vg.config.name
-            if vg.online:
-                self.fill_vg_info(m_vg,vg.info)
+            m_vg.vg_total_size = vg.config.size
 
-                (ret,pvs) = n_blockmgr.block_list_vg_pv(vg.config.name,pv_objs)
-                self.fill_vg_pv_info(m_vg,pvs)
-                
-                (ret,lvs) = n_blockmgr.block_list_vg_pv(vg.config.name,lv_objs)
-                self.fill_vg_lv_info(m_vg,lvs)
+            for pv in vg.config.raids:
+                m_pv = m_vg.vg_md_pvs.add()
+                m_pv.pv_name = '/dev/' + pv
+            if vg.online:
+                m_vg.vg_free_size = vg.info.free_size()
 
         logging.info("CServiceImpl::scan_lvm_vg ok")
         response.ret.retcode = 0
@@ -667,7 +617,7 @@ class CServiceImpl(puma_pb2.RpcService):
 
         (ret,msg) = n_blockmgr.block_reduce_lv(request.vg_name,request.lv_name,request.lv_size,request.size_unit)
         if ret != n_blockmgr.BlockOpError.SUCCESS:
-            logging.error("CServiceImpl::extend_lv_lvm %s" % msg)
+            logging.error("CServiceImpl::reduce_lv_lvm %s" % msg)
             response.ret.retcode = ret
             response.ret.msg = msg
             done(response)
@@ -725,39 +675,30 @@ class CServiceImpl(puma_pb2.RpcService):
     """
     def scan_lv_lvm(self,controller,request,done):
         response = puma_pb2.LvmScanLVRes()
-        try:
-            db_handle = self.create_db_local_handle()
-            db_vgs = database.database_vg_list(db_handle)
-            (ret,lv_objs) = n_blockmgr.block_list_lv()
-            ##resource
-            res_lv = CResourceFactory.GetLvResList()
-            res_used_lv = CResourceFactory.GetUsedLv()
+        (ret,lv_objs) = n_blockmgr.block_list_lv()
 
-            ##logging.debug(res_used_lv);
-            ##logging.debug(res_lv);
-            if lv_objs:
-                for lv in lv_objs:
-                    m_lv = response.lvs.add()
-                    ##fill
-                    self.fill_lv_info(m_lv,lv)
-                    if '/dev/' + lv.vg_name + '/' + lv.name in res_used_lv:
-                        m_lv.lv_used = True
-                    else:
-                        m_lv.lv_used = False
-                    if '/dev/' + lv.vg_name + '/' + lv.name in res_lv:
-                        m_lv.lv_cluster = True
-                    else:
-                        m_lv.lv_cluster = False
-
-        except Exception,e:
-            logging.error("CServiceImpl::scan_lv_lvm %s" % str(e))
-            response.ret.retcode = -1;
-            response.ret.msg = str(e)
+        if ret != n_blockmgr.BlockOpError.SUCCESS:
+            msg = lv_objs
+            logging.error("CServiceImpl::scan_lv_lvm %s" % msg)
+            response.ret.retcode = ret
+            response.ret.msg = msg
             done(response)
             return
-
-        logging.info("CServiceImpl::scan_lv_lvm")
+        if lv_objs:
+            for i in lv_objs:
+                m_lv = response.lvs.add()
+                m_lv.online  = i.online
+                m_lv.lv_name = i.config.name
+                m_lv.vg_name = i.config.vg_name
+                m_lv.lv_size = i.config.size
+                if i.user:
+                    m_lv.lv_used = True
+                    m_lv.lv_user = i.user
+                else:
+                    m_lv.lv_used = False
+        logging.info("CServiceImpl::scan_lv_lvm ok")
         response.ret.retcode = 0
+        logging.debug(str(response))
         done(response)
 
     def mdadm_config_set(self,controller,request,done):

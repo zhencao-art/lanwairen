@@ -15,7 +15,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='puma.proto',
   package='',
-  serialized_pb='\n\npuma.proto\"!\n\rBackBoardInfo\x12\x10\n\x08slot_num\x18\x01 \x01(\r\"\xca\x01\n\x07PhyDisk\x12\x10\n\x08\x64\x65v_name\x18\x01 \x01(\t\x12\x10\n\x08\x64\x65v_size\x18\x02 \x01(\x04\x12\x0f\n\x07\x64\x65v_wwn\x18\x03 \x01(\t\x12\x10\n\x08\x64\x65v_slot\x18\x04 \x01(\t\x12\x10\n\x08protocol\x18\x05 \x01(\t\x12\x12\n\nrotational\x18\x08 \x01(\r\x12\x10\n\x08\x64\x65v_used\x18\x06 \x01(\x08\x12\x10\n\x08\x64\x65v_user\x18\x07 \x01(\t\x12\x0e\n\x06online\x18\t \x01(\x08\x12\x0e\n\x06inited\x18\n \x01(\x08\x12\x0e\n\x06\x62\x61\x63kup\x18\x0b \x01(\x08\"$\n\x0bMdPhyDevice\x12\x15\n\x03\x64\x65v\x18\x01 \x01(\x0b\x32\x08.PhyDisk\"I\n\x0b\x43lusterNode\x12\x10\n\x08hostname\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x0c\n\x04port\x18\x03 \x02(\t\x12\x0e\n\x06passwd\x18\x04 \x02(\t\"\xc2\x01\n\x08MdDevice\x12\x10\n\x08\x64\x65v_name\x18\x01 \x02(\t\x12\x10\n\x08\x64\x65v_size\x18\x02 \x01(\x04\x12\x11\n\tdev_level\x18\x03 \x01(\t\x12\x11\n\tdev_chunk\x18\x04 \x01(\r\x12%\n\x0f\x64\x65v_phy_devices\x18\x05 \x03(\x0b\x32\x0c.MdPhyDevice\x12\x10\n\x08\x64\x65v_used\x18\x06 \x01(\x08\x12\x10\n\x08\x64\x65v_user\x18\x07 \x01(\t\x12\x11\n\traid_stat\x18\x08 \x01(\t\x12\x0e\n\x06online\x18\t \x01(\x08\"0\n\x0f\x43lusterProperty\x12\r\n\x05pName\x18\x01 \x02(\t\x12\x0e\n\x06pValue\x18\x02 \x02(\t\"W\n\tXmlAction\x12\x0e\n\x06\x61\x63tion\x18\x01 \x02(\t\x12\x10\n\x08nodename\x18\x02 \x01(\t\x12\x16\n\x04\x61ttr\x18\x03 \x03(\x0b\x32\x08.XmlAttr\x12\x10\n\x08nodepath\x18\x04 \x02(\t\"%\n\x07XmlAttr\x12\x0b\n\x03key\x18\x01 \x02(\t\x12\r\n\x05value\x18\x02 \x02(\t\"z\n\x05LvmPV\x12\x0f\n\x07pv_name\x18\x01 \x02(\t\x12\x0f\n\x07pv_uuid\x18\x02 \x01(\t\x12\x0f\n\x07pv_size\x18\x03 \x01(\x01\x12\x14\n\x0cpv_free_size\x18\x04 \x01(\x01\x12\x13\n\x0bpv_dev_size\x18\x05 \x01(\x01\x12\x13\n\x0bpv_dev_type\x18\x06 \x01(\t\"p\n\x05LvmLV\x12\x0f\n\x07lv_name\x18\x01 \x02(\t\x12\x0f\n\x07vg_name\x18\x02 \x01(\t\x12\x0f\n\x07lv_uuid\x18\x03 \x01(\t\x12\x0f\n\x07lv_size\x18\x04 \x01(\x01\x12\x0f\n\x07lv_used\x18\x05 \x01(\x08\x12\x12\n\nlv_cluster\x18\x06 \x01(\x08\"\x82\x02\n\x05LvmVG\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x15\n\rvg_total_size\x18\x03 \x01(\x01\x12\x14\n\x0cvg_free_size\x18\x04 \x01(\x01\x12\x16\n\x0evg_extent_size\x18\x05 \x01(\r\x12\x17\n\x0fvg_extent_count\x18\x06 \x01(\x04\x12\x1c\n\x14vg_free_extent_count\x18\x07 \x01(\x04\x12\x15\n\rvg_cur_pv_num\x18\x08 \x01(\x05\x12\x15\n\rvg_cur_lv_num\x18\t \x01(\x05\x12\x0e\n\x06online\x18\n \x01(\x08\x12\x16\n\x06vg_pvs\x18\x0b \x03(\x0b\x32\x06.LvmPV\x12\x16\n\x06vg_lvs\x18\x0c \x03(\x0b\x32\x06.LvmLV\"b\n\rClusterStatus\x12\x13\n\x0b\x63lu_hb_addr\x18\x01 \x02(\t\x12\x12\n\nclu_status\x18\x02 \x02(\t\x12\x14\n\x0c\x63lu_hostname\x18\x03 \x01(\t\x12\x12\n\nclu_nodeid\x18\x04 \x01(\x01\"L\n\tResIpAttr\x12\n\n\x02ip\x18\x01 \x02(\t\x12\x0b\n\x03nic\x18\x02 \x01(\t\x12\x14\n\x0c\x63idr_netmask\x18\x03 \x01(\t\x12\x10\n\x08gate_way\x18\x04 \x01(\t\"\xd8\x01\n\rResTargetAttr\x12\x0b\n\x03iqn\x18\x01 \x01(\t\x12\x0b\n\x03tid\x18\x02 \x01(\t\x12\x0f\n\x07portals\x18\x03 \x01(\t\x12\x1a\n\x12\x61llowed_initiators\x18\x04 \x01(\t\x12\x19\n\x11incoming_username\x18\x05 \x01(\t\x12\x19\n\x11incoming_password\x18\x06 \x01(\t\x12\'\n\x15\x61\x64\x64itional_parameters\x18\x07 \x01(\x0b\x32\x08.XmlAttr\x12!\n\x0f\x61\x63ls_parameters\x18\x08 \x01(\x0b\x32\x08.XmlAttr\"d\n\x0bResUnitAttr\x12\x0c\n\x04path\x18\x03 \x02(\t\x12\x12\n\ntarget_iqn\x18\x01 \x01(\t\x12\x0b\n\x03lun\x18\x02 \x01(\t\x12&\n\x12\x61llowed_initiators\x18\x04 \x03(\x0b\x32\n.AcessAttr\"\'\n\tAcessAttr\x12\x0b\n\x03iqn\x18\x01 \x02(\t\x12\r\n\x05\x61\x63\x65ss\x18\x02 \x02(\t\"\x8c\x01\n\x07LunAttr\x12\n\n\x02ip\x18\x01 \x02(\t\x12\x13\n\x0b\x64\x65vice_path\x18\x02 \x02(\t\x12\x0b\n\x03nic\x18\x03 \x01(\t\x12\x1d\n\x15\x61\x64\x64itional_parameters\x18\x04 \x01(\x08\x12\x0b\n\x03iqn\x18\x05 \x01(\t\x12\x0b\n\x03lun\x18\x06 \x01(\t\x12\x1a\n\x12\x61llowed_initiators\x18\x07 \x01(\t\"H\n\tHeartBeat\x12\n\n\x02hb\x18\x01 \x02(\t\x12\x0c\n\x04host\x18\x02 \x02(\t\x12\x0b\n\x03nic\x18\x03 \x01(\t\x12\x14\n\x0c\x63idr_netmask\x18\x04 \x01(\t\"&\n\x08Timezone\x12\n\n\x02tz\x18\x01 \x02(\t\x12\x0e\n\x06tz_num\x18\x02 \x01(\t\"d\n\x04Time\x12\x0c\n\x04year\x18\x01 \x02(\x05\x12\x0b\n\x03mon\x18\x02 \x02(\x05\x12\x0b\n\x03\x64\x61y\x18\x03 \x02(\x05\x12\x0c\n\x04hour\x18\x04 \x02(\x05\x12\x0b\n\x03min\x18\x05 \x02(\x05\x12\x0b\n\x03sec\x18\x06 \x02(\x05\x12\x0c\n\x04wday\x18\x07 \x02(\x05\"&\n\x06GenRes\x12\x0f\n\x07retcode\x18\x01 \x02(\x05\x12\x0b\n\x03msg\x18\x02 \x01(\t\"(\n\x15ListPhyDiskClusterReq\x12\x0f\n\x07node_ip\x18\x01 \x01(\t\"F\n\x15ListPhyDiskClusterRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x17\n\x05\x64isks\x18\x02 \x03(\x0b\x32\x08.PhyDisk\"\"\n\x0eInitPhyDiskReq\x12\x10\n\x08\x64\x65v_name\x18\x01 \x02(\t\"&\n\x0eInitPhyDiskRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"h\n\x0bMdCreateReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\x12\x10\n\x08md_level\x18\x02 \x02(\r\x12\x10\n\x08md_chunk\x18\x03 \x01(\r\x12$\n\x0emd_phy_devices\x18\x04 \x03(\x0b\x32\x0c.MdPhyDevice\"#\n\x0bMdCreateRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"9\n\x0bMdRemoveReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\x12\x19\n\x0brm_crashing\x18\x02 \x02(\x08:\x04true\"#\n\x0bMdRemoveRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"R\n\x08IPMIAttr\x12\x0c\n\x04host\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x10\n\x08username\x18\x03 \x02(\t\x12\x0e\n\x06passwd\x18\x04 \x02(\t\x12\n\n\x02id\x18\x05 \x01(\t\"\x0b\n\tMdScanReq\"@\n\tMdScanRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x1d\n\nmd_devices\x18\x02 \x03(\x0b\x32\t.MdDevice\"\x14\n\x12MdPhyDeviceScanReq\"M\n\x12MdPhyDeviceScanRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12!\n\x0bphy_devices\x18\x02 \x03(\x0b\x32\x0c.MdPhyDevice\"6\n\x11MdPhyDeviceDelReq\x12!\n\x0bphy_devices\x18\x01 \x03(\x0b\x32\x0c.MdPhyDevice\")\n\x11MdPhyDeviceDelRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"A\n\x11MdadmConfigSetReq\x12\x11\n\thome_host\x18\x01 \x02(\t\x12\x19\n\x06\x64\x65vice\x18\x02 \x01(\t:\t/dev/null\")\n\x11MdadmConfigSetRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"Q\n\x13MdMonEventReportReq\x12\x14\n\x0c\x65vent_target\x18\x01 \x02(\t\x12\x11\n\tevent_msg\x18\x02 \x02(\t\x12\x11\n\tevent_opt\x18\x03 \x01(\t\";\n\x14MdRebuildStartPreReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\x12\x12\n\nrelate_lvs\x18\x02 \x03(\t\",\n\x14MdRebuildStartPreRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\'\n\x14MdRebuildFinishedReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\",\n\x14MdRebuildFinishedRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"+\n\x13MdMonEventReportRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"f\n\x0e\x43lusterInitReq\x12\x1b\n\x05\x63Node\x18\x01 \x03(\x0b\x32\x0c.ClusterNode\x12\x11\n\tcNodelist\x18\x05 \x02(\t\x12\x0f\n\x07\x63Passwd\x18\x02 \x01(\t\x12\x13\n\x0b\x63lusterName\x18\x03 \x02(\t\"&\n\x0e\x43lusterInitRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1f\n\x0f\x43lusterStartReq\x12\x0c\n\x04node\x18\x01 \x01(\t\"\'\n\x0f\x43lusterStartRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1d\n\nCleanupReq\x12\x0f\n\x07resName\x18\x01 \x01(\t\"\"\n\nCleanupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"+\n\x08GetIpReq\x12\x0c\n\x04node\x18\x01 \x01(\t\x12\x11\n\tis_detail\x18\x02 \x01(\x08\" \n\x08GetIpRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1e\n\x0e\x43lusterStopReq\x12\x0c\n\x04node\x18\x01 \x01(\t\"&\n\x0e\x43lusterStopRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"A\n\x12\x43lusterPropertyReq\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x1d\n\x03opt\x18\x01 \x03(\x0b\x32\x10.ClusterProperty\"*\n\x12\x43lusterPropertyRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"D\n\x08SetIpReq\x12\x0f\n\x07\x61\x64\x64\x46lag\x18\x01 \x01(\x08\x12\x19\n\x05ipOpt\x18\x03 \x02(\x0b\x32\n.ResIpAttr\x12\x0c\n\x04node\x18\x02 \x01(\t\" \n\x08SetIpRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x0b\n\tGetLunReq\"Z\n\tAddLunReq\x12\x16\n\x02ip\x18\x01 \x02(\x0b\x32\n.ResIpAttr\x12\x1b\n\x03tgt\x18\x02 \x01(\x0b\x32\x0e.ResTargetAttr\x12\x18\n\x02lu\x18\x03 \x02(\x0b\x32\x0c.ResUnitAttr\"/\n\x0c\x44\x65leteLunReq\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65vice_path\x18\x02 \x01(\t\"O\n\x11\x41\x64\x64\x43luResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0f\n\x07resType\x18\x02 \x02(\t\x12\x18\n\x06resOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\")\n\x11\x41\x64\x64\x43luResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\">\n\x11\x44\x65leteResourceReq\x12\x0f\n\x07resName\x18\x01 \x01(\t\x12\x18\n\x06resOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\")\n\x11\x44\x65leteResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"2\n\x0fStopResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0e\n\x06isStop\x18\x02 \x02(\x08\"\'\n\x0fStopResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\" \n\rDebugStartReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\"%\n\rDebugStartRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"P\n\x0cSetHeartbReq\x12\x17\n\x03hb1\x18\x01 \x02(\x0b\x32\n.HeartBeat\x12\x17\n\x03hb2\x18\x02 \x02(\x0b\x32\n.HeartBeat\x12\x0e\n\x06passwd\x18\x03 \x01(\t\">\n\x11UpdateResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x18\n\x06resOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\")\n\x11UpdateResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"1\n\x0eGetResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0e\n\x06isType\x18\x02 \x02(\x08\"$\n\rGetClusterReq\x12\x13\n\x0b\x64\x65tail_flag\x18\x01 \x01(\x08\"&\n\x0eGetResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"_\n\x0eResourceMgrReq\x12\x0e\n\x06\x61\x63tion\x18\x01 \x02(\t\x12\x0f\n\x07resName\x18\x02 \x02(\t\x12\x12\n\nmasterName\x18\x03 \x01(\t\x12\x18\n\x06resOpt\x18\x04 \x03(\x0b\x32\x08.XmlAttr\"&\n\x0eResourceMgrRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\">\n\x08GroupReq\x12\x0f\n\x07grpName\x18\x01 \x02(\t\x12\x11\n\tgrpMember\x18\x02 \x02(\t\x12\x0e\n\x06\x61\x63tion\x18\x03 \x01(\t\" \n\x08GroupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"3\n\x0fMoveResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0f\n\x07\x63luNode\x18\x02 \x02(\t\"\'\n\x0fMoveResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"?\n\x10\x41\x64\x64\x43onstraintReq\x12\x10\n\x08\x63onsType\x18\x01 \x02(\t\x12\x19\n\x07\x63onsOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\"(\n\x10\x41\x64\x64\x43onstraintRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"4\n\x13\x44\x65leteConstraintReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0c\n\x04isId\x18\x02 \x01(\x08\"+\n\x13\x44\x65leteConstraintRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"1\n\x10GetConstraintReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0c\n\x04isId\x18\x02 \x01(\x08\"(\n\x10GetConstraintRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\")\n\x0eStonithIPMIReq\x12\x17\n\x04\x61ttr\x18\x01 \x03(\x0b\x32\t.IPMIAttr\"&\n\x0eStonithIPMIRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"H\n\rAddStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\x12\x0e\n\x06stType\x18\x02 \x02(\t\x12\x17\n\x05stOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\"%\n\rAddStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\"\n\x10\x44\x65leteStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\"(\n\x10\x44\x65leteStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\";\n\x10UpdateStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\x12\x17\n\x05stOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\"(\n\x10UpdateStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1f\n\rGetStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\"%\n\rGetStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x0b\n\tCommitReq\"!\n\tCommitRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\r\n\x0bRollBackReq\"#\n\x0bRollBackRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\")\n\x11SetClusterNameReq\x12\x14\n\x0c\x63luster_name\x18\x01 \x02(\t\"\r\n\x0bSetPointReq\"#\n\x0bSetPointRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"4\n\tXmlSynReq\x12\x1a\n\x06\x61\x63tion\x18\x01 \x03(\x0b\x32\n.XmlAction\x12\x0b\n\x03xml\x18\x02 \x01(\t\"!\n\tXmlSynRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"9\n\x0eLvmVGCreateReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x16\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x06.LvmPV\"&\n\x0eLvmVGCreateRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"F\n\x0b\x46ileInfoReq\x12\x11\n\tfile_name\x18\x01 \x02(\t\x12\x11\n\tfile_cont\x18\x02 \x02(\t\x12\x11\n\tfile_type\x18\x03 \x01(\x05\"9\n\x0eLvmVGRemoveReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x16\n\x08\x63rashing\x18\x02 \x01(\x08:\x04true\"&\n\x0eLvmVGRemoveRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"^\n\x0cLvmVGScanReq\x12\x15\n\x07\x63luster\x18\x01 \x01(\x08:\x04true\x12\x11\n\x02vg\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x11\n\x02lv\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x11\n\x02pv\x18\x04 \x01(\x08:\x05\x66\x61lse\"9\n\x0cLvmVGScanRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x03vgs\x18\x02 \x03(\x0b\x32\x06.LvmVG\"E\n\x0cLvmVGFindReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x11\n\x02pv\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x11\n\x02lv\x18\x03 \x01(\x08:\x05\x66\x61lse\"8\n\x0cLvmVGFindRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x12\n\x02vg\x18\x02 \x01(\x0b\x32\x06.LvmVG\"8\n\rLvmVGAddPVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x16\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x06.LvmPV\"%\n\rLvmVGAddPVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"P\n\rLvmVGDelPVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x16\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x06.LvmPV\x12\x16\n\x08\x63rashing\x18\x03 \x01(\x08:\x04true\"%\n\rLvmVGDelPVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"!\n\x0eLvmVGScanPVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\">\n\x0eLvmVGScanPVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x16\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x06.LvmPV\"\x88\x01\n\x10LvmVGCreateLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x02(\t\x12\x0f\n\x07lv_size\x18\x03 \x02(\x04\x12\x14\n\tsize_unit\x18\x04 \x01(\t:\x01G\x12\x17\n\x07lv_type\x18\x05 \x01(\t:\x06linear\x12\x12\n\nchunk_size\x18\x06 \x01(\r\"(\n\x10LvmVGCreateLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"Y\n\x0eLvmExtendLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x02(\t\x12\x0f\n\x07lv_size\x18\x03 \x02(\x04\x12\x14\n\tsize_unit\x18\x04 \x01(\t:\x01M\"&\n\x0eLvmExtendLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"Y\n\x0eLvmReduceLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x02(\t\x12\x0f\n\x07lv_size\x18\x03 \x02(\x04\x12\x14\n\tsize_unit\x18\x04 \x01(\t:\x01M\"&\n\x0eLvmReduceLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"M\n\x10LvmVGRemoveLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x01(\t\x12\x17\n\x08\x61ll_flag\x18\x03 \x01(\x08:\x05\x66\x61lse\"(\n\x10LvmVGRemoveLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"!\n\x0eLvmVGScanLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\";\n\x0eLvmVGScanLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x03lvs\x18\x02 \x03(\x0b\x32\x06.LvmLV\"\x0e\n\x0cLvmScanLVReq\"9\n\x0cLvmScanLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x03lvs\x18\x02 \x03(\x0b\x32\x06.LvmLV\"\x1b\n\x0cNtpAddUrlReq\x12\x0b\n\x03url\x18\x01 \x02(\t\"$\n\x0cNtpAddUrlRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1b\n\x0cNtpDelUrlReq\x12\x0b\n\x03url\x18\x01 \x02(\t\"$\n\x0cNtpDelUrlRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"2\n\x11NtpClientSetupReq\x12\x10\n\x08timezone\x18\x01 \x02(\t\x12\x0b\n\x03url\x18\x02 \x02(\t\")\n\x11NtpClientSetupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"9\n\x11NtpServerSetupReq\x12\x10\n\x08timezone\x18\x01 \x02(\t\x12\x12\n\npublic_url\x18\x02 \x02(\t\")\n\x11NtpServerSetupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"D\n\x0bNtpSetupReq\x12\x10\n\x08timezone\x18\x01 \x02(\t\x12\x0f\n\x07node_ip\x18\x02 \x02(\t\x12\x12\n\npublic_url\x18\x03 \x02(\t\"#\n\x0bNtpSetupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x0f\n\rNtpGetConfReq\"U\n\rNtpGetConfRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x11\n\thost_name\x18\x02 \x01(\t\x12\x0e\n\x06status\x18\x03 \x01(\x08\x12\x0b\n\x03url\x18\x04 \x01(\t\"\r\n\x0bTimezoneReq\":\n\x0bTimezoneRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x15\n\x02tz\x18\x02 \x03(\x0b\x32\t.Timezone\"4\n\x07TimeRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x04time\x18\x02 \x02(\x0b\x32\x05.Time\"6\n\x0eSetTimezoneReq\x12\r\n\x05local\x18\x01 \x01(\x08\x12\x15\n\x02tz\x18\x02 \x02(\x0b\x32\t.Timezone\"0\n\nSetTimeReq\x12\r\n\x05local\x18\x01 \x01(\x08\x12\x13\n\x04time\x18\x02 \x02(\x0b\x32\x05.Time\"\x1b\n\rGetNicByIpReq\x12\n\n\x02ip\x18\x01 \x02(\t\"\x15\n\x13GetBackBoardInfoReq\"S\n\x13GetBackBoardInfoRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12&\n\x0e\x62\x61\x63kboard_info\x18\x02 \x01(\x0b\x32\x0e.BackBoardInfo2\x92&\n\nRpcService\x12@\n\x12get_backboard_info\x12\x14.GetBackBoardInfoReq\x1a\x14.GetBackBoardInfoRes\x12\x31\n\rinit_phy_disk\x12\x0f.InitPhyDiskReq\x1a\x0f.InitPhyDiskRes\x12G\n\x15\x63luster_list_phy_disk\x12\x16.ListPhyDiskClusterReq\x1a\x16.ListPhyDiskClusterRes\x12.\n\x10\x63reate_md_device\x12\x0c.MdCreateReq\x1a\x0c.MdCreateRes\x12.\n\x10remove_md_device\x12\x0c.MdRemoveReq\x1a\x0c.MdRemoveRes\x12(\n\x0escan_md_device\x12\n.MdScanReq\x1a\n.MdScanRes\x12>\n\x12md_phy_device_scan\x12\x13.MdPhyDeviceScanReq\x1a\x13.MdPhyDeviceScanRes\x12;\n\x11md_phy_device_del\x12\x12.MdPhyDeviceDelReq\x1a\x12.MdPhyDeviceDelRes\x12:\n\x10mdadm_config_set\x12\x12.MdadmConfigSetReq\x1a\x12.MdadmConfigSetRes\x12@\n\x12mdmon_event_report\x12\x14.MdMonEventReportReq\x1a\x14.MdMonEventReportRes\x12\x44\n\x14md_rebuild_start_pre\x12\x15.MdRebuildStartPreReq\x1a\x15.MdRebuildStartPreRes\x12\x43\n\x13md_rebuild_finished\x12\x15.MdRebuildFinishedReq\x1a\x15.MdRebuildFinishedRes\x12\x31\n\rcreate_lvm_vg\x12\x0f.LvmVGCreateReq\x1a\x0f.LvmVGCreateRes\x12\x31\n\rremove_lvm_vg\x12\x0f.LvmVGRemoveReq\x1a\x0f.LvmVGRemoveRes\x12+\n\x0bscan_lvm_vg\x12\r.LvmVGScanReq\x1a\r.LvmVGScanRes\x12/\n\radd_pv_lvm_vg\x12\x0e.LvmVGAddPVReq\x1a\x0e.LvmVGAddPVRes\x12/\n\rdel_pv_lvm_vg\x12\x0e.LvmVGDelPVReq\x1a\x0e.LvmVGDelPVRes\x12\x32\n\x0escan_pv_lvm_vg\x12\x0f.LvmVGScanPVReq\x1a\x0f.LvmVGScanPVRes\x12+\n\x0b\x66ind_lvm_vg\x12\r.LvmVGFindReq\x1a\r.LvmVGFindRes\x12\x38\n\x10\x63reate_lv_lvm_vg\x12\x11.LvmVGCreateLVReq\x1a\x11.LvmVGCreateLVRes\x12\x31\n\rextend_lv_lvm\x12\x0f.LvmExtendLVReq\x1a\x0f.LvmExtendLVRes\x12\x31\n\rreduce_lv_lvm\x12\x0f.LvmReduceLVReq\x1a\x0f.LvmReduceLVRes\x12\x38\n\x10remove_lv_lvm_vg\x12\x11.LvmVGRemoveLVReq\x1a\x11.LvmVGRemoveLVRes\x12\x32\n\x0escan_lv_lvm_vg\x12\x0f.LvmVGScanLVReq\x1a\x0f.LvmVGScanLVRes\x12+\n\x0bscan_lv_lvm\x12\r.LvmScanLVReq\x1a\r.LvmScanLVRes\x12\x30\n\x0cinit_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x33\n\rstart_cluster\x12\x10.ClusterStartReq\x1a\x10.ClusterStartRes\x12\x30\n\x0cstop_cluster\x12\x0f.ClusterStopReq\x1a\x0f.ClusterStopRes\x12@\n\x14set_property_cluster\x12\x13.ClusterPropertyReq\x1a\x13.ClusterPropertyRes\x12\x37\n\x10set_cluster_name\x12\x12.SetClusterNameReq\x1a\x0f.StonithIPMIRes\x12\x31\n\x10get_cluster_name\x12\x0c.SetPointReq\x1a\x0f.StonithIPMIRes\x12!\n\x07syn_xml\x12\n.XmlSynReq\x1a\n.XmlSynRes\x12\x32\n\x0epasswd_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x30\n\x0c\x61uth_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x31\n\rsetup_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x37\n\x13start_coro_and_pamk\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x34\n\x11get_cluster_state\x12\x0e.GetClusterReq\x1a\x0f.GetResourceRes\x12/\n\rset_heartbeat\x12\r.SetHeartbReq\x1a\x0f.StonithIPMIRes\x12>\n\x14\x61\x64\x64_cluster_resource\x12\x12.AddCluResourceReq\x1a\x12.AddCluResourceRes\x12\x41\n\x17\x64\x65lete_cluster_resource\x12\x12.DeleteResourceReq\x1a\x12.DeleteResourceRes\x12\x41\n\x17update_cluster_resource\x12\x12.UpdateResourceReq\x1a\x12.UpdateResourceRes\x12\x38\n\x14get_cluster_resource\x12\x0f.GetResourceReq\x1a\x0f.GetResourceRes\x12(\n\x0e\x63ommit_cluster\x12\n.CommitReq\x1a\n.CommitRes\x12.\n\x10rollback_cluster\x12\x0c.RollBackReq\x1a\x0c.RollBackRes\x12.\n\x10setpoint_cluster\x12\x0c.SetPointReq\x1a\x0c.SetPointRes\x12\x35\n\x11set_clone_cluster\x12\x0f.ResourceMgrReq\x1a\x0f.ResourceMgrRes\x12\x36\n\x12set_master_cluster\x12\x0f.ResourceMgrReq\x1a\x0f.ResourceMgrRes\x12\x36\n\x12set_manage_cluster\x12\x0f.ResourceMgrReq\x1a\x0f.ResourceMgrRes\x12%\n\rgroup_cluster\x12\t.GroupReq\x1a\t.GroupRes\x12;\n\x15move_cluster_resource\x12\x10.MoveResourceReq\x1a\x10.MoveResourceRes\x12;\n\x15stop_cluster_resource\x12\x10.StopResourceReq\x1a\x10.StopResourceRes\x12-\n\x0b\x64\x65\x62ug_start\x12\x0e.DebugStartReq\x1a\x0e.DebugStartRes\x12\x34\n\x18\x63leanup_cluster_resource\x12\x0b.CleanupReq\x1a\x0b.CleanupRes\x12\x38\n\x10\x61\x64\x64_cluster_cons\x12\x11.AddConstraintReq\x1a\x11.AddConstraintRes\x12\x41\n\x13\x64\x65lete_cluster_cons\x12\x14.DeleteConstraintReq\x1a\x14.DeleteConstraintRes\x12\x38\n\x10get_cluster_cons\x12\x11.GetConstraintReq\x1a\x11.GetConstraintRes\x12\x35\n\x13\x61\x64\x64_cluster_stonith\x12\x0e.AddStonithReq\x1a\x0e.AddStonithRes\x12>\n\x16\x64\x65lete_cluster_stonith\x12\x11.DeleteStonithReq\x1a\x11.DeleteStonithRes\x12>\n\x16update_cluster_stonith\x12\x11.UpdateStonithReq\x1a\x11.UpdateStonithRes\x12\x35\n\x13get_cluster_stonith\x12\x0e.GetStonithReq\x1a\x0e.GetStonithRes\x12\x37\n\x13\x65nable_stonith_ipmi\x12\x0f.StonithIPMIReq\x1a\x0f.StonithIPMIRes\x12\x38\n\x14\x64isable_stonith_ipmi\x12\x0f.StonithIPMIReq\x1a\x0f.StonithIPMIRes\x12\x31\n\x10get_stonith_ipmi\x12\x0c.SetPointReq\x1a\x0f.StonithIPMIRes\x12\x37\n\x13update_stonith_ipmi\x12\x0f.StonithIPMIReq\x1a\x0f.StonithIPMIRes\x12#\n\x0bget_used_ip\x12\t.GetIpReq\x1a\t.GetIpRes\x12\x1e\n\x06\x61\x64\x64_ip\x12\t.SetIpReq\x1a\t.SetIpRes\x12(\n\x10\x61\x64\x64_heartbeat_ip\x12\t.SetIpReq\x1a\t.SetIpRes\x12!\n\tdelete_ip\x12\t.SetIpReq\x1a\t.SetIpRes\x12\x1e\n\x06get_ip\x12\t.GetIpReq\x1a\t.GetIpRes\x12\x1f\n\x07get_nic\x12\t.GetIpReq\x1a\t.GetIpRes\x12&\n\x0eget_ip_private\x12\t.GetIpReq\x1a\t.GetIpRes\x12\'\n\x0fget_nic_private\x12\t.GetIpReq\x1a\t.GetIpRes\x12/\n\x0cget_nic_byip\x12\x0e.GetNicByIpReq\x1a\x0f.StonithIPMIRes\x12*\n\x0cget_nic_info\x12\t.GetIpReq\x1a\x0f.StonithIPMIRes\x12)\n\x07\x61\x64\x64_lun\x12\n.AddLunReq\x1a\x12.AddCluResourceRes\x12/\n\ndelete_lun\x12\r.DeleteLunReq\x1a\x12.DeleteResourceRes\x12)\n\x07get_lun\x12\n.GetLunReq\x1a\x12.AddCluResourceRes\x12,\n\nupdate_lun\x12\n.AddLunReq\x1a\x12.AddCluResourceRes\x12.\n\tcheck_lun\x12\r.DeleteLunReq\x1a\x12.AddCluResourceRes\x12)\n\x08syn_file\x12\x0c.FileInfoReq\x1a\x0f.StonithIPMIRes\x12+\n\x0bntp_add_url\x12\r.NtpAddUrlReq\x1a\r.NtpAddUrlRes\x12+\n\x0bntp_del_url\x12\r.NtpDelUrlReq\x1a\r.NtpDelUrlRes\x12\x33\n\x13\x63luster_ntp_add_url\x12\r.NtpAddUrlReq\x1a\r.NtpAddUrlRes\x12\x33\n\x13\x63luster_ntp_del_url\x12\r.NtpDelUrlReq\x1a\r.NtpDelUrlRes\x12:\n\x10ntp_client_setup\x12\x12.NtpClientSetupReq\x1a\x12.NtpClientSetupRes\x12:\n\x10ntp_server_setup\x12\x12.NtpServerSetupReq\x1a\x12.NtpServerSetupRes\x12/\n\x11\x63luster_ntp_setup\x12\x0c.NtpSetupReq\x1a\x0c.NtpSetupRes\x12.\n\x0cntp_get_conf\x12\x0e.NtpGetConfReq\x1a\x0e.NtpGetConfRes\x12\x36\n\x14\x63luster_ntp_get_conf\x12\x0e.NtpGetConfReq\x1a\x0e.NtpGetConfRes\x12+\n\rlist_timezone\x12\x0c.TimezoneReq\x1a\x0c.TimezoneRes\x12,\n\x0eget_current_tz\x12\x0c.TimezoneReq\x1a\x0c.TimezoneRes\x12*\n\x10get_current_time\x12\x0c.TimezoneReq\x1a\x08.TimeRes\x12\x30\n\x0cset_timezone\x12\x0f.SetTimezoneReq\x1a\x0f.StonithIPMIRes\x12(\n\x08set_time\x12\x0b.SetTimeReq\x1a\x0f.StonithIPMIResB\x03\x90\x01\x01')
+  serialized_pb='\n\npuma.proto\"!\n\rBackBoardInfo\x12\x10\n\x08slot_num\x18\x01 \x01(\r\"\xca\x01\n\x07PhyDisk\x12\x10\n\x08\x64\x65v_name\x18\x01 \x01(\t\x12\x10\n\x08\x64\x65v_size\x18\x02 \x01(\x04\x12\x0f\n\x07\x64\x65v_wwn\x18\x03 \x01(\t\x12\x10\n\x08\x64\x65v_slot\x18\x04 \x01(\t\x12\x10\n\x08protocol\x18\x05 \x01(\t\x12\x12\n\nrotational\x18\x08 \x01(\r\x12\x10\n\x08\x64\x65v_used\x18\x06 \x01(\x08\x12\x10\n\x08\x64\x65v_user\x18\x07 \x01(\t\x12\x0e\n\x06online\x18\t \x01(\x08\x12\x0e\n\x06inited\x18\n \x01(\x08\x12\x0e\n\x06\x62\x61\x63kup\x18\x0b \x01(\x08\"$\n\x0bMdPhyDevice\x12\x15\n\x03\x64\x65v\x18\x01 \x01(\x0b\x32\x08.PhyDisk\"I\n\x0b\x43lusterNode\x12\x10\n\x08hostname\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x0c\n\x04port\x18\x03 \x02(\t\x12\x0e\n\x06passwd\x18\x04 \x02(\t\"\xc2\x01\n\x08MdDevice\x12\x10\n\x08\x64\x65v_name\x18\x01 \x02(\t\x12\x10\n\x08\x64\x65v_size\x18\x02 \x01(\x04\x12\x11\n\tdev_level\x18\x03 \x01(\t\x12\x11\n\tdev_chunk\x18\x04 \x01(\r\x12%\n\x0f\x64\x65v_phy_devices\x18\x05 \x03(\x0b\x32\x0c.MdPhyDevice\x12\x10\n\x08\x64\x65v_used\x18\x06 \x01(\x08\x12\x10\n\x08\x64\x65v_user\x18\x07 \x01(\t\x12\x11\n\traid_stat\x18\x08 \x01(\t\x12\x0e\n\x06online\x18\t \x01(\x08\"0\n\x0f\x43lusterProperty\x12\r\n\x05pName\x18\x01 \x02(\t\x12\x0e\n\x06pValue\x18\x02 \x02(\t\"W\n\tXmlAction\x12\x0e\n\x06\x61\x63tion\x18\x01 \x02(\t\x12\x10\n\x08nodename\x18\x02 \x01(\t\x12\x16\n\x04\x61ttr\x18\x03 \x03(\x0b\x32\x08.XmlAttr\x12\x10\n\x08nodepath\x18\x04 \x02(\t\"%\n\x07XmlAttr\x12\x0b\n\x03key\x18\x01 \x02(\t\x12\r\n\x05value\x18\x02 \x02(\t\"\x1a\n\x07LvmPVMd\x12\x0f\n\x07pv_name\x18\x01 \x02(\t\"\x80\x01\n\x05LvmLV\x12\x0f\n\x07lv_name\x18\x01 \x02(\t\x12\x0f\n\x07vg_name\x18\x02 \x01(\t\x12\x0f\n\x07lv_size\x18\x03 \x01(\x01\x12\x0f\n\x07lv_used\x18\x04 \x01(\x08\x12\x0f\n\x07lv_user\x18\x05 \x01(\t\x12\x12\n\nlv_cluster\x18\x06 \x01(\x08\x12\x0e\n\x06online\x18\x07 \x01(\x08\"r\n\x05LvmVG\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x15\n\rvg_total_size\x18\x02 \x01(\x01\x12\x14\n\x0cvg_free_size\x18\x03 \x01(\x01\x12\x0e\n\x06online\x18\x04 \x01(\x08\x12\x1b\n\tvg_md_pvs\x18\x05 \x03(\x0b\x32\x08.LvmPVMd\"b\n\rClusterStatus\x12\x13\n\x0b\x63lu_hb_addr\x18\x01 \x02(\t\x12\x12\n\nclu_status\x18\x02 \x02(\t\x12\x14\n\x0c\x63lu_hostname\x18\x03 \x01(\t\x12\x12\n\nclu_nodeid\x18\x04 \x01(\x01\"L\n\tResIpAttr\x12\n\n\x02ip\x18\x01 \x02(\t\x12\x0b\n\x03nic\x18\x02 \x01(\t\x12\x14\n\x0c\x63idr_netmask\x18\x03 \x01(\t\x12\x10\n\x08gate_way\x18\x04 \x01(\t\"\xd8\x01\n\rResTargetAttr\x12\x0b\n\x03iqn\x18\x01 \x01(\t\x12\x0b\n\x03tid\x18\x02 \x01(\t\x12\x0f\n\x07portals\x18\x03 \x01(\t\x12\x1a\n\x12\x61llowed_initiators\x18\x04 \x01(\t\x12\x19\n\x11incoming_username\x18\x05 \x01(\t\x12\x19\n\x11incoming_password\x18\x06 \x01(\t\x12\'\n\x15\x61\x64\x64itional_parameters\x18\x07 \x01(\x0b\x32\x08.XmlAttr\x12!\n\x0f\x61\x63ls_parameters\x18\x08 \x01(\x0b\x32\x08.XmlAttr\"d\n\x0bResUnitAttr\x12\x0c\n\x04path\x18\x03 \x02(\t\x12\x12\n\ntarget_iqn\x18\x01 \x01(\t\x12\x0b\n\x03lun\x18\x02 \x01(\t\x12&\n\x12\x61llowed_initiators\x18\x04 \x03(\x0b\x32\n.AcessAttr\"\'\n\tAcessAttr\x12\x0b\n\x03iqn\x18\x01 \x02(\t\x12\r\n\x05\x61\x63\x65ss\x18\x02 \x02(\t\"\x8c\x01\n\x07LunAttr\x12\n\n\x02ip\x18\x01 \x02(\t\x12\x13\n\x0b\x64\x65vice_path\x18\x02 \x02(\t\x12\x0b\n\x03nic\x18\x03 \x01(\t\x12\x1d\n\x15\x61\x64\x64itional_parameters\x18\x04 \x01(\x08\x12\x0b\n\x03iqn\x18\x05 \x01(\t\x12\x0b\n\x03lun\x18\x06 \x01(\t\x12\x1a\n\x12\x61llowed_initiators\x18\x07 \x01(\t\"H\n\tHeartBeat\x12\n\n\x02hb\x18\x01 \x02(\t\x12\x0c\n\x04host\x18\x02 \x02(\t\x12\x0b\n\x03nic\x18\x03 \x01(\t\x12\x14\n\x0c\x63idr_netmask\x18\x04 \x01(\t\"&\n\x08Timezone\x12\n\n\x02tz\x18\x01 \x02(\t\x12\x0e\n\x06tz_num\x18\x02 \x01(\t\"d\n\x04Time\x12\x0c\n\x04year\x18\x01 \x02(\x05\x12\x0b\n\x03mon\x18\x02 \x02(\x05\x12\x0b\n\x03\x64\x61y\x18\x03 \x02(\x05\x12\x0c\n\x04hour\x18\x04 \x02(\x05\x12\x0b\n\x03min\x18\x05 \x02(\x05\x12\x0b\n\x03sec\x18\x06 \x02(\x05\x12\x0c\n\x04wday\x18\x07 \x02(\x05\"&\n\x06GenRes\x12\x0f\n\x07retcode\x18\x01 \x02(\x05\x12\x0b\n\x03msg\x18\x02 \x01(\t\"(\n\x15ListPhyDiskClusterReq\x12\x0f\n\x07node_ip\x18\x01 \x01(\t\"F\n\x15ListPhyDiskClusterRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x17\n\x05\x64isks\x18\x02 \x03(\x0b\x32\x08.PhyDisk\"\"\n\x0eInitPhyDiskReq\x12\x10\n\x08\x64\x65v_name\x18\x01 \x02(\t\"&\n\x0eInitPhyDiskRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"h\n\x0bMdCreateReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\x12\x10\n\x08md_level\x18\x02 \x02(\r\x12\x10\n\x08md_chunk\x18\x03 \x01(\r\x12$\n\x0emd_phy_devices\x18\x04 \x03(\x0b\x32\x0c.MdPhyDevice\"#\n\x0bMdCreateRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"9\n\x0bMdRemoveReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\x12\x19\n\x0brm_crashing\x18\x02 \x02(\x08:\x04true\"#\n\x0bMdRemoveRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"R\n\x08IPMIAttr\x12\x0c\n\x04host\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x10\n\x08username\x18\x03 \x02(\t\x12\x0e\n\x06passwd\x18\x04 \x02(\t\x12\n\n\x02id\x18\x05 \x01(\t\"\x0b\n\tMdScanReq\"@\n\tMdScanRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x1d\n\nmd_devices\x18\x02 \x03(\x0b\x32\t.MdDevice\"\x14\n\x12MdPhyDeviceScanReq\"M\n\x12MdPhyDeviceScanRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12!\n\x0bphy_devices\x18\x02 \x03(\x0b\x32\x0c.MdPhyDevice\"6\n\x11MdPhyDeviceDelReq\x12!\n\x0bphy_devices\x18\x01 \x03(\x0b\x32\x0c.MdPhyDevice\")\n\x11MdPhyDeviceDelRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"A\n\x11MdadmConfigSetReq\x12\x11\n\thome_host\x18\x01 \x02(\t\x12\x19\n\x06\x64\x65vice\x18\x02 \x01(\t:\t/dev/null\")\n\x11MdadmConfigSetRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"Q\n\x13MdMonEventReportReq\x12\x14\n\x0c\x65vent_target\x18\x01 \x02(\t\x12\x11\n\tevent_msg\x18\x02 \x02(\t\x12\x11\n\tevent_opt\x18\x03 \x01(\t\";\n\x14MdRebuildStartPreReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\x12\x12\n\nrelate_lvs\x18\x02 \x03(\t\",\n\x14MdRebuildStartPreRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\'\n\x14MdRebuildFinishedReq\x12\x0f\n\x07md_name\x18\x01 \x02(\t\",\n\x14MdRebuildFinishedRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"+\n\x13MdMonEventReportRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"f\n\x0e\x43lusterInitReq\x12\x1b\n\x05\x63Node\x18\x01 \x03(\x0b\x32\x0c.ClusterNode\x12\x11\n\tcNodelist\x18\x05 \x02(\t\x12\x0f\n\x07\x63Passwd\x18\x02 \x01(\t\x12\x13\n\x0b\x63lusterName\x18\x03 \x02(\t\"&\n\x0e\x43lusterInitRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1f\n\x0f\x43lusterStartReq\x12\x0c\n\x04node\x18\x01 \x01(\t\"\'\n\x0f\x43lusterStartRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1d\n\nCleanupReq\x12\x0f\n\x07resName\x18\x01 \x01(\t\"\"\n\nCleanupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"+\n\x08GetIpReq\x12\x0c\n\x04node\x18\x01 \x01(\t\x12\x11\n\tis_detail\x18\x02 \x01(\x08\" \n\x08GetIpRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1e\n\x0e\x43lusterStopReq\x12\x0c\n\x04node\x18\x01 \x01(\t\"&\n\x0e\x43lusterStopRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"A\n\x12\x43lusterPropertyReq\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x1d\n\x03opt\x18\x01 \x03(\x0b\x32\x10.ClusterProperty\"*\n\x12\x43lusterPropertyRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"D\n\x08SetIpReq\x12\x0f\n\x07\x61\x64\x64\x46lag\x18\x01 \x01(\x08\x12\x19\n\x05ipOpt\x18\x03 \x02(\x0b\x32\n.ResIpAttr\x12\x0c\n\x04node\x18\x02 \x01(\t\" \n\x08SetIpRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x0b\n\tGetLunReq\"Z\n\tAddLunReq\x12\x16\n\x02ip\x18\x01 \x02(\x0b\x32\n.ResIpAttr\x12\x1b\n\x03tgt\x18\x02 \x01(\x0b\x32\x0e.ResTargetAttr\x12\x18\n\x02lu\x18\x03 \x02(\x0b\x32\x0c.ResUnitAttr\"/\n\x0c\x44\x65leteLunReq\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65vice_path\x18\x02 \x01(\t\"O\n\x11\x41\x64\x64\x43luResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0f\n\x07resType\x18\x02 \x02(\t\x12\x18\n\x06resOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\")\n\x11\x41\x64\x64\x43luResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\">\n\x11\x44\x65leteResourceReq\x12\x0f\n\x07resName\x18\x01 \x01(\t\x12\x18\n\x06resOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\")\n\x11\x44\x65leteResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"2\n\x0fStopResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0e\n\x06isStop\x18\x02 \x02(\x08\"\'\n\x0fStopResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\" \n\rDebugStartReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\"%\n\rDebugStartRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"P\n\x0cSetHeartbReq\x12\x17\n\x03hb1\x18\x01 \x02(\x0b\x32\n.HeartBeat\x12\x17\n\x03hb2\x18\x02 \x02(\x0b\x32\n.HeartBeat\x12\x0e\n\x06passwd\x18\x03 \x01(\t\">\n\x11UpdateResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x18\n\x06resOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\")\n\x11UpdateResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"1\n\x0eGetResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0e\n\x06isType\x18\x02 \x02(\x08\"$\n\rGetClusterReq\x12\x13\n\x0b\x64\x65tail_flag\x18\x01 \x01(\x08\"&\n\x0eGetResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"_\n\x0eResourceMgrReq\x12\x0e\n\x06\x61\x63tion\x18\x01 \x02(\t\x12\x0f\n\x07resName\x18\x02 \x02(\t\x12\x12\n\nmasterName\x18\x03 \x01(\t\x12\x18\n\x06resOpt\x18\x04 \x03(\x0b\x32\x08.XmlAttr\"&\n\x0eResourceMgrRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\">\n\x08GroupReq\x12\x0f\n\x07grpName\x18\x01 \x02(\t\x12\x11\n\tgrpMember\x18\x02 \x02(\t\x12\x0e\n\x06\x61\x63tion\x18\x03 \x01(\t\" \n\x08GroupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"3\n\x0fMoveResourceReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0f\n\x07\x63luNode\x18\x02 \x02(\t\"\'\n\x0fMoveResourceRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"?\n\x10\x41\x64\x64\x43onstraintReq\x12\x10\n\x08\x63onsType\x18\x01 \x02(\t\x12\x19\n\x07\x63onsOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\"(\n\x10\x41\x64\x64\x43onstraintRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"4\n\x13\x44\x65leteConstraintReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0c\n\x04isId\x18\x02 \x01(\x08\"+\n\x13\x44\x65leteConstraintRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"1\n\x10GetConstraintReq\x12\x0f\n\x07resName\x18\x01 \x02(\t\x12\x0c\n\x04isId\x18\x02 \x01(\x08\"(\n\x10GetConstraintRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\")\n\x0eStonithIPMIReq\x12\x17\n\x04\x61ttr\x18\x01 \x03(\x0b\x32\t.IPMIAttr\"&\n\x0eStonithIPMIRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"H\n\rAddStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\x12\x0e\n\x06stType\x18\x02 \x02(\t\x12\x17\n\x05stOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\"%\n\rAddStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\"\n\x10\x44\x65leteStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\"(\n\x10\x44\x65leteStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\";\n\x10UpdateStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\x12\x17\n\x05stOpt\x18\x03 \x03(\x0b\x32\x08.XmlAttr\"(\n\x10UpdateStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1f\n\rGetStonithReq\x12\x0e\n\x06stName\x18\x01 \x02(\t\"%\n\rGetStonithRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x0b\n\tCommitReq\"!\n\tCommitRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\r\n\x0bRollBackReq\"#\n\x0bRollBackRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\")\n\x11SetClusterNameReq\x12\x14\n\x0c\x63luster_name\x18\x01 \x02(\t\"\r\n\x0bSetPointReq\"#\n\x0bSetPointRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"4\n\tXmlSynReq\x12\x1a\n\x06\x61\x63tion\x18\x01 \x03(\x0b\x32\n.XmlAction\x12\x0b\n\x03xml\x18\x02 \x01(\t\"!\n\tXmlSynRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\";\n\x0eLvmVGCreateReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x18\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x08.LvmPVMd\"&\n\x0eLvmVGCreateRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"F\n\x0b\x46ileInfoReq\x12\x11\n\tfile_name\x18\x01 \x02(\t\x12\x11\n\tfile_cont\x18\x02 \x02(\t\x12\x11\n\tfile_type\x18\x03 \x01(\x05\"9\n\x0eLvmVGRemoveReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x16\n\x08\x63rashing\x18\x02 \x01(\x08:\x04true\"&\n\x0eLvmVGRemoveRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"^\n\x0cLvmVGScanReq\x12\x15\n\x07\x63luster\x18\x01 \x01(\x08:\x04true\x12\x11\n\x02vg\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x11\n\x02lv\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x11\n\x02pv\x18\x04 \x01(\x08:\x05\x66\x61lse\"9\n\x0cLvmVGScanRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x03vgs\x18\x02 \x03(\x0b\x32\x06.LvmVG\"E\n\x0cLvmVGFindReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x11\n\x02pv\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x11\n\x02lv\x18\x03 \x01(\x08:\x05\x66\x61lse\"8\n\x0cLvmVGFindRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x12\n\x02vg\x18\x02 \x01(\x0b\x32\x06.LvmVG\":\n\rLvmVGAddPVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x18\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x08.LvmPVMd\"%\n\rLvmVGAddPVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"R\n\rLvmVGDelPVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x18\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x08.LvmPVMd\x12\x16\n\x08\x63rashing\x18\x03 \x01(\x08:\x04true\"%\n\rLvmVGDelPVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"!\n\x0eLvmVGScanPVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\"@\n\x0eLvmVGScanPVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x18\n\x06vg_pvs\x18\x02 \x03(\x0b\x32\x08.LvmPVMd\"\x88\x01\n\x10LvmVGCreateLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x02(\t\x12\x0f\n\x07lv_size\x18\x03 \x02(\x04\x12\x14\n\tsize_unit\x18\x04 \x01(\t:\x01G\x12\x17\n\x07lv_type\x18\x05 \x01(\t:\x06linear\x12\x12\n\nchunk_size\x18\x06 \x01(\r\"(\n\x10LvmVGCreateLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"Y\n\x0eLvmExtendLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x02(\t\x12\x0f\n\x07lv_size\x18\x03 \x02(\x04\x12\x14\n\tsize_unit\x18\x04 \x01(\t:\x01M\"&\n\x0eLvmExtendLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"Y\n\x0eLvmReduceLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x02(\t\x12\x0f\n\x07lv_size\x18\x03 \x02(\x04\x12\x14\n\tsize_unit\x18\x04 \x01(\t:\x01M\"&\n\x0eLvmReduceLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"M\n\x10LvmVGRemoveLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\x12\x0f\n\x07lv_name\x18\x02 \x01(\t\x12\x17\n\x08\x61ll_flag\x18\x03 \x01(\x08:\x05\x66\x61lse\"(\n\x10LvmVGRemoveLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"!\n\x0eLvmVGScanLVReq\x12\x0f\n\x07vg_name\x18\x01 \x02(\t\";\n\x0eLvmVGScanLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x03lvs\x18\x02 \x03(\x0b\x32\x06.LvmLV\"\x0e\n\x0cLvmScanLVReq\"9\n\x0cLvmScanLVRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x03lvs\x18\x02 \x03(\x0b\x32\x06.LvmLV\"\x1b\n\x0cNtpAddUrlReq\x12\x0b\n\x03url\x18\x01 \x02(\t\"$\n\x0cNtpAddUrlRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x1b\n\x0cNtpDelUrlReq\x12\x0b\n\x03url\x18\x01 \x02(\t\"$\n\x0cNtpDelUrlRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"2\n\x11NtpClientSetupReq\x12\x10\n\x08timezone\x18\x01 \x02(\t\x12\x0b\n\x03url\x18\x02 \x02(\t\")\n\x11NtpClientSetupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"9\n\x11NtpServerSetupReq\x12\x10\n\x08timezone\x18\x01 \x02(\t\x12\x12\n\npublic_url\x18\x02 \x02(\t\")\n\x11NtpServerSetupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"D\n\x0bNtpSetupReq\x12\x10\n\x08timezone\x18\x01 \x02(\t\x12\x0f\n\x07node_ip\x18\x02 \x02(\t\x12\x12\n\npublic_url\x18\x03 \x02(\t\"#\n\x0bNtpSetupRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\"\x0f\n\rNtpGetConfReq\"U\n\rNtpGetConfRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x11\n\thost_name\x18\x02 \x01(\t\x12\x0e\n\x06status\x18\x03 \x01(\x08\x12\x0b\n\x03url\x18\x04 \x01(\t\"\r\n\x0bTimezoneReq\":\n\x0bTimezoneRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x15\n\x02tz\x18\x02 \x03(\x0b\x32\t.Timezone\"4\n\x07TimeRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12\x13\n\x04time\x18\x02 \x02(\x0b\x32\x05.Time\"6\n\x0eSetTimezoneReq\x12\r\n\x05local\x18\x01 \x01(\x08\x12\x15\n\x02tz\x18\x02 \x02(\x0b\x32\t.Timezone\"0\n\nSetTimeReq\x12\r\n\x05local\x18\x01 \x01(\x08\x12\x13\n\x04time\x18\x02 \x02(\x0b\x32\x05.Time\"\x1b\n\rGetNicByIpReq\x12\n\n\x02ip\x18\x01 \x02(\t\"\x15\n\x13GetBackBoardInfoReq\"S\n\x13GetBackBoardInfoRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes\x12&\n\x0e\x62\x61\x63kboard_info\x18\x02 \x01(\x0b\x32\x0e.BackBoardInfo\" \n\rDBFileSyncReq\x12\x0f\n\x07\x63ontent\x18\x01 \x02(\t\"%\n\rDBFileSyncRes\x12\x14\n\x03ret\x18\x01 \x02(\x0b\x32\x07.GenRes2\xe1%\n\nRpcService\x12@\n\x12get_backboard_info\x12\x14.GetBackBoardInfoReq\x1a\x14.GetBackBoardInfoRes\x12.\n\x0c\x64\x62_file_sync\x12\x0e.DBFileSyncReq\x1a\x0e.DBFileSyncRes\x12\x31\n\rinit_phy_disk\x12\x0f.InitPhyDiskReq\x1a\x0f.InitPhyDiskRes\x12G\n\x15\x63luster_list_phy_disk\x12\x16.ListPhyDiskClusterReq\x1a\x16.ListPhyDiskClusterRes\x12.\n\x10\x63reate_md_device\x12\x0c.MdCreateReq\x1a\x0c.MdCreateRes\x12.\n\x10remove_md_device\x12\x0c.MdRemoveReq\x1a\x0c.MdRemoveRes\x12(\n\x0escan_md_device\x12\n.MdScanReq\x1a\n.MdScanRes\x12>\n\x12md_phy_device_scan\x12\x13.MdPhyDeviceScanReq\x1a\x13.MdPhyDeviceScanRes\x12;\n\x11md_phy_device_del\x12\x12.MdPhyDeviceDelReq\x1a\x12.MdPhyDeviceDelRes\x12:\n\x10mdadm_config_set\x12\x12.MdadmConfigSetReq\x1a\x12.MdadmConfigSetRes\x12@\n\x12mdmon_event_report\x12\x14.MdMonEventReportReq\x1a\x14.MdMonEventReportRes\x12\x44\n\x14md_rebuild_start_pre\x12\x15.MdRebuildStartPreReq\x1a\x15.MdRebuildStartPreRes\x12\x43\n\x13md_rebuild_finished\x12\x15.MdRebuildFinishedReq\x1a\x15.MdRebuildFinishedRes\x12\x31\n\rcreate_lvm_vg\x12\x0f.LvmVGCreateReq\x1a\x0f.LvmVGCreateRes\x12\x31\n\rremove_lvm_vg\x12\x0f.LvmVGRemoveReq\x1a\x0f.LvmVGRemoveRes\x12+\n\x0bscan_lvm_vg\x12\r.LvmVGScanReq\x1a\r.LvmVGScanRes\x12\x32\n\x0escan_lv_lvm_vg\x12\x0f.LvmVGScanLVReq\x1a\x0f.LvmVGScanLVRes\x12/\n\radd_pv_lvm_vg\x12\x0e.LvmVGAddPVReq\x1a\x0e.LvmVGAddPVRes\x12/\n\rdel_pv_lvm_vg\x12\x0e.LvmVGDelPVReq\x1a\x0e.LvmVGDelPVRes\x12\x38\n\x10\x63reate_lv_lvm_vg\x12\x11.LvmVGCreateLVReq\x1a\x11.LvmVGCreateLVRes\x12\x31\n\rextend_lv_lvm\x12\x0f.LvmExtendLVReq\x1a\x0f.LvmExtendLVRes\x12\x31\n\rreduce_lv_lvm\x12\x0f.LvmReduceLVReq\x1a\x0f.LvmReduceLVRes\x12\x38\n\x10remove_lv_lvm_vg\x12\x11.LvmVGRemoveLVReq\x1a\x11.LvmVGRemoveLVRes\x12+\n\x0bscan_lv_lvm\x12\r.LvmScanLVReq\x1a\r.LvmScanLVRes\x12\x30\n\x0cinit_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x33\n\rstart_cluster\x12\x10.ClusterStartReq\x1a\x10.ClusterStartRes\x12\x30\n\x0cstop_cluster\x12\x0f.ClusterStopReq\x1a\x0f.ClusterStopRes\x12@\n\x14set_property_cluster\x12\x13.ClusterPropertyReq\x1a\x13.ClusterPropertyRes\x12\x37\n\x10set_cluster_name\x12\x12.SetClusterNameReq\x1a\x0f.StonithIPMIRes\x12\x31\n\x10get_cluster_name\x12\x0c.SetPointReq\x1a\x0f.StonithIPMIRes\x12!\n\x07syn_xml\x12\n.XmlSynReq\x1a\n.XmlSynRes\x12\x32\n\x0epasswd_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x30\n\x0c\x61uth_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x31\n\rsetup_cluster\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x37\n\x13start_coro_and_pamk\x12\x0f.ClusterInitReq\x1a\x0f.ClusterInitRes\x12\x34\n\x11get_cluster_state\x12\x0e.GetClusterReq\x1a\x0f.GetResourceRes\x12/\n\rset_heartbeat\x12\r.SetHeartbReq\x1a\x0f.StonithIPMIRes\x12>\n\x14\x61\x64\x64_cluster_resource\x12\x12.AddCluResourceReq\x1a\x12.AddCluResourceRes\x12\x41\n\x17\x64\x65lete_cluster_resource\x12\x12.DeleteResourceReq\x1a\x12.DeleteResourceRes\x12\x41\n\x17update_cluster_resource\x12\x12.UpdateResourceReq\x1a\x12.UpdateResourceRes\x12\x38\n\x14get_cluster_resource\x12\x0f.GetResourceReq\x1a\x0f.GetResourceRes\x12(\n\x0e\x63ommit_cluster\x12\n.CommitReq\x1a\n.CommitRes\x12.\n\x10rollback_cluster\x12\x0c.RollBackReq\x1a\x0c.RollBackRes\x12.\n\x10setpoint_cluster\x12\x0c.SetPointReq\x1a\x0c.SetPointRes\x12\x35\n\x11set_clone_cluster\x12\x0f.ResourceMgrReq\x1a\x0f.ResourceMgrRes\x12\x36\n\x12set_master_cluster\x12\x0f.ResourceMgrReq\x1a\x0f.ResourceMgrRes\x12\x36\n\x12set_manage_cluster\x12\x0f.ResourceMgrReq\x1a\x0f.ResourceMgrRes\x12%\n\rgroup_cluster\x12\t.GroupReq\x1a\t.GroupRes\x12;\n\x15move_cluster_resource\x12\x10.MoveResourceReq\x1a\x10.MoveResourceRes\x12;\n\x15stop_cluster_resource\x12\x10.StopResourceReq\x1a\x10.StopResourceRes\x12-\n\x0b\x64\x65\x62ug_start\x12\x0e.DebugStartReq\x1a\x0e.DebugStartRes\x12\x34\n\x18\x63leanup_cluster_resource\x12\x0b.CleanupReq\x1a\x0b.CleanupRes\x12\x38\n\x10\x61\x64\x64_cluster_cons\x12\x11.AddConstraintReq\x1a\x11.AddConstraintRes\x12\x41\n\x13\x64\x65lete_cluster_cons\x12\x14.DeleteConstraintReq\x1a\x14.DeleteConstraintRes\x12\x38\n\x10get_cluster_cons\x12\x11.GetConstraintReq\x1a\x11.GetConstraintRes\x12\x35\n\x13\x61\x64\x64_cluster_stonith\x12\x0e.AddStonithReq\x1a\x0e.AddStonithRes\x12>\n\x16\x64\x65lete_cluster_stonith\x12\x11.DeleteStonithReq\x1a\x11.DeleteStonithRes\x12>\n\x16update_cluster_stonith\x12\x11.UpdateStonithReq\x1a\x11.UpdateStonithRes\x12\x35\n\x13get_cluster_stonith\x12\x0e.GetStonithReq\x1a\x0e.GetStonithRes\x12\x37\n\x13\x65nable_stonith_ipmi\x12\x0f.StonithIPMIReq\x1a\x0f.StonithIPMIRes\x12\x38\n\x14\x64isable_stonith_ipmi\x12\x0f.StonithIPMIReq\x1a\x0f.StonithIPMIRes\x12\x31\n\x10get_stonith_ipmi\x12\x0c.SetPointReq\x1a\x0f.StonithIPMIRes\x12\x37\n\x13update_stonith_ipmi\x12\x0f.StonithIPMIReq\x1a\x0f.StonithIPMIRes\x12#\n\x0bget_used_ip\x12\t.GetIpReq\x1a\t.GetIpRes\x12\x1e\n\x06\x61\x64\x64_ip\x12\t.SetIpReq\x1a\t.SetIpRes\x12(\n\x10\x61\x64\x64_heartbeat_ip\x12\t.SetIpReq\x1a\t.SetIpRes\x12!\n\tdelete_ip\x12\t.SetIpReq\x1a\t.SetIpRes\x12\x1e\n\x06get_ip\x12\t.GetIpReq\x1a\t.GetIpRes\x12\x1f\n\x07get_nic\x12\t.GetIpReq\x1a\t.GetIpRes\x12&\n\x0eget_ip_private\x12\t.GetIpReq\x1a\t.GetIpRes\x12\'\n\x0fget_nic_private\x12\t.GetIpReq\x1a\t.GetIpRes\x12/\n\x0cget_nic_byip\x12\x0e.GetNicByIpReq\x1a\x0f.StonithIPMIRes\x12*\n\x0cget_nic_info\x12\t.GetIpReq\x1a\x0f.StonithIPMIRes\x12)\n\x07\x61\x64\x64_lun\x12\n.AddLunReq\x1a\x12.AddCluResourceRes\x12/\n\ndelete_lun\x12\r.DeleteLunReq\x1a\x12.DeleteResourceRes\x12)\n\x07get_lun\x12\n.GetLunReq\x1a\x12.AddCluResourceRes\x12,\n\nupdate_lun\x12\n.AddLunReq\x1a\x12.AddCluResourceRes\x12.\n\tcheck_lun\x12\r.DeleteLunReq\x1a\x12.AddCluResourceRes\x12)\n\x08syn_file\x12\x0c.FileInfoReq\x1a\x0f.StonithIPMIRes\x12+\n\x0bntp_add_url\x12\r.NtpAddUrlReq\x1a\r.NtpAddUrlRes\x12+\n\x0bntp_del_url\x12\r.NtpDelUrlReq\x1a\r.NtpDelUrlRes\x12\x33\n\x13\x63luster_ntp_add_url\x12\r.NtpAddUrlReq\x1a\r.NtpAddUrlRes\x12\x33\n\x13\x63luster_ntp_del_url\x12\r.NtpDelUrlReq\x1a\r.NtpDelUrlRes\x12:\n\x10ntp_client_setup\x12\x12.NtpClientSetupReq\x1a\x12.NtpClientSetupRes\x12:\n\x10ntp_server_setup\x12\x12.NtpServerSetupReq\x1a\x12.NtpServerSetupRes\x12/\n\x11\x63luster_ntp_setup\x12\x0c.NtpSetupReq\x1a\x0c.NtpSetupRes\x12.\n\x0cntp_get_conf\x12\x0e.NtpGetConfReq\x1a\x0e.NtpGetConfRes\x12\x36\n\x14\x63luster_ntp_get_conf\x12\x0e.NtpGetConfReq\x1a\x0e.NtpGetConfRes\x12+\n\rlist_timezone\x12\x0c.TimezoneReq\x1a\x0c.TimezoneRes\x12,\n\x0eget_current_tz\x12\x0c.TimezoneReq\x1a\x0c.TimezoneRes\x12*\n\x10get_current_time\x12\x0c.TimezoneReq\x1a\x08.TimeRes\x12\x30\n\x0cset_timezone\x12\x0f.SetTimezoneReq\x1a\x0f.StonithIPMIRes\x12(\n\x08set_time\x12\x0b.SetTimeReq\x1a\x0f.StonithIPMIResB\x03\x90\x01\x01')
 
 
 
@@ -426,51 +426,16 @@ _XMLATTR = _descriptor.Descriptor(
 )
 
 
-_LVMPV = _descriptor.Descriptor(
-  name='LvmPV',
-  full_name='LvmPV',
+_LVMPVMD = _descriptor.Descriptor(
+  name='LvmPVMd',
+  full_name='LvmPVMd',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='pv_name', full_name='LvmPV.pv_name', index=0,
+      name='pv_name', full_name='LvmPVMd.pv_name', index=0,
       number=1, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=unicode("", "utf-8"),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='pv_uuid', full_name='LvmPV.pv_uuid', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=unicode("", "utf-8"),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='pv_size', full_name='LvmPV.pv_size', index=2,
-      number=3, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='pv_free_size', full_name='LvmPV.pv_free_size', index=3,
-      number=4, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='pv_dev_size', full_name='LvmPV.pv_dev_size', index=4,
-      number=5, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='pv_dev_type', full_name='LvmPV.pv_dev_type', index=5,
-      number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -485,7 +450,7 @@ _LVMPV = _descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=742,
-  serialized_end=864,
+  serialized_end=768,
 )
 
 
@@ -511,29 +476,36 @@ _LVMLV = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='lv_uuid', full_name='LvmLV.lv_uuid', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=unicode("", "utf-8"),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='lv_size', full_name='LvmLV.lv_size', index=3,
-      number=4, type=1, cpp_type=5, label=1,
+      name='lv_size', full_name='LvmLV.lv_size', index=2,
+      number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='lv_used', full_name='LvmLV.lv_used', index=4,
-      number=5, type=8, cpp_type=7, label=1,
+      name='lv_used', full_name='LvmLV.lv_used', index=3,
+      number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='lv_user', full_name='LvmLV.lv_user', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='lv_cluster', full_name='LvmLV.lv_cluster', index=5,
       number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='online', full_name='LvmLV.online', index=6,
+      number=7, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -547,8 +519,8 @@ _LVMLV = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=866,
-  serialized_end=978,
+  serialized_start=771,
+  serialized_end=899,
 )
 
 
@@ -568,70 +540,28 @@ _LVMVG = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='vg_total_size', full_name='LvmVG.vg_total_size', index=1,
-      number=3, type=1, cpp_type=5, label=1,
+      number=2, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='vg_free_size', full_name='LvmVG.vg_free_size', index=2,
-      number=4, type=1, cpp_type=5, label=1,
+      number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='vg_extent_size', full_name='LvmVG.vg_extent_size', index=3,
-      number=5, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='vg_extent_count', full_name='LvmVG.vg_extent_count', index=4,
-      number=6, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='vg_free_extent_count', full_name='LvmVG.vg_free_extent_count', index=5,
-      number=7, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='vg_cur_pv_num', full_name='LvmVG.vg_cur_pv_num', index=6,
-      number=8, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='vg_cur_lv_num', full_name='LvmVG.vg_cur_lv_num', index=7,
-      number=9, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='online', full_name='LvmVG.online', index=8,
-      number=10, type=8, cpp_type=7, label=1,
+      name='online', full_name='LvmVG.online', index=3,
+      number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='vg_pvs', full_name='LvmVG.vg_pvs', index=9,
-      number=11, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='vg_lvs', full_name='LvmVG.vg_lvs', index=10,
-      number=12, type=11, cpp_type=10, label=3,
+      name='vg_md_pvs', full_name='LvmVG.vg_md_pvs', index=4,
+      number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -645,8 +575,8 @@ _LVMVG = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=981,
-  serialized_end=1239,
+  serialized_start=901,
+  serialized_end=1015,
 )
 
 
@@ -694,8 +624,8 @@ _CLUSTERSTATUS = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1241,
-  serialized_end=1339,
+  serialized_start=1017,
+  serialized_end=1115,
 )
 
 
@@ -743,8 +673,8 @@ _RESIPATTR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1341,
-  serialized_end=1417,
+  serialized_start=1117,
+  serialized_end=1193,
 )
 
 
@@ -820,8 +750,8 @@ _RESTARGETATTR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1420,
-  serialized_end=1636,
+  serialized_start=1196,
+  serialized_end=1412,
 )
 
 
@@ -869,8 +799,8 @@ _RESUNITATTR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1638,
-  serialized_end=1738,
+  serialized_start=1414,
+  serialized_end=1514,
 )
 
 
@@ -904,8 +834,8 @@ _ACESSATTR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1740,
-  serialized_end=1779,
+  serialized_start=1516,
+  serialized_end=1555,
 )
 
 
@@ -974,8 +904,8 @@ _LUNATTR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1782,
-  serialized_end=1922,
+  serialized_start=1558,
+  serialized_end=1698,
 )
 
 
@@ -1023,8 +953,8 @@ _HEARTBEAT = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1924,
-  serialized_end=1996,
+  serialized_start=1700,
+  serialized_end=1772,
 )
 
 
@@ -1058,8 +988,8 @@ _TIMEZONE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1998,
-  serialized_end=2036,
+  serialized_start=1774,
+  serialized_end=1812,
 )
 
 
@@ -1128,8 +1058,8 @@ _TIME = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2038,
-  serialized_end=2138,
+  serialized_start=1814,
+  serialized_end=1914,
 )
 
 
@@ -1163,8 +1093,8 @@ _GENRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2140,
-  serialized_end=2178,
+  serialized_start=1916,
+  serialized_end=1954,
 )
 
 
@@ -1191,8 +1121,8 @@ _LISTPHYDISKCLUSTERREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2180,
-  serialized_end=2220,
+  serialized_start=1956,
+  serialized_end=1996,
 )
 
 
@@ -1226,8 +1156,8 @@ _LISTPHYDISKCLUSTERRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2222,
-  serialized_end=2292,
+  serialized_start=1998,
+  serialized_end=2068,
 )
 
 
@@ -1254,8 +1184,8 @@ _INITPHYDISKREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2294,
-  serialized_end=2328,
+  serialized_start=2070,
+  serialized_end=2104,
 )
 
 
@@ -1282,8 +1212,8 @@ _INITPHYDISKRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2330,
-  serialized_end=2368,
+  serialized_start=2106,
+  serialized_end=2144,
 )
 
 
@@ -1331,8 +1261,8 @@ _MDCREATEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2370,
-  serialized_end=2474,
+  serialized_start=2146,
+  serialized_end=2250,
 )
 
 
@@ -1359,8 +1289,8 @@ _MDCREATERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2476,
-  serialized_end=2511,
+  serialized_start=2252,
+  serialized_end=2287,
 )
 
 
@@ -1394,8 +1324,8 @@ _MDREMOVEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2513,
-  serialized_end=2570,
+  serialized_start=2289,
+  serialized_end=2346,
 )
 
 
@@ -1422,8 +1352,8 @@ _MDREMOVERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2572,
-  serialized_end=2607,
+  serialized_start=2348,
+  serialized_end=2383,
 )
 
 
@@ -1478,8 +1408,8 @@ _IPMIATTR = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2609,
-  serialized_end=2691,
+  serialized_start=2385,
+  serialized_end=2467,
 )
 
 
@@ -1499,8 +1429,8 @@ _MDSCANREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2693,
-  serialized_end=2704,
+  serialized_start=2469,
+  serialized_end=2480,
 )
 
 
@@ -1534,8 +1464,8 @@ _MDSCANRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2706,
-  serialized_end=2770,
+  serialized_start=2482,
+  serialized_end=2546,
 )
 
 
@@ -1555,8 +1485,8 @@ _MDPHYDEVICESCANREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2772,
-  serialized_end=2792,
+  serialized_start=2548,
+  serialized_end=2568,
 )
 
 
@@ -1590,8 +1520,8 @@ _MDPHYDEVICESCANRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2794,
-  serialized_end=2871,
+  serialized_start=2570,
+  serialized_end=2647,
 )
 
 
@@ -1618,8 +1548,8 @@ _MDPHYDEVICEDELREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2873,
-  serialized_end=2927,
+  serialized_start=2649,
+  serialized_end=2703,
 )
 
 
@@ -1646,8 +1576,8 @@ _MDPHYDEVICEDELRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2929,
-  serialized_end=2970,
+  serialized_start=2705,
+  serialized_end=2746,
 )
 
 
@@ -1681,8 +1611,8 @@ _MDADMCONFIGSETREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2972,
-  serialized_end=3037,
+  serialized_start=2748,
+  serialized_end=2813,
 )
 
 
@@ -1709,8 +1639,8 @@ _MDADMCONFIGSETRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3039,
-  serialized_end=3080,
+  serialized_start=2815,
+  serialized_end=2856,
 )
 
 
@@ -1751,8 +1681,8 @@ _MDMONEVENTREPORTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3082,
-  serialized_end=3163,
+  serialized_start=2858,
+  serialized_end=2939,
 )
 
 
@@ -1786,8 +1716,8 @@ _MDREBUILDSTARTPREREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3165,
-  serialized_end=3224,
+  serialized_start=2941,
+  serialized_end=3000,
 )
 
 
@@ -1814,8 +1744,8 @@ _MDREBUILDSTARTPRERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3226,
-  serialized_end=3270,
+  serialized_start=3002,
+  serialized_end=3046,
 )
 
 
@@ -1842,8 +1772,8 @@ _MDREBUILDFINISHEDREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3272,
-  serialized_end=3311,
+  serialized_start=3048,
+  serialized_end=3087,
 )
 
 
@@ -1870,8 +1800,8 @@ _MDREBUILDFINISHEDRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3313,
-  serialized_end=3357,
+  serialized_start=3089,
+  serialized_end=3133,
 )
 
 
@@ -1898,8 +1828,8 @@ _MDMONEVENTREPORTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3359,
-  serialized_end=3402,
+  serialized_start=3135,
+  serialized_end=3178,
 )
 
 
@@ -1947,8 +1877,8 @@ _CLUSTERINITREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3404,
-  serialized_end=3506,
+  serialized_start=3180,
+  serialized_end=3282,
 )
 
 
@@ -1975,8 +1905,8 @@ _CLUSTERINITRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3508,
-  serialized_end=3546,
+  serialized_start=3284,
+  serialized_end=3322,
 )
 
 
@@ -2003,8 +1933,8 @@ _CLUSTERSTARTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3548,
-  serialized_end=3579,
+  serialized_start=3324,
+  serialized_end=3355,
 )
 
 
@@ -2031,8 +1961,8 @@ _CLUSTERSTARTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3581,
-  serialized_end=3620,
+  serialized_start=3357,
+  serialized_end=3396,
 )
 
 
@@ -2059,8 +1989,8 @@ _CLEANUPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3622,
-  serialized_end=3651,
+  serialized_start=3398,
+  serialized_end=3427,
 )
 
 
@@ -2087,8 +2017,8 @@ _CLEANUPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3653,
-  serialized_end=3687,
+  serialized_start=3429,
+  serialized_end=3463,
 )
 
 
@@ -2122,8 +2052,8 @@ _GETIPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3689,
-  serialized_end=3732,
+  serialized_start=3465,
+  serialized_end=3508,
 )
 
 
@@ -2150,8 +2080,8 @@ _GETIPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3734,
-  serialized_end=3766,
+  serialized_start=3510,
+  serialized_end=3542,
 )
 
 
@@ -2178,8 +2108,8 @@ _CLUSTERSTOPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3768,
-  serialized_end=3798,
+  serialized_start=3544,
+  serialized_end=3574,
 )
 
 
@@ -2206,8 +2136,8 @@ _CLUSTERSTOPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3800,
-  serialized_end=3838,
+  serialized_start=3576,
+  serialized_end=3614,
 )
 
 
@@ -2241,8 +2171,8 @@ _CLUSTERPROPERTYREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3840,
-  serialized_end=3905,
+  serialized_start=3616,
+  serialized_end=3681,
 )
 
 
@@ -2269,8 +2199,8 @@ _CLUSTERPROPERTYRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3907,
-  serialized_end=3949,
+  serialized_start=3683,
+  serialized_end=3725,
 )
 
 
@@ -2311,8 +2241,8 @@ _SETIPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=3951,
-  serialized_end=4019,
+  serialized_start=3727,
+  serialized_end=3795,
 )
 
 
@@ -2339,8 +2269,8 @@ _SETIPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4021,
-  serialized_end=4053,
+  serialized_start=3797,
+  serialized_end=3829,
 )
 
 
@@ -2360,8 +2290,8 @@ _GETLUNREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4055,
-  serialized_end=4066,
+  serialized_start=3831,
+  serialized_end=3842,
 )
 
 
@@ -2402,8 +2332,8 @@ _ADDLUNREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4068,
-  serialized_end=4158,
+  serialized_start=3844,
+  serialized_end=3934,
 )
 
 
@@ -2437,8 +2367,8 @@ _DELETELUNREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4160,
-  serialized_end=4207,
+  serialized_start=3936,
+  serialized_end=3983,
 )
 
 
@@ -2479,8 +2409,8 @@ _ADDCLURESOURCEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4209,
-  serialized_end=4288,
+  serialized_start=3985,
+  serialized_end=4064,
 )
 
 
@@ -2507,8 +2437,8 @@ _ADDCLURESOURCERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4290,
-  serialized_end=4331,
+  serialized_start=4066,
+  serialized_end=4107,
 )
 
 
@@ -2542,8 +2472,8 @@ _DELETERESOURCEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4333,
-  serialized_end=4395,
+  serialized_start=4109,
+  serialized_end=4171,
 )
 
 
@@ -2570,8 +2500,8 @@ _DELETERESOURCERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4397,
-  serialized_end=4438,
+  serialized_start=4173,
+  serialized_end=4214,
 )
 
 
@@ -2605,8 +2535,8 @@ _STOPRESOURCEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4440,
-  serialized_end=4490,
+  serialized_start=4216,
+  serialized_end=4266,
 )
 
 
@@ -2633,8 +2563,8 @@ _STOPRESOURCERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4492,
-  serialized_end=4531,
+  serialized_start=4268,
+  serialized_end=4307,
 )
 
 
@@ -2661,8 +2591,8 @@ _DEBUGSTARTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4533,
-  serialized_end=4565,
+  serialized_start=4309,
+  serialized_end=4341,
 )
 
 
@@ -2689,8 +2619,8 @@ _DEBUGSTARTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4567,
-  serialized_end=4604,
+  serialized_start=4343,
+  serialized_end=4380,
 )
 
 
@@ -2731,8 +2661,8 @@ _SETHEARTBREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4606,
-  serialized_end=4686,
+  serialized_start=4382,
+  serialized_end=4462,
 )
 
 
@@ -2766,8 +2696,8 @@ _UPDATERESOURCEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4688,
-  serialized_end=4750,
+  serialized_start=4464,
+  serialized_end=4526,
 )
 
 
@@ -2794,8 +2724,8 @@ _UPDATERESOURCERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4752,
-  serialized_end=4793,
+  serialized_start=4528,
+  serialized_end=4569,
 )
 
 
@@ -2829,8 +2759,8 @@ _GETRESOURCEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4795,
-  serialized_end=4844,
+  serialized_start=4571,
+  serialized_end=4620,
 )
 
 
@@ -2857,8 +2787,8 @@ _GETCLUSTERREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4846,
-  serialized_end=4882,
+  serialized_start=4622,
+  serialized_end=4658,
 )
 
 
@@ -2885,8 +2815,8 @@ _GETRESOURCERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4884,
-  serialized_end=4922,
+  serialized_start=4660,
+  serialized_end=4698,
 )
 
 
@@ -2934,8 +2864,8 @@ _RESOURCEMGRREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=4924,
-  serialized_end=5019,
+  serialized_start=4700,
+  serialized_end=4795,
 )
 
 
@@ -2962,8 +2892,8 @@ _RESOURCEMGRRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5021,
-  serialized_end=5059,
+  serialized_start=4797,
+  serialized_end=4835,
 )
 
 
@@ -3004,8 +2934,8 @@ _GROUPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5061,
-  serialized_end=5123,
+  serialized_start=4837,
+  serialized_end=4899,
 )
 
 
@@ -3032,8 +2962,8 @@ _GROUPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5125,
-  serialized_end=5157,
+  serialized_start=4901,
+  serialized_end=4933,
 )
 
 
@@ -3067,8 +2997,8 @@ _MOVERESOURCEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5159,
-  serialized_end=5210,
+  serialized_start=4935,
+  serialized_end=4986,
 )
 
 
@@ -3095,8 +3025,8 @@ _MOVERESOURCERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5212,
-  serialized_end=5251,
+  serialized_start=4988,
+  serialized_end=5027,
 )
 
 
@@ -3130,8 +3060,8 @@ _ADDCONSTRAINTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5253,
-  serialized_end=5316,
+  serialized_start=5029,
+  serialized_end=5092,
 )
 
 
@@ -3158,8 +3088,8 @@ _ADDCONSTRAINTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5318,
-  serialized_end=5358,
+  serialized_start=5094,
+  serialized_end=5134,
 )
 
 
@@ -3193,8 +3123,8 @@ _DELETECONSTRAINTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5360,
-  serialized_end=5412,
+  serialized_start=5136,
+  serialized_end=5188,
 )
 
 
@@ -3221,8 +3151,8 @@ _DELETECONSTRAINTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5414,
-  serialized_end=5457,
+  serialized_start=5190,
+  serialized_end=5233,
 )
 
 
@@ -3256,8 +3186,8 @@ _GETCONSTRAINTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5459,
-  serialized_end=5508,
+  serialized_start=5235,
+  serialized_end=5284,
 )
 
 
@@ -3284,8 +3214,8 @@ _GETCONSTRAINTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5510,
-  serialized_end=5550,
+  serialized_start=5286,
+  serialized_end=5326,
 )
 
 
@@ -3312,8 +3242,8 @@ _STONITHIPMIREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5552,
-  serialized_end=5593,
+  serialized_start=5328,
+  serialized_end=5369,
 )
 
 
@@ -3340,8 +3270,8 @@ _STONITHIPMIRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5595,
-  serialized_end=5633,
+  serialized_start=5371,
+  serialized_end=5409,
 )
 
 
@@ -3382,8 +3312,8 @@ _ADDSTONITHREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5635,
-  serialized_end=5707,
+  serialized_start=5411,
+  serialized_end=5483,
 )
 
 
@@ -3410,8 +3340,8 @@ _ADDSTONITHRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5709,
-  serialized_end=5746,
+  serialized_start=5485,
+  serialized_end=5522,
 )
 
 
@@ -3438,8 +3368,8 @@ _DELETESTONITHREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5748,
-  serialized_end=5782,
+  serialized_start=5524,
+  serialized_end=5558,
 )
 
 
@@ -3466,8 +3396,8 @@ _DELETESTONITHRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5784,
-  serialized_end=5824,
+  serialized_start=5560,
+  serialized_end=5600,
 )
 
 
@@ -3501,8 +3431,8 @@ _UPDATESTONITHREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5826,
-  serialized_end=5885,
+  serialized_start=5602,
+  serialized_end=5661,
 )
 
 
@@ -3529,8 +3459,8 @@ _UPDATESTONITHRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5887,
-  serialized_end=5927,
+  serialized_start=5663,
+  serialized_end=5703,
 )
 
 
@@ -3557,8 +3487,8 @@ _GETSTONITHREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5929,
-  serialized_end=5960,
+  serialized_start=5705,
+  serialized_end=5736,
 )
 
 
@@ -3585,8 +3515,8 @@ _GETSTONITHRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=5962,
-  serialized_end=5999,
+  serialized_start=5738,
+  serialized_end=5775,
 )
 
 
@@ -3606,8 +3536,8 @@ _COMMITREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6001,
-  serialized_end=6012,
+  serialized_start=5777,
+  serialized_end=5788,
 )
 
 
@@ -3634,8 +3564,8 @@ _COMMITRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6014,
-  serialized_end=6047,
+  serialized_start=5790,
+  serialized_end=5823,
 )
 
 
@@ -3655,8 +3585,8 @@ _ROLLBACKREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6049,
-  serialized_end=6062,
+  serialized_start=5825,
+  serialized_end=5838,
 )
 
 
@@ -3683,8 +3613,8 @@ _ROLLBACKRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6064,
-  serialized_end=6099,
+  serialized_start=5840,
+  serialized_end=5875,
 )
 
 
@@ -3711,8 +3641,8 @@ _SETCLUSTERNAMEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6101,
-  serialized_end=6142,
+  serialized_start=5877,
+  serialized_end=5918,
 )
 
 
@@ -3732,8 +3662,8 @@ _SETPOINTREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6144,
-  serialized_end=6157,
+  serialized_start=5920,
+  serialized_end=5933,
 )
 
 
@@ -3760,8 +3690,8 @@ _SETPOINTRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6159,
-  serialized_end=6194,
+  serialized_start=5935,
+  serialized_end=5970,
 )
 
 
@@ -3795,8 +3725,8 @@ _XMLSYNREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6196,
-  serialized_end=6248,
+  serialized_start=5972,
+  serialized_end=6024,
 )
 
 
@@ -3823,8 +3753,8 @@ _XMLSYNRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6250,
-  serialized_end=6283,
+  serialized_start=6026,
+  serialized_end=6059,
 )
 
 
@@ -3858,8 +3788,8 @@ _LVMVGCREATEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6285,
-  serialized_end=6342,
+  serialized_start=6061,
+  serialized_end=6120,
 )
 
 
@@ -3886,8 +3816,8 @@ _LVMVGCREATERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6344,
-  serialized_end=6382,
+  serialized_start=6122,
+  serialized_end=6160,
 )
 
 
@@ -3928,8 +3858,8 @@ _FILEINFOREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6384,
-  serialized_end=6454,
+  serialized_start=6162,
+  serialized_end=6232,
 )
 
 
@@ -3963,8 +3893,8 @@ _LVMVGREMOVEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6456,
-  serialized_end=6513,
+  serialized_start=6234,
+  serialized_end=6291,
 )
 
 
@@ -3991,8 +3921,8 @@ _LVMVGREMOVERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6515,
-  serialized_end=6553,
+  serialized_start=6293,
+  serialized_end=6331,
 )
 
 
@@ -4040,8 +3970,8 @@ _LVMVGSCANREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6555,
-  serialized_end=6649,
+  serialized_start=6333,
+  serialized_end=6427,
 )
 
 
@@ -4075,8 +4005,8 @@ _LVMVGSCANRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6651,
-  serialized_end=6708,
+  serialized_start=6429,
+  serialized_end=6486,
 )
 
 
@@ -4117,8 +4047,8 @@ _LVMVGFINDREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6710,
-  serialized_end=6779,
+  serialized_start=6488,
+  serialized_end=6557,
 )
 
 
@@ -4152,8 +4082,8 @@ _LVMVGFINDRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6781,
-  serialized_end=6837,
+  serialized_start=6559,
+  serialized_end=6615,
 )
 
 
@@ -4187,8 +4117,8 @@ _LVMVGADDPVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6839,
-  serialized_end=6895,
+  serialized_start=6617,
+  serialized_end=6675,
 )
 
 
@@ -4215,8 +4145,8 @@ _LVMVGADDPVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6897,
-  serialized_end=6934,
+  serialized_start=6677,
+  serialized_end=6714,
 )
 
 
@@ -4257,8 +4187,8 @@ _LVMVGDELPVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=6936,
-  serialized_end=7016,
+  serialized_start=6716,
+  serialized_end=6798,
 )
 
 
@@ -4285,8 +4215,8 @@ _LVMVGDELPVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7018,
-  serialized_end=7055,
+  serialized_start=6800,
+  serialized_end=6837,
 )
 
 
@@ -4313,8 +4243,8 @@ _LVMVGSCANPVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7057,
-  serialized_end=7090,
+  serialized_start=6839,
+  serialized_end=6872,
 )
 
 
@@ -4348,8 +4278,8 @@ _LVMVGSCANPVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7092,
-  serialized_end=7154,
+  serialized_start=6874,
+  serialized_end=6938,
 )
 
 
@@ -4411,8 +4341,8 @@ _LVMVGCREATELVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7157,
-  serialized_end=7293,
+  serialized_start=6941,
+  serialized_end=7077,
 )
 
 
@@ -4439,8 +4369,8 @@ _LVMVGCREATELVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7295,
-  serialized_end=7335,
+  serialized_start=7079,
+  serialized_end=7119,
 )
 
 
@@ -4488,8 +4418,8 @@ _LVMEXTENDLVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7337,
-  serialized_end=7426,
+  serialized_start=7121,
+  serialized_end=7210,
 )
 
 
@@ -4516,8 +4446,8 @@ _LVMEXTENDLVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7428,
-  serialized_end=7466,
+  serialized_start=7212,
+  serialized_end=7250,
 )
 
 
@@ -4565,8 +4495,8 @@ _LVMREDUCELVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7468,
-  serialized_end=7557,
+  serialized_start=7252,
+  serialized_end=7341,
 )
 
 
@@ -4593,8 +4523,8 @@ _LVMREDUCELVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7559,
-  serialized_end=7597,
+  serialized_start=7343,
+  serialized_end=7381,
 )
 
 
@@ -4635,8 +4565,8 @@ _LVMVGREMOVELVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7599,
-  serialized_end=7676,
+  serialized_start=7383,
+  serialized_end=7460,
 )
 
 
@@ -4663,8 +4593,8 @@ _LVMVGREMOVELVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7678,
-  serialized_end=7718,
+  serialized_start=7462,
+  serialized_end=7502,
 )
 
 
@@ -4691,8 +4621,8 @@ _LVMVGSCANLVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7720,
-  serialized_end=7753,
+  serialized_start=7504,
+  serialized_end=7537,
 )
 
 
@@ -4726,8 +4656,8 @@ _LVMVGSCANLVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7755,
-  serialized_end=7814,
+  serialized_start=7539,
+  serialized_end=7598,
 )
 
 
@@ -4747,8 +4677,8 @@ _LVMSCANLVREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7816,
-  serialized_end=7830,
+  serialized_start=7600,
+  serialized_end=7614,
 )
 
 
@@ -4782,8 +4712,8 @@ _LVMSCANLVRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7832,
-  serialized_end=7889,
+  serialized_start=7616,
+  serialized_end=7673,
 )
 
 
@@ -4810,8 +4740,8 @@ _NTPADDURLREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7891,
-  serialized_end=7918,
+  serialized_start=7675,
+  serialized_end=7702,
 )
 
 
@@ -4838,8 +4768,8 @@ _NTPADDURLRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7920,
-  serialized_end=7956,
+  serialized_start=7704,
+  serialized_end=7740,
 )
 
 
@@ -4866,8 +4796,8 @@ _NTPDELURLREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7958,
-  serialized_end=7985,
+  serialized_start=7742,
+  serialized_end=7769,
 )
 
 
@@ -4894,8 +4824,8 @@ _NTPDELURLRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=7987,
-  serialized_end=8023,
+  serialized_start=7771,
+  serialized_end=7807,
 )
 
 
@@ -4929,8 +4859,8 @@ _NTPCLIENTSETUPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8025,
-  serialized_end=8075,
+  serialized_start=7809,
+  serialized_end=7859,
 )
 
 
@@ -4957,8 +4887,8 @@ _NTPCLIENTSETUPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8077,
-  serialized_end=8118,
+  serialized_start=7861,
+  serialized_end=7902,
 )
 
 
@@ -4992,8 +4922,8 @@ _NTPSERVERSETUPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8120,
-  serialized_end=8177,
+  serialized_start=7904,
+  serialized_end=7961,
 )
 
 
@@ -5020,8 +4950,8 @@ _NTPSERVERSETUPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8179,
-  serialized_end=8220,
+  serialized_start=7963,
+  serialized_end=8004,
 )
 
 
@@ -5062,8 +4992,8 @@ _NTPSETUPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8222,
-  serialized_end=8290,
+  serialized_start=8006,
+  serialized_end=8074,
 )
 
 
@@ -5090,8 +5020,8 @@ _NTPSETUPRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8292,
-  serialized_end=8327,
+  serialized_start=8076,
+  serialized_end=8111,
 )
 
 
@@ -5111,8 +5041,8 @@ _NTPGETCONFREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8329,
-  serialized_end=8344,
+  serialized_start=8113,
+  serialized_end=8128,
 )
 
 
@@ -5160,8 +5090,8 @@ _NTPGETCONFRES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8346,
-  serialized_end=8431,
+  serialized_start=8130,
+  serialized_end=8215,
 )
 
 
@@ -5181,8 +5111,8 @@ _TIMEZONEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8433,
-  serialized_end=8446,
+  serialized_start=8217,
+  serialized_end=8230,
 )
 
 
@@ -5216,8 +5146,8 @@ _TIMEZONERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8448,
-  serialized_end=8506,
+  serialized_start=8232,
+  serialized_end=8290,
 )
 
 
@@ -5251,8 +5181,8 @@ _TIMERES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8508,
-  serialized_end=8560,
+  serialized_start=8292,
+  serialized_end=8344,
 )
 
 
@@ -5286,8 +5216,8 @@ _SETTIMEZONEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8562,
-  serialized_end=8616,
+  serialized_start=8346,
+  serialized_end=8400,
 )
 
 
@@ -5321,8 +5251,8 @@ _SETTIMEREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8618,
-  serialized_end=8666,
+  serialized_start=8402,
+  serialized_end=8450,
 )
 
 
@@ -5349,8 +5279,8 @@ _GETNICBYIPREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8668,
-  serialized_end=8695,
+  serialized_start=8452,
+  serialized_end=8479,
 )
 
 
@@ -5370,8 +5300,8 @@ _GETBACKBOARDINFOREQ = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8697,
-  serialized_end=8718,
+  serialized_start=8481,
+  serialized_end=8502,
 )
 
 
@@ -5405,15 +5335,70 @@ _GETBACKBOARDINFORES = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=8720,
-  serialized_end=8803,
+  serialized_start=8504,
+  serialized_end=8587,
+)
+
+
+_DBFILESYNCREQ = _descriptor.Descriptor(
+  name='DBFileSyncReq',
+  full_name='DBFileSyncReq',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='content', full_name='DBFileSyncReq.content', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=8589,
+  serialized_end=8621,
+)
+
+
+_DBFILESYNCRES = _descriptor.Descriptor(
+  name='DBFileSyncRes',
+  full_name='DBFileSyncRes',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ret', full_name='DBFileSyncRes.ret', index=0,
+      number=1, type=11, cpp_type=10, label=2,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=8623,
+  serialized_end=8660,
 )
 
 _MDPHYDEVICE.fields_by_name['dev'].message_type = _PHYDISK
 _MDDEVICE.fields_by_name['dev_phy_devices'].message_type = _MDPHYDEVICE
 _XMLACTION.fields_by_name['attr'].message_type = _XMLATTR
-_LVMVG.fields_by_name['vg_pvs'].message_type = _LVMPV
-_LVMVG.fields_by_name['vg_lvs'].message_type = _LVMLV
+_LVMVG.fields_by_name['vg_md_pvs'].message_type = _LVMPVMD
 _RESTARGETATTR.fields_by_name['additional_parameters'].message_type = _XMLATTR
 _RESTARGETATTR.fields_by_name['acls_parameters'].message_type = _XMLATTR
 _RESUNITATTR.fields_by_name['allowed_initiators'].message_type = _ACESSATTR
@@ -5478,19 +5463,19 @@ _ROLLBACKRES.fields_by_name['ret'].message_type = _GENRES
 _SETPOINTRES.fields_by_name['ret'].message_type = _GENRES
 _XMLSYNREQ.fields_by_name['action'].message_type = _XMLACTION
 _XMLSYNRES.fields_by_name['ret'].message_type = _GENRES
-_LVMVGCREATEREQ.fields_by_name['vg_pvs'].message_type = _LVMPV
+_LVMVGCREATEREQ.fields_by_name['vg_pvs'].message_type = _LVMPVMD
 _LVMVGCREATERES.fields_by_name['ret'].message_type = _GENRES
 _LVMVGREMOVERES.fields_by_name['ret'].message_type = _GENRES
 _LVMVGSCANRES.fields_by_name['ret'].message_type = _GENRES
 _LVMVGSCANRES.fields_by_name['vgs'].message_type = _LVMVG
 _LVMVGFINDRES.fields_by_name['ret'].message_type = _GENRES
 _LVMVGFINDRES.fields_by_name['vg'].message_type = _LVMVG
-_LVMVGADDPVREQ.fields_by_name['vg_pvs'].message_type = _LVMPV
+_LVMVGADDPVREQ.fields_by_name['vg_pvs'].message_type = _LVMPVMD
 _LVMVGADDPVRES.fields_by_name['ret'].message_type = _GENRES
-_LVMVGDELPVREQ.fields_by_name['vg_pvs'].message_type = _LVMPV
+_LVMVGDELPVREQ.fields_by_name['vg_pvs'].message_type = _LVMPVMD
 _LVMVGDELPVRES.fields_by_name['ret'].message_type = _GENRES
 _LVMVGSCANPVRES.fields_by_name['ret'].message_type = _GENRES
-_LVMVGSCANPVRES.fields_by_name['vg_pvs'].message_type = _LVMPV
+_LVMVGSCANPVRES.fields_by_name['vg_pvs'].message_type = _LVMPVMD
 _LVMVGCREATELVRES.fields_by_name['ret'].message_type = _GENRES
 _LVMEXTENDLVRES.fields_by_name['ret'].message_type = _GENRES
 _LVMREDUCELVRES.fields_by_name['ret'].message_type = _GENRES
@@ -5513,6 +5498,7 @@ _SETTIMEZONEREQ.fields_by_name['tz'].message_type = _TIMEZONE
 _SETTIMEREQ.fields_by_name['time'].message_type = _TIME
 _GETBACKBOARDINFORES.fields_by_name['ret'].message_type = _GENRES
 _GETBACKBOARDINFORES.fields_by_name['backboard_info'].message_type = _BACKBOARDINFO
+_DBFILESYNCRES.fields_by_name['ret'].message_type = _GENRES
 DESCRIPTOR.message_types_by_name['BackBoardInfo'] = _BACKBOARDINFO
 DESCRIPTOR.message_types_by_name['PhyDisk'] = _PHYDISK
 DESCRIPTOR.message_types_by_name['MdPhyDevice'] = _MDPHYDEVICE
@@ -5521,7 +5507,7 @@ DESCRIPTOR.message_types_by_name['MdDevice'] = _MDDEVICE
 DESCRIPTOR.message_types_by_name['ClusterProperty'] = _CLUSTERPROPERTY
 DESCRIPTOR.message_types_by_name['XmlAction'] = _XMLACTION
 DESCRIPTOR.message_types_by_name['XmlAttr'] = _XMLATTR
-DESCRIPTOR.message_types_by_name['LvmPV'] = _LVMPV
+DESCRIPTOR.message_types_by_name['LvmPVMd'] = _LVMPVMD
 DESCRIPTOR.message_types_by_name['LvmLV'] = _LVMLV
 DESCRIPTOR.message_types_by_name['LvmVG'] = _LVMVG
 DESCRIPTOR.message_types_by_name['ClusterStatus'] = _CLUSTERSTATUS
@@ -5666,6 +5652,8 @@ DESCRIPTOR.message_types_by_name['SetTimeReq'] = _SETTIMEREQ
 DESCRIPTOR.message_types_by_name['GetNicByIpReq'] = _GETNICBYIPREQ
 DESCRIPTOR.message_types_by_name['GetBackBoardInfoReq'] = _GETBACKBOARDINFOREQ
 DESCRIPTOR.message_types_by_name['GetBackBoardInfoRes'] = _GETBACKBOARDINFORES
+DESCRIPTOR.message_types_by_name['DBFileSyncReq'] = _DBFILESYNCREQ
+DESCRIPTOR.message_types_by_name['DBFileSyncRes'] = _DBFILESYNCRES
 
 class BackBoardInfo(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -5715,11 +5703,11 @@ class XmlAttr(_message.Message):
 
   # @@protoc_insertion_point(class_scope:XmlAttr)
 
-class LvmPV(_message.Message):
+class LvmPVMd(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
-  DESCRIPTOR = _LVMPV
+  DESCRIPTOR = _LVMPVMD
 
-  # @@protoc_insertion_point(class_scope:LvmPV)
+  # @@protoc_insertion_point(class_scope:LvmPVMd)
 
 class LvmLV(_message.Message):
   __metaclass__ = _reflection.GeneratedProtocolMessageType
@@ -6585,6 +6573,18 @@ class GetBackBoardInfoRes(_message.Message):
 
   # @@protoc_insertion_point(class_scope:GetBackBoardInfoRes)
 
+class DBFileSyncReq(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _DBFILESYNCREQ
+
+  # @@protoc_insertion_point(class_scope:DBFileSyncReq)
+
+class DBFileSyncRes(_message.Message):
+  __metaclass__ = _reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _DBFILESYNCRES
+
+  # @@protoc_insertion_point(class_scope:DBFileSyncRes)
+
 
 DESCRIPTOR.has_options = True
 DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), '\220\001\001')
@@ -6595,8 +6595,8 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=8806,
-  serialized_end=13688,
+  serialized_start=8663,
+  serialized_end=13496,
   methods=[
   _descriptor.MethodDescriptor(
     name='get_backboard_info',
@@ -6608,9 +6608,18 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
     options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='db_file_sync',
+    full_name='RpcService.db_file_sync',
+    index=1,
+    containing_service=None,
+    input_type=_DBFILESYNCREQ,
+    output_type=_DBFILESYNCRES,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='init_phy_disk',
     full_name='RpcService.init_phy_disk',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_INITPHYDISKREQ,
     output_type=_INITPHYDISKRES,
@@ -6619,7 +6628,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='cluster_list_phy_disk',
     full_name='RpcService.cluster_list_phy_disk',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_LISTPHYDISKCLUSTERREQ,
     output_type=_LISTPHYDISKCLUSTERRES,
@@ -6628,7 +6637,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='create_md_device',
     full_name='RpcService.create_md_device',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_MDCREATEREQ,
     output_type=_MDCREATERES,
@@ -6637,7 +6646,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='remove_md_device',
     full_name='RpcService.remove_md_device',
-    index=4,
+    index=5,
     containing_service=None,
     input_type=_MDREMOVEREQ,
     output_type=_MDREMOVERES,
@@ -6646,7 +6655,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='scan_md_device',
     full_name='RpcService.scan_md_device',
-    index=5,
+    index=6,
     containing_service=None,
     input_type=_MDSCANREQ,
     output_type=_MDSCANRES,
@@ -6655,7 +6664,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='md_phy_device_scan',
     full_name='RpcService.md_phy_device_scan',
-    index=6,
+    index=7,
     containing_service=None,
     input_type=_MDPHYDEVICESCANREQ,
     output_type=_MDPHYDEVICESCANRES,
@@ -6664,7 +6673,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='md_phy_device_del',
     full_name='RpcService.md_phy_device_del',
-    index=7,
+    index=8,
     containing_service=None,
     input_type=_MDPHYDEVICEDELREQ,
     output_type=_MDPHYDEVICEDELRES,
@@ -6673,7 +6682,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='mdadm_config_set',
     full_name='RpcService.mdadm_config_set',
-    index=8,
+    index=9,
     containing_service=None,
     input_type=_MDADMCONFIGSETREQ,
     output_type=_MDADMCONFIGSETRES,
@@ -6682,7 +6691,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='mdmon_event_report',
     full_name='RpcService.mdmon_event_report',
-    index=9,
+    index=10,
     containing_service=None,
     input_type=_MDMONEVENTREPORTREQ,
     output_type=_MDMONEVENTREPORTRES,
@@ -6691,7 +6700,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='md_rebuild_start_pre',
     full_name='RpcService.md_rebuild_start_pre',
-    index=10,
+    index=11,
     containing_service=None,
     input_type=_MDREBUILDSTARTPREREQ,
     output_type=_MDREBUILDSTARTPRERES,
@@ -6700,7 +6709,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='md_rebuild_finished',
     full_name='RpcService.md_rebuild_finished',
-    index=11,
+    index=12,
     containing_service=None,
     input_type=_MDREBUILDFINISHEDREQ,
     output_type=_MDREBUILDFINISHEDRES,
@@ -6709,7 +6718,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='create_lvm_vg',
     full_name='RpcService.create_lvm_vg',
-    index=12,
+    index=13,
     containing_service=None,
     input_type=_LVMVGCREATEREQ,
     output_type=_LVMVGCREATERES,
@@ -6718,7 +6727,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='remove_lvm_vg',
     full_name='RpcService.remove_lvm_vg',
-    index=13,
+    index=14,
     containing_service=None,
     input_type=_LVMVGREMOVEREQ,
     output_type=_LVMVGREMOVERES,
@@ -6727,16 +6736,25 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='scan_lvm_vg',
     full_name='RpcService.scan_lvm_vg',
-    index=14,
+    index=15,
     containing_service=None,
     input_type=_LVMVGSCANREQ,
     output_type=_LVMVGSCANRES,
     options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='scan_lv_lvm_vg',
+    full_name='RpcService.scan_lv_lvm_vg',
+    index=16,
+    containing_service=None,
+    input_type=_LVMVGSCANLVREQ,
+    output_type=_LVMVGSCANLVRES,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='add_pv_lvm_vg',
     full_name='RpcService.add_pv_lvm_vg',
-    index=15,
+    index=17,
     containing_service=None,
     input_type=_LVMVGADDPVREQ,
     output_type=_LVMVGADDPVRES,
@@ -6745,28 +6763,10 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='del_pv_lvm_vg',
     full_name='RpcService.del_pv_lvm_vg',
-    index=16,
+    index=18,
     containing_service=None,
     input_type=_LVMVGDELPVREQ,
     output_type=_LVMVGDELPVRES,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='scan_pv_lvm_vg',
-    full_name='RpcService.scan_pv_lvm_vg',
-    index=17,
-    containing_service=None,
-    input_type=_LVMVGSCANPVREQ,
-    output_type=_LVMVGSCANPVRES,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='find_lvm_vg',
-    full_name='RpcService.find_lvm_vg',
-    index=18,
-    containing_service=None,
-    input_type=_LVMVGFINDREQ,
-    output_type=_LVMVGFINDRES,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -6806,18 +6806,9 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
     options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='scan_lv_lvm_vg',
-    full_name='RpcService.scan_lv_lvm_vg',
-    index=23,
-    containing_service=None,
-    input_type=_LVMVGSCANLVREQ,
-    output_type=_LVMVGSCANLVRES,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
     name='scan_lv_lvm',
     full_name='RpcService.scan_lv_lvm',
-    index=24,
+    index=23,
     containing_service=None,
     input_type=_LVMSCANLVREQ,
     output_type=_LVMSCANLVRES,
@@ -6826,7 +6817,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='init_cluster',
     full_name='RpcService.init_cluster',
-    index=25,
+    index=24,
     containing_service=None,
     input_type=_CLUSTERINITREQ,
     output_type=_CLUSTERINITRES,
@@ -6835,7 +6826,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='start_cluster',
     full_name='RpcService.start_cluster',
-    index=26,
+    index=25,
     containing_service=None,
     input_type=_CLUSTERSTARTREQ,
     output_type=_CLUSTERSTARTRES,
@@ -6844,7 +6835,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='stop_cluster',
     full_name='RpcService.stop_cluster',
-    index=27,
+    index=26,
     containing_service=None,
     input_type=_CLUSTERSTOPREQ,
     output_type=_CLUSTERSTOPRES,
@@ -6853,7 +6844,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_property_cluster',
     full_name='RpcService.set_property_cluster',
-    index=28,
+    index=27,
     containing_service=None,
     input_type=_CLUSTERPROPERTYREQ,
     output_type=_CLUSTERPROPERTYRES,
@@ -6862,7 +6853,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_cluster_name',
     full_name='RpcService.set_cluster_name',
-    index=29,
+    index=28,
     containing_service=None,
     input_type=_SETCLUSTERNAMEREQ,
     output_type=_STONITHIPMIRES,
@@ -6871,7 +6862,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_cluster_name',
     full_name='RpcService.get_cluster_name',
-    index=30,
+    index=29,
     containing_service=None,
     input_type=_SETPOINTREQ,
     output_type=_STONITHIPMIRES,
@@ -6880,7 +6871,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='syn_xml',
     full_name='RpcService.syn_xml',
-    index=31,
+    index=30,
     containing_service=None,
     input_type=_XMLSYNREQ,
     output_type=_XMLSYNRES,
@@ -6889,7 +6880,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='passwd_cluster',
     full_name='RpcService.passwd_cluster',
-    index=32,
+    index=31,
     containing_service=None,
     input_type=_CLUSTERINITREQ,
     output_type=_CLUSTERINITRES,
@@ -6898,7 +6889,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='auth_cluster',
     full_name='RpcService.auth_cluster',
-    index=33,
+    index=32,
     containing_service=None,
     input_type=_CLUSTERINITREQ,
     output_type=_CLUSTERINITRES,
@@ -6907,7 +6898,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='setup_cluster',
     full_name='RpcService.setup_cluster',
-    index=34,
+    index=33,
     containing_service=None,
     input_type=_CLUSTERINITREQ,
     output_type=_CLUSTERINITRES,
@@ -6916,7 +6907,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='start_coro_and_pamk',
     full_name='RpcService.start_coro_and_pamk',
-    index=35,
+    index=34,
     containing_service=None,
     input_type=_CLUSTERINITREQ,
     output_type=_CLUSTERINITRES,
@@ -6925,7 +6916,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_cluster_state',
     full_name='RpcService.get_cluster_state',
-    index=36,
+    index=35,
     containing_service=None,
     input_type=_GETCLUSTERREQ,
     output_type=_GETRESOURCERES,
@@ -6934,7 +6925,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_heartbeat',
     full_name='RpcService.set_heartbeat',
-    index=37,
+    index=36,
     containing_service=None,
     input_type=_SETHEARTBREQ,
     output_type=_STONITHIPMIRES,
@@ -6943,7 +6934,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='add_cluster_resource',
     full_name='RpcService.add_cluster_resource',
-    index=38,
+    index=37,
     containing_service=None,
     input_type=_ADDCLURESOURCEREQ,
     output_type=_ADDCLURESOURCERES,
@@ -6952,7 +6943,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='delete_cluster_resource',
     full_name='RpcService.delete_cluster_resource',
-    index=39,
+    index=38,
     containing_service=None,
     input_type=_DELETERESOURCEREQ,
     output_type=_DELETERESOURCERES,
@@ -6961,7 +6952,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='update_cluster_resource',
     full_name='RpcService.update_cluster_resource',
-    index=40,
+    index=39,
     containing_service=None,
     input_type=_UPDATERESOURCEREQ,
     output_type=_UPDATERESOURCERES,
@@ -6970,7 +6961,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_cluster_resource',
     full_name='RpcService.get_cluster_resource',
-    index=41,
+    index=40,
     containing_service=None,
     input_type=_GETRESOURCEREQ,
     output_type=_GETRESOURCERES,
@@ -6979,7 +6970,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='commit_cluster',
     full_name='RpcService.commit_cluster',
-    index=42,
+    index=41,
     containing_service=None,
     input_type=_COMMITREQ,
     output_type=_COMMITRES,
@@ -6988,7 +6979,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='rollback_cluster',
     full_name='RpcService.rollback_cluster',
-    index=43,
+    index=42,
     containing_service=None,
     input_type=_ROLLBACKREQ,
     output_type=_ROLLBACKRES,
@@ -6997,7 +6988,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='setpoint_cluster',
     full_name='RpcService.setpoint_cluster',
-    index=44,
+    index=43,
     containing_service=None,
     input_type=_SETPOINTREQ,
     output_type=_SETPOINTRES,
@@ -7006,7 +6997,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_clone_cluster',
     full_name='RpcService.set_clone_cluster',
-    index=45,
+    index=44,
     containing_service=None,
     input_type=_RESOURCEMGRREQ,
     output_type=_RESOURCEMGRRES,
@@ -7015,7 +7006,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_master_cluster',
     full_name='RpcService.set_master_cluster',
-    index=46,
+    index=45,
     containing_service=None,
     input_type=_RESOURCEMGRREQ,
     output_type=_RESOURCEMGRRES,
@@ -7024,7 +7015,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_manage_cluster',
     full_name='RpcService.set_manage_cluster',
-    index=47,
+    index=46,
     containing_service=None,
     input_type=_RESOURCEMGRREQ,
     output_type=_RESOURCEMGRRES,
@@ -7033,7 +7024,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='group_cluster',
     full_name='RpcService.group_cluster',
-    index=48,
+    index=47,
     containing_service=None,
     input_type=_GROUPREQ,
     output_type=_GROUPRES,
@@ -7042,7 +7033,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='move_cluster_resource',
     full_name='RpcService.move_cluster_resource',
-    index=49,
+    index=48,
     containing_service=None,
     input_type=_MOVERESOURCEREQ,
     output_type=_MOVERESOURCERES,
@@ -7051,7 +7042,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='stop_cluster_resource',
     full_name='RpcService.stop_cluster_resource',
-    index=50,
+    index=49,
     containing_service=None,
     input_type=_STOPRESOURCEREQ,
     output_type=_STOPRESOURCERES,
@@ -7060,7 +7051,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='debug_start',
     full_name='RpcService.debug_start',
-    index=51,
+    index=50,
     containing_service=None,
     input_type=_DEBUGSTARTREQ,
     output_type=_DEBUGSTARTRES,
@@ -7069,7 +7060,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='cleanup_cluster_resource',
     full_name='RpcService.cleanup_cluster_resource',
-    index=52,
+    index=51,
     containing_service=None,
     input_type=_CLEANUPREQ,
     output_type=_CLEANUPRES,
@@ -7078,7 +7069,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='add_cluster_cons',
     full_name='RpcService.add_cluster_cons',
-    index=53,
+    index=52,
     containing_service=None,
     input_type=_ADDCONSTRAINTREQ,
     output_type=_ADDCONSTRAINTRES,
@@ -7087,7 +7078,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='delete_cluster_cons',
     full_name='RpcService.delete_cluster_cons',
-    index=54,
+    index=53,
     containing_service=None,
     input_type=_DELETECONSTRAINTREQ,
     output_type=_DELETECONSTRAINTRES,
@@ -7096,7 +7087,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_cluster_cons',
     full_name='RpcService.get_cluster_cons',
-    index=55,
+    index=54,
     containing_service=None,
     input_type=_GETCONSTRAINTREQ,
     output_type=_GETCONSTRAINTRES,
@@ -7105,7 +7096,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='add_cluster_stonith',
     full_name='RpcService.add_cluster_stonith',
-    index=56,
+    index=55,
     containing_service=None,
     input_type=_ADDSTONITHREQ,
     output_type=_ADDSTONITHRES,
@@ -7114,7 +7105,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='delete_cluster_stonith',
     full_name='RpcService.delete_cluster_stonith',
-    index=57,
+    index=56,
     containing_service=None,
     input_type=_DELETESTONITHREQ,
     output_type=_DELETESTONITHRES,
@@ -7123,7 +7114,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='update_cluster_stonith',
     full_name='RpcService.update_cluster_stonith',
-    index=58,
+    index=57,
     containing_service=None,
     input_type=_UPDATESTONITHREQ,
     output_type=_UPDATESTONITHRES,
@@ -7132,7 +7123,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_cluster_stonith',
     full_name='RpcService.get_cluster_stonith',
-    index=59,
+    index=58,
     containing_service=None,
     input_type=_GETSTONITHREQ,
     output_type=_GETSTONITHRES,
@@ -7141,7 +7132,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='enable_stonith_ipmi',
     full_name='RpcService.enable_stonith_ipmi',
-    index=60,
+    index=59,
     containing_service=None,
     input_type=_STONITHIPMIREQ,
     output_type=_STONITHIPMIRES,
@@ -7150,7 +7141,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='disable_stonith_ipmi',
     full_name='RpcService.disable_stonith_ipmi',
-    index=61,
+    index=60,
     containing_service=None,
     input_type=_STONITHIPMIREQ,
     output_type=_STONITHIPMIRES,
@@ -7159,7 +7150,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_stonith_ipmi',
     full_name='RpcService.get_stonith_ipmi',
-    index=62,
+    index=61,
     containing_service=None,
     input_type=_SETPOINTREQ,
     output_type=_STONITHIPMIRES,
@@ -7168,7 +7159,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='update_stonith_ipmi',
     full_name='RpcService.update_stonith_ipmi',
-    index=63,
+    index=62,
     containing_service=None,
     input_type=_STONITHIPMIREQ,
     output_type=_STONITHIPMIRES,
@@ -7177,7 +7168,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_used_ip',
     full_name='RpcService.get_used_ip',
-    index=64,
+    index=63,
     containing_service=None,
     input_type=_GETIPREQ,
     output_type=_GETIPRES,
@@ -7186,7 +7177,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='add_ip',
     full_name='RpcService.add_ip',
-    index=65,
+    index=64,
     containing_service=None,
     input_type=_SETIPREQ,
     output_type=_SETIPRES,
@@ -7195,7 +7186,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='add_heartbeat_ip',
     full_name='RpcService.add_heartbeat_ip',
-    index=66,
+    index=65,
     containing_service=None,
     input_type=_SETIPREQ,
     output_type=_SETIPRES,
@@ -7204,7 +7195,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='delete_ip',
     full_name='RpcService.delete_ip',
-    index=67,
+    index=66,
     containing_service=None,
     input_type=_SETIPREQ,
     output_type=_SETIPRES,
@@ -7213,7 +7204,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_ip',
     full_name='RpcService.get_ip',
-    index=68,
+    index=67,
     containing_service=None,
     input_type=_GETIPREQ,
     output_type=_GETIPRES,
@@ -7222,7 +7213,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_nic',
     full_name='RpcService.get_nic',
-    index=69,
+    index=68,
     containing_service=None,
     input_type=_GETIPREQ,
     output_type=_GETIPRES,
@@ -7231,7 +7222,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_ip_private',
     full_name='RpcService.get_ip_private',
-    index=70,
+    index=69,
     containing_service=None,
     input_type=_GETIPREQ,
     output_type=_GETIPRES,
@@ -7240,7 +7231,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_nic_private',
     full_name='RpcService.get_nic_private',
-    index=71,
+    index=70,
     containing_service=None,
     input_type=_GETIPREQ,
     output_type=_GETIPRES,
@@ -7249,7 +7240,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_nic_byip',
     full_name='RpcService.get_nic_byip',
-    index=72,
+    index=71,
     containing_service=None,
     input_type=_GETNICBYIPREQ,
     output_type=_STONITHIPMIRES,
@@ -7258,7 +7249,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_nic_info',
     full_name='RpcService.get_nic_info',
-    index=73,
+    index=72,
     containing_service=None,
     input_type=_GETIPREQ,
     output_type=_STONITHIPMIRES,
@@ -7267,7 +7258,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='add_lun',
     full_name='RpcService.add_lun',
-    index=74,
+    index=73,
     containing_service=None,
     input_type=_ADDLUNREQ,
     output_type=_ADDCLURESOURCERES,
@@ -7276,7 +7267,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='delete_lun',
     full_name='RpcService.delete_lun',
-    index=75,
+    index=74,
     containing_service=None,
     input_type=_DELETELUNREQ,
     output_type=_DELETERESOURCERES,
@@ -7285,7 +7276,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_lun',
     full_name='RpcService.get_lun',
-    index=76,
+    index=75,
     containing_service=None,
     input_type=_GETLUNREQ,
     output_type=_ADDCLURESOURCERES,
@@ -7294,7 +7285,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='update_lun',
     full_name='RpcService.update_lun',
-    index=77,
+    index=76,
     containing_service=None,
     input_type=_ADDLUNREQ,
     output_type=_ADDCLURESOURCERES,
@@ -7303,7 +7294,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='check_lun',
     full_name='RpcService.check_lun',
-    index=78,
+    index=77,
     containing_service=None,
     input_type=_DELETELUNREQ,
     output_type=_ADDCLURESOURCERES,
@@ -7312,7 +7303,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='syn_file',
     full_name='RpcService.syn_file',
-    index=79,
+    index=78,
     containing_service=None,
     input_type=_FILEINFOREQ,
     output_type=_STONITHIPMIRES,
@@ -7321,7 +7312,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ntp_add_url',
     full_name='RpcService.ntp_add_url',
-    index=80,
+    index=79,
     containing_service=None,
     input_type=_NTPADDURLREQ,
     output_type=_NTPADDURLRES,
@@ -7330,7 +7321,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ntp_del_url',
     full_name='RpcService.ntp_del_url',
-    index=81,
+    index=80,
     containing_service=None,
     input_type=_NTPDELURLREQ,
     output_type=_NTPDELURLRES,
@@ -7339,7 +7330,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='cluster_ntp_add_url',
     full_name='RpcService.cluster_ntp_add_url',
-    index=82,
+    index=81,
     containing_service=None,
     input_type=_NTPADDURLREQ,
     output_type=_NTPADDURLRES,
@@ -7348,7 +7339,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='cluster_ntp_del_url',
     full_name='RpcService.cluster_ntp_del_url',
-    index=83,
+    index=82,
     containing_service=None,
     input_type=_NTPDELURLREQ,
     output_type=_NTPDELURLRES,
@@ -7357,7 +7348,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ntp_client_setup',
     full_name='RpcService.ntp_client_setup',
-    index=84,
+    index=83,
     containing_service=None,
     input_type=_NTPCLIENTSETUPREQ,
     output_type=_NTPCLIENTSETUPRES,
@@ -7366,7 +7357,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ntp_server_setup',
     full_name='RpcService.ntp_server_setup',
-    index=85,
+    index=84,
     containing_service=None,
     input_type=_NTPSERVERSETUPREQ,
     output_type=_NTPSERVERSETUPRES,
@@ -7375,7 +7366,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='cluster_ntp_setup',
     full_name='RpcService.cluster_ntp_setup',
-    index=86,
+    index=85,
     containing_service=None,
     input_type=_NTPSETUPREQ,
     output_type=_NTPSETUPRES,
@@ -7384,7 +7375,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ntp_get_conf',
     full_name='RpcService.ntp_get_conf',
-    index=87,
+    index=86,
     containing_service=None,
     input_type=_NTPGETCONFREQ,
     output_type=_NTPGETCONFRES,
@@ -7393,7 +7384,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='cluster_ntp_get_conf',
     full_name='RpcService.cluster_ntp_get_conf',
-    index=88,
+    index=87,
     containing_service=None,
     input_type=_NTPGETCONFREQ,
     output_type=_NTPGETCONFRES,
@@ -7402,7 +7393,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='list_timezone',
     full_name='RpcService.list_timezone',
-    index=89,
+    index=88,
     containing_service=None,
     input_type=_TIMEZONEREQ,
     output_type=_TIMEZONERES,
@@ -7411,7 +7402,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_current_tz',
     full_name='RpcService.get_current_tz',
-    index=90,
+    index=89,
     containing_service=None,
     input_type=_TIMEZONEREQ,
     output_type=_TIMEZONERES,
@@ -7420,7 +7411,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get_current_time',
     full_name='RpcService.get_current_time',
-    index=91,
+    index=90,
     containing_service=None,
     input_type=_TIMEZONEREQ,
     output_type=_TIMERES,
@@ -7429,7 +7420,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_timezone',
     full_name='RpcService.set_timezone',
-    index=92,
+    index=91,
     containing_service=None,
     input_type=_SETTIMEZONEREQ,
     output_type=_STONITHIPMIRES,
@@ -7438,7 +7429,7 @@ _RPCSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='set_time',
     full_name='RpcService.set_time',
-    index=93,
+    index=92,
     containing_service=None,
     input_type=_SETTIMEREQ,
     output_type=_STONITHIPMIRES,

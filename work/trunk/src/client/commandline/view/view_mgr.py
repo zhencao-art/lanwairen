@@ -16,7 +16,8 @@ class CViewMgr(BaseView):
     def list_view(self,params,sort = False,count = True,key_list = None):
         if len(params) == 0 :
             return str('nothing to list')
-        params = self.set_key_value_format(params)
+        if not key_list:
+            params = self.set_key_value_format(params)
         out = []
         index = 0
         for i in params:
