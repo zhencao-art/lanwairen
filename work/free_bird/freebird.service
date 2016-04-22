@@ -2,5 +2,5 @@
 Description=Freed Bird Service
 
 [Service]
-Type=simple
+Type=forking
 ExecStart=/usr/bin/freebird.py

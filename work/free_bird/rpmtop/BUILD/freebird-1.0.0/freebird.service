@@ -1,6 +1,0 @@
-[Unit]
-Description=Freed Bird Service
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/free_bird.py
