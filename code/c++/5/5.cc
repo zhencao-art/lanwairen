@@ -8,7 +8,7 @@ private:
 friend class B;
 };
 
-class B :virtual public A {
+class B : virtual public A {
 };
 
 class C : public B {
