@@ -4,6 +4,7 @@
 #define HASH(key,count) ((key)%(count))
 
 struct hash_item_data {
+    int x;
 };
 
 struct hash_item {
