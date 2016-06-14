@@ -1,0 +1,43 @@
+">>>>>>>>>>>>>>>>>>>>Bundle configure Begin
+set nocompatible               " be iMproved
+filetype off                   " required!
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+ 
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+
+" original repos on github
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'tpope/vim-rails.git'
+Bundle 'Valloric/YouCompleteMe'
+
+" vim-scripts repos
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+
+" non github repos
+Bundle 'git://git.wincent.com/command-t.git'
+"<<<<<<<<<<<<<<<<<Bundle configure End
+
+"<<<<<<<<<<<<<<<<<YouCompleteMe configure Begin
+let mapleader = ","
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_confirm_extra_conf=1
+let g:ycm_collect_identifiers_from_tag_files = 1
+"<<<<<<<<<<<<<<<<<YouCompleteMe configure End
+
+">>>>>>>>>>>>>>>>>>Global configure Begin
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+syntax on
+filetype plugin indent on
+set nu
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set hlsearch
+"<<<<<<<<<<<<<<<<<Global configure End
