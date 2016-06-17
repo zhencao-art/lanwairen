@@ -39,6 +39,7 @@ set expandtab
 set hlsearch
 set smartindent
 set cursorline
+set encoding=utf-8
 set backspace=indent,eol,start
 
 syntax on
