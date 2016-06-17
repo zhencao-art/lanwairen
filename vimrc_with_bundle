@@ -32,10 +32,12 @@ let g:ycm_collect_identifiers_from_tag_files = 1
 
 ">>>>>>>>>>>>>>>>>>Global configure Begin
 set nu
+
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set expandtab
+set noexpandtab
+
 set hlsearch
 set smartindent
 set cursorline
@@ -45,6 +47,9 @@ set backspace=indent,eol,start
 syntax on
 filetype plugin indent on
 
-autocmd FileType c,cc,cpp,h,hpp setlocal textwidth=78 formatoptions+=t
+"autocmd FileType c,cc,cpp,h,hpp setlocal textwidth=78 formatoptions+=t
+set colorcolumn=78
+highlight ColorColumn ctermbg=darkgray
+
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 "<<<<<<<<<<<<<<<<<Global configure End
