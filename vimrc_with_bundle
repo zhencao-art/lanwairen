@@ -4,21 +4,21 @@ filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
  
-" let Vundle manage Vundle
+"let Vundle manage Vundle
 Bundle 'gmarik/vundle'
 
-" original repos on github
+"original repos on github
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'tpope/vim-rails.git'
 Bundle 'Valloric/YouCompleteMe'
 
-" vim-scripts repos
+"vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
 
-" non github repos
+"non github repos
 Bundle 'git://git.wincent.com/command-t.git'
 "<<<<<<<<<<<<<<<<<Bundle configure End
 
@@ -39,7 +39,7 @@ set expandtab
 set hlsearch
 set smartindent
 set cursorline
-set nocompatible
+set backspace=indent,eol,start
 
 syntax on
 filetype plugin indent on
