@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ira/work/lanwairen/work/threadpool/common/Thread.cc
+Thread.h
+/home/ira/work/lanwairen/work/threadpool/common/Thread.h
+dirent.h
+-
+errno.h
+-
+iostream
+-
+pthread.h
+-
+signal.h
+-
+sstream
+-
+stdlib.h
+-
+string.h
+-
+sys/types.h
+-
+sched.h
+-
+
+/home/ira/work/lanwairen/work/threadpool/common/Thread.h
+pthread.h
+-
+sys/types.h
+-
+
