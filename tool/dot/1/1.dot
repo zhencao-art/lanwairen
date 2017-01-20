@@ -1,0 +1,4 @@
+digraph G {
+	main -> parse -> execute;
+	execute -> parse -> main;
+}
