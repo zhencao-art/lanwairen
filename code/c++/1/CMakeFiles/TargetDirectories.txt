@@ -1,0 +1,6 @@
+/home/ira/work/lanwairen/code/c++/1/CMakeFiles/edit_cache.dir
+/home/ira/work/lanwairen/code/c++/1/CMakeFiles/rebuild_cache.dir
+/home/ira/work/lanwairen/code/c++/1/CMakeFiles/1.dir
+/home/ira/work/lanwairen/code/c++/1/2/CMakeFiles/edit_cache.dir
+/home/ira/work/lanwairen/code/c++/1/2/CMakeFiles/rebuild_cache.dir
+/home/ira/work/lanwairen/code/c++/1/2/CMakeFiles/2.dir
