@@ -1,0 +1,88 @@
+[2016-09-19 10:56:26,465][ceph_deploy.conf][DEBUG ] found configuration file at: /home/ira/.cephdeploy.conf
+[2016-09-19 10:56:26,465][ceph_deploy.cli][INFO  ] Invoked (1.5.32): /usr/bin/ceph-deploy purgedata host1
+[2016-09-19 10:56:26,465][ceph_deploy.cli][INFO  ] ceph-deploy options:
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  username                      : None
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  verbose                       : False
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  overwrite_conf                : False
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  quiet                         : False
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  cd_conf                       : <ceph_deploy.conf.cephdeploy.Conf instance at 0x7f96c14421b8>
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  cluster                       : ceph
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  host                          : ['host1']
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  func                          : <function purgedata at 0x7f96c1511500>
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  ceph_conf                     : None
+[2016-09-19 10:56:26,466][ceph_deploy.cli][INFO  ]  default_release               : False
+[2016-09-19 10:56:26,467][ceph_deploy.install][DEBUG ] Purging data from cluster ceph hosts host1
+[2016-09-19 10:56:27,249][host1][DEBUG ] connection detected need for sudo
+[2016-09-19 10:56:27,560][host1][DEBUG ] connected to host: host1 
+[2016-09-19 10:56:27,573][ceph_deploy][ERROR ] RuntimeError: remote connection got closed, ensure ``requiretty`` is disabled for host1
+
+[2016-09-19 10:59:18,163][ceph_deploy.conf][DEBUG ] found configuration file at: /home/ira/.cephdeploy.conf
+[2016-09-19 10:59:18,163][ceph_deploy.cli][INFO  ] Invoked (1.5.32): /usr/bin/ceph-deploy purgedata host1
+[2016-09-19 10:59:18,163][ceph_deploy.cli][INFO  ] ceph-deploy options:
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  username                      : None
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  verbose                       : False
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  overwrite_conf                : False
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  quiet                         : False
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  cd_conf                       : <ceph_deploy.conf.cephdeploy.Conf instance at 0x7ff6eba981b8>
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  cluster                       : ceph
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  host                          : ['host1']
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  func                          : <function purgedata at 0x7ff6ebb67500>
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  ceph_conf                     : None
+[2016-09-19 10:59:18,164][ceph_deploy.cli][INFO  ]  default_release               : False
+[2016-09-19 10:59:18,165][ceph_deploy.install][DEBUG ] Purging data from cluster ceph hosts host1
+[2016-09-19 10:59:18,511][host1][DEBUG ] connection detected need for sudo
+[2016-09-19 10:59:18,761][host1][DEBUG ] connected to host: host1 
+[2016-09-19 10:59:18,770][ceph_deploy][ERROR ] RuntimeError: remote connection got closed, ensure ``requiretty`` is disabled for host1
+
+[2016-09-19 10:59:42,152][ceph_deploy.conf][DEBUG ] found configuration file at: /home/ira/.cephdeploy.conf
+[2016-09-19 10:59:42,152][ceph_deploy.cli][INFO  ] Invoked (1.5.32): /usr/bin/ceph-deploy purgedata host1
+[2016-09-19 10:59:42,152][ceph_deploy.cli][INFO  ] ceph-deploy options:
+[2016-09-19 10:59:42,152][ceph_deploy.cli][INFO  ]  username                      : None
+[2016-09-19 10:59:42,152][ceph_deploy.cli][INFO  ]  verbose                       : False
+[2016-09-19 10:59:42,152][ceph_deploy.cli][INFO  ]  overwrite_conf                : False
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  quiet                         : False
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  cd_conf                       : <ceph_deploy.conf.cephdeploy.Conf instance at 0x7f5e111121b8>
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  cluster                       : ceph
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  host                          : ['host1']
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  func                          : <function purgedata at 0x7f5e111e1500>
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  ceph_conf                     : None
+[2016-09-19 10:59:42,153][ceph_deploy.cli][INFO  ]  default_release               : False
+[2016-09-19 10:59:42,153][ceph_deploy.install][DEBUG ] Purging data from cluster ceph hosts host1
+[2016-09-19 10:59:42,442][host1][DEBUG ] connection detected need for sudo
+[2016-09-19 10:59:42,704][host1][DEBUG ] connected to host: host1 
+[2016-09-19 10:59:42,705][ceph_deploy][ERROR ] RuntimeError: remote connection got closed, ensure ``requiretty`` is disabled for host1
+
+[2016-09-19 11:01:04,013][ceph_deploy.conf][DEBUG ] found configuration file at: /home/ira/.cephdeploy.conf
+[2016-09-19 11:01:04,013][ceph_deploy.cli][INFO  ] Invoked (1.5.32): /usr/bin/ceph-deploy purgedata host1
+[2016-09-19 11:01:04,013][ceph_deploy.cli][INFO  ] ceph-deploy options:
+[2016-09-19 11:01:04,013][ceph_deploy.cli][INFO  ]  username                      : None
+[2016-09-19 11:01:04,013][ceph_deploy.cli][INFO  ]  verbose                       : False
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  overwrite_conf                : False
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  quiet                         : False
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  cd_conf                       : <ceph_deploy.conf.cephdeploy.Conf instance at 0x7fb9d1de91b8>
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  cluster                       : ceph
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  host                          : ['host1']
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  func                          : <function purgedata at 0x7fb9d1eb8500>
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  ceph_conf                     : None
+[2016-09-19 11:01:04,014][ceph_deploy.cli][INFO  ]  default_release               : False
+[2016-09-19 11:01:04,014][ceph_deploy.install][DEBUG ] Purging data from cluster ceph hosts host1
+[2016-09-19 11:01:04,329][host1][DEBUG ] connection detected need for sudo
+[2016-09-19 11:01:04,560][host1][DEBUG ] connected to host: host1 
+[2016-09-19 11:01:04,562][ceph_deploy][ERROR ] RuntimeError: remote connection got closed, ensure ``requiretty`` is disabled for host1
+
+[2016-09-19 11:02:37,599][ceph_deploy.conf][DEBUG ] found configuration file at: /root/.cephdeploy.conf
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ] Invoked (1.5.32): /usr/bin/ceph-deploy purgedata host1
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ] ceph-deploy options:
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ]  username                      : None
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ]  verbose                       : False
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ]  overwrite_conf                : False
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ]  quiet                         : False
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ]  cd_conf                       : <ceph_deploy.conf.cephdeploy.Conf instance at 0x7f964a206098>
+[2016-09-19 11:02:37,600][ceph_deploy.cli][INFO  ]  cluster                       : ceph
+[2016-09-19 11:02:37,601][ceph_deploy.cli][INFO  ]  host                          : ['host1']
+[2016-09-19 11:02:37,601][ceph_deploy.cli][INFO  ]  func                          : <function purgedata at 0x7f964a2d5500>
+[2016-09-19 11:02:37,601][ceph_deploy.cli][INFO  ]  ceph_conf                     : None
+[2016-09-19 11:02:37,601][ceph_deploy.cli][INFO  ]  default_release               : False
+[2016-09-19 11:02:37,601][ceph_deploy.install][DEBUG ] Purging data from cluster ceph hosts host1
+[2016-09-19 11:02:53,119][ceph_deploy][ERROR ] KeyboardInterrupt
+
