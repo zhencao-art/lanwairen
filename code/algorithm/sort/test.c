@@ -26,10 +26,15 @@ static void test_merge() {
 	merge_sort(array,count);
 }
 
+static void test_bubble() {
+    bubble_sort(array, count);
+}
+
 static void run_all_test() {
-	test_quick();
+	// test_quick();
 	//test_merge();
 	//test_heap();
+    bubble_sort(array, count);
 }
 
 int main(int argc,char **argv)
