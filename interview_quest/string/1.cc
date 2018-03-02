@@ -25,8 +25,12 @@ void solution(const std::string &s, const std::set<std::string> &dict) {
         for (len = s.size() - pos; len > 0; --len) {
             std::string str = s.substr(pos, len);
             if (dict.count(str)) {
+                if (pos == 0) {
+                    ss << str;
+                } else {
+                    ss << "*" << str;
+                }
                 pos += len;
-                ss << str << " ";
                 break;
             }
         }
@@ -41,7 +45,7 @@ void solution(const std::string &s, const std::set<std::string> &dict) {
 
 int main(int argc, char **argv)
 {
-    std::string s("ilkealibaba");
+    std::string s("ilikealibaba");
     std::set<std::string> dict = {"i", "like", "ali", "liba", "baba", "alibaba"};
     solution(s, dict);
     return 0;
